@@ -11,10 +11,12 @@ class NoteListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        
         #Only gets Notes created by the user
-        user = self.request.user
-        return Note.objects.filter(author=user)
-
+        #user = self.request.user
+        #return Note.objects.filter(author=user)
+        return Note.objects
+    
     def perform_create(self, serializer):
         if serializer.is_valid():
             serializer.save(author=self.request.user)

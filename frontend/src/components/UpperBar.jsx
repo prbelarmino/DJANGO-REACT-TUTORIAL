@@ -10,6 +10,7 @@ const UpperBar = () => {
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
+        <a href="/register">Register</a>
         <a href="/logout">Logout</a>
       </nav>
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/DynamicList.css"
 
-function Note({ note, onDelete }) {
+function Equipment({ note, onDelete }) {
     const formattedDate = new Date(note.created_at).toLocaleDateString("en-US")
 
     return (
@@ -11,10 +11,10 @@ function Note({ note, onDelete }) {
             <td>{note.author}</td>
             <td>{formattedDate}</td>
             <td>
-                <button className="delete-button" onClick={() => deleteNote(note.id)}>Delete</button>
+                <button className="delete-button" onClick={() => onDelete(note.id)}>Delete</button>
             </td>
         </tr>            
     );
 }
 
-export default Note
+export default Equipment
