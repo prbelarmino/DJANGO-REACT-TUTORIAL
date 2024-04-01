@@ -1,0 +1,23 @@
+/* UpperBar.css */
+.upper-bar {
+  background-color: #333; /* Set background color */
+  color: #fff; /* Set text color */
+  padding: 10px 20px; /* Add padding */
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* Align items to the left and right */
+}
+
+.logo {
+  font-size: 24px; /* Set font size */
+  font-weight: bold; /* Set font weight */
+}
+
+.nav-links a {
+  color: #fff; /* Set link color */
+  margin-right: 20px; /* Add margin between links */
+  text-decoration: none; /* Remove underline */
+}
+
+.nav-links a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}

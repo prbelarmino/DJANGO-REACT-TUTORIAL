@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import Note from "../components/Note"
+import Equipment from "../components/Equipment"
+import UpperBar from "../components/UpperBar";
 import "../styles/Home.css"
+import '../styles/DynamicList.css'; // Import CSS for styling
 
 function Home() {
     const [notes, setNotes] = useState([]);
@@ -47,16 +50,29 @@ function Home() {
     };
 
     return (
-        <div>
-            <div>
-                <h2>Notes</h2>
-                {notes.map((note) => (
-                    <Note note={note} onDelete={deleteNote} key={note.id} />
-                ))}
-            </div>
-            <h2>Create a Note</h2>
+        <div >
+            <UpperBar />
+            <h2>Lista de Equipamentos</h2>
+            <table className="dynamic-list-table">
+                <thead>
+                    <tr>
+                        <th>Modelo</th>
+                        <th>Fabricante</th>
+                        <th>Matricula</th>
+                        <th>Addition Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {notes.map((note) => (
+                        <Equipment note={note} onDelete={deleteNote} key={note.id} />
+                    ))}
+                </tbody>
+            </table>
+            
             <form onSubmit={createNote}>
-                <label htmlFor="title">Title:</label>
+            <h2>Adicionar Equipamento</h2>
+                <label htmlFor="title">Modelo:</label>
                 <br />
                 <input
                     type="text"
@@ -66,9 +82,10 @@ function Home() {
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
                 />
-                <label htmlFor="content">Content:</label>
+                <label htmlFor="content">Fabricante:</label>
                 <br />
                 <textarea
+                    type="text"
                     id="content"
                     name="content"
                     required

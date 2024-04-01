@@ -1,0 +1,37 @@
+/* DynamicList.css */
+.dynamic-list-container {
+  width: 100%;
+  max-width: 800px; /* Set maximum width for better readability */
+  margin: 0 auto; /* Center the container horizontally */
+  padding-left: 20px; /* Add padding to the left */
+}
+
+.dynamic-list-table {
+  width: 100%; /* Fill all horizontal space */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+.dynamic-list-table th,
+.dynamic-list-table td {
+  border: 1px solid #ddd; /* Add border */
+  padding: 8px; /* Add padding */
+  text-align: center; /* Align text to the left */
+}
+
+.dynamic-list-table th {
+  background-color: #f2f2f2; /* Header background color */
+}
+
+.delete-button {
+  background-color: #f44336; /* Red */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f; /* Darker red */
+}
