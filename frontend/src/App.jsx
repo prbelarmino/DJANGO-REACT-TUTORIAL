@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
+import EquipmentForm from "./pages/EquipmentForm"
+import CalibrationForm from "./pages/CalibrationForm"
+import ServiceOrderForm from "./pages/ServiceOrderForm"
+import DetailedEquipment from "./pages/DetailedEquipment"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -25,6 +29,38 @@ function App() {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/add-equip"
+          element={
+            <ProtectedRoute>
+              <EquipmentForm />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/show-equip"
+          element={
+            <ProtectedRoute>
+              <DetailedEquipment />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/create-so"
+          element={
+            <ProtectedRoute>
+              <ServiceOrderForm />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/add-calib"
+          element={
+            <ProtectedRoute>
+              <CalibrationForm />
             </ProtectedRoute>
           }
         />

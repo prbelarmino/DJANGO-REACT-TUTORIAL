@@ -7,7 +7,7 @@ const UpperBar = () => {
     <div className="upper-bar">
       <div className="logo">My App</div>
       <nav className="nav-links">
-        <a href="#">Home</a>
+        <a href="/">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
         <a href="/register">Register</a>

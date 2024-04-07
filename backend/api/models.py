@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import *
 
 
 class Note(models.Model):
@@ -10,3 +10,48 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Equipment(models.Model):
+
+    type = models.CharField(max_length=30)
+    state = models.CharField(max_length=10)
+    owner = models.CharField(max_length=30)
+    model = models.CharField(max_length=30)
+    manufacturer = models.CharField(max_length=30)
+    identification = models.CharField(max_length=30)
+    serial_number = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="equipment")
+
+    def __str__(self):
+        return self.type
+
+class ServiceOrder(models.Model):
+    
+    #equipment = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order")
+    equipment = models.CharField(max_length=30)
+    number = models.CharField(max_length=30)
+    requester = models.CharField(max_length=30)
+    executor = models.CharField(max_length=30)
+    service_type = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+    closed_at = models.DateTimeField()
+    priority = models.CharField(max_length=30)
+    title = models.CharField(max_length=30)
+    issue_description = models.TextField()
+    
+    def __str__(self):
+        return self.number
+    
+class Calibration(models.Model):
+    
+    number = models.CharField(max_length=30)
+    requester = models.CharField(max_length=30)
+    executor = models.CharField(max_length=30)
+    expiration = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+    #equip_id = models.CharField(max_length=300)
+    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="calibration")
+    
+    def __str__(self):
+        return self.number

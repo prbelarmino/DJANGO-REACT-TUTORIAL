@@ -5,7 +5,7 @@ function Login() {
     return (
         <div  className="container">
             <Form route="/api/token/" method="login" />
-            <Link to="/Register" className="link">
+            <Link to="/register" className="link">
                 Register
             </Link>
         </div>
