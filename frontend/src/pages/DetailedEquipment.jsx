@@ -5,6 +5,7 @@ import Calibration from "../components/Calibration"
 import UpperBar from "../components/UpperBar";
 import "../styles/Home.css"
 import '../styles/DynamicList.css'; // Import CSS for styling
+import '../styles/Table.css'; // Import CSS for styling
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
@@ -100,7 +101,7 @@ function Home() {
             
             <UpperBar />
             <h2>Informações Basicas</h2>
-            <table className="dynamic-list-table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -139,7 +140,7 @@ function Home() {
 
             <button className="link"  onClick={() => createOrder(equip.id)}>Criar Ordem de Serviço</button>
             <h2>Lista de Ordem de Serviços</h2>
-            <table className="dynamic-list-table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>#</th>

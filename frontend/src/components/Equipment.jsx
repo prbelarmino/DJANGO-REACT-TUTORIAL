@@ -1,5 +1,7 @@
 import React from "react";
-import "../styles/DynamicList.css"
+import "../styles/Buttons.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 function Equipment({ equip, onDelete,showMore }) {
 
@@ -18,8 +20,14 @@ function Equipment({ equip, onDelete,showMore }) {
             <td>{equip.author}</td>
             <td>{formattedDate}</td>
             <td>
-                <button className="delete-button" onClick={() => onDelete(equip.id)}>Delete</button>
-                <button className="delete-button" onClick={() => showMore(equip.id)}>Ver mais</button>
+                <div className="button-container">   
+                <button className="delete-button" onClick={() => onDelete(equip.id)}>
+                    <FontAwesomeIcon icon={faTrash} /> {/* Remover */}
+                </button>
+                <button className="details-button" onClick={() => showMore(equip.id)}>
+                    <FontAwesomeIcon icon={faEye} /> {/* Ver mais */}
+                </button>
+                </div>
             </td>
         </tr>            
     );
