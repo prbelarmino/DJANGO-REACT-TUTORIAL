@@ -5,6 +5,7 @@ import Equipment from "../components/Equipment"
 import UpperBar from "../components/UpperBar";
 import "../styles/Home.css"
 import '../styles/DynamicList.css'; // Import CSS for styling
+import '../styles/Table.css'; // Import CSS for styling
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -46,38 +47,41 @@ function Home() {
         <div>
             
             <UpperBar />
+            <br/><br/>
             <div className="button-container">
                 <Link to="/add-equip" className="link">
                     Adicionar Equipamento
                 </Link>
             </div>
+            <div className="table-container">
+                <h2>Lista de Equipamentos</h2>
             
-            <h2>Lista de Equipamentos</h2>
-            <table className="dynamic-list-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tipo</th>
-                        <th>Estado</th>
-                        <th>Proprietario</th>
-                        <th>Modelo</th>
-                        <th>Fabricante</th>
-                        <th>Identificação</th>
-                        <th>Numero de Serie</th>
-                        <th>Adicionado por</th>
-                        <th>Adicionado em</th> 
-                        <th> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {equipments.map((equip) => (
-                        
-                        <Equipment equip={equip} onDelete={deleteEquip} showMore={showEquip} key={equip.id} />
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Proprietario</th>
+                            <th>Modelo</th>
+                            <th>Fabricante</th>
+                            <th>Identificação</th>
+                            <th>Numero de Serie</th>
+                            <th>Adicionado por</th>
+                            <th>Adicionado em</th> 
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {equipments.map((equip) => (
+                            
+                            <Equipment equip={equip} onDelete={deleteEquip} showMore={showEquip} key={equip.id} />
 
-                    ))}
+                        ))}
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             
            
         </div>

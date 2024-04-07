@@ -12,10 +12,13 @@ class EquipmentListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         
-        #Only gets Notes created by the user
-        #user = self.request.user
-        #return Note.objects.filter(author=user)
-        return Equipment.objects
+        queryset = Equipment.objects.all()
+        field = self.request.query_params.get('field')
+        value = self.request.query_params.get('value')
+        if field and value:
+            queryset = queryset.filter(**{field: value})
+        
+        return queryset
     
     def perform_create(self, serializer):
         if serializer.is_valid():
@@ -38,7 +41,13 @@ class ServiceOrderListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         
-        return ServiceOrder.objects
+        queryset = ServiceOrder.objects.all()
+        field = self.request.query_params.get('field')
+        value = self.request.query_params.get('value')
+        if field and value:
+            queryset = queryset.filter(**{field: value})
+        
+        return queryset
     
     def perform_create(self, serializer):
         if serializer.is_valid():
@@ -61,7 +70,13 @@ class CalibrationListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         
-        return Calibration.objects
+        queryset = Calibration.objects.all()
+        field = self.request.query_params.get('field')
+        value = self.request.query_params.get('value')
+        if field and value:
+            queryset = queryset.filter(**{field: value})
+        
+        return queryset
     
     def perform_create(self, serializer):
         if serializer.is_valid():
@@ -75,7 +90,7 @@ class CalibrationDelete(generics.DestroyAPIView):
 
     def get_queryset(self):
 
-        return Calibration
+        return Calibration.objects
       
 class NoteListCreate(generics.ListCreateAPIView):
 

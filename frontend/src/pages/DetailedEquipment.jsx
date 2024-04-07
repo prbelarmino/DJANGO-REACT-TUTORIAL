@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import Equipment from "../components/Equipment"
 import ServiceOrder from "../components/ServiceOrder"
 import Calibration from "../components/Calibration"
 import UpperBar from "../components/UpperBar";
@@ -19,7 +17,7 @@ function Home() {
     const [calibrations, setCalibration] = useState([]);
 
     useEffect(() => {
-        //getServiceOrder();
+        getServiceOrder();
         getCalibrations();
     }, []);
 
@@ -34,19 +32,26 @@ function Home() {
             .catch((error) => alert(error));
     };
     const getServiceOrder = () => {
+        // Define query parameters
+        const value = equip.id;
+        const field = "equip_id";
+        const queryParams = {
+            field, value // Example equip_id value
+        // Add more parameters as needed
+        };
+        console.log(queryParams)
         api
-            .get("/api/serviceorder/")
-            .then((res) => res.data)
-            .then((data) => {
-                setOrder(data);
-                console.log(data);
+            .get('/api/serviceorders/',{ params: queryParams })
+            .then((res) => {
+                console.log(res.data)
+                setOrder(res.data);
             })
             .catch((err) => alert(err));
+    
     };
-
     const deleteServiceOrder = (id) => {
         api
-            .delete(`/api/equipments/delete/${id}/`)
+            .delete(`/api/serviceorders/delete/${id}/`)
             .then((res) => {
                 if (res.status === 204) alert("Service Order deleted!");
                 else alert("Failed to delete Service Order.");
@@ -55,15 +60,22 @@ function Home() {
             .catch((error) => alert(error));
     };
     const getCalibrations = () => {
+   
+        // Define query parameters
+        const value = equip.id;
+        const field = "equip_id";
+        const queryParams = {
+            field, value // Example equip_id value
+        // Add more parameters as needed
+        };
         api
-            .get("/api/calibrations/")
-            .then((res) => res.data)
-            .then((data) => {
-                setCalibration(data);
+            .get('/api/calibrations/',{ params: queryParams })
+            .then((res) => {
+                setCalibration(res.data);
             })
             .catch((err) => alert(err));
+            
     };
-
     const deleteCalib = (id) => {
         api
             .delete(`/api/calibrations/delete/${id}/`)
@@ -76,9 +88,11 @@ function Home() {
     };
     const addCalib = (equip_id) => {
 
-        console.log("equip_id")
-        console.log(equip_id)
         navigate("/add-calib", { state: { attribute: equip_id } })
+    };
+    const createOrder = (equip_id) => {
+
+        navigate("/create-so", { state: { attribute: equip_id } })
     };
 
     return (
@@ -121,13 +135,9 @@ function Home() {
                     </tr>   
                 </tbody>
             </table>
+            <br/><br/><br/><br/>
 
-            <div className="button-container">
-                <Link to="/create-so" className="link">
-                    Criar Ordem de Serviço
-                </Link>
-            </div>
-            
+            <button className="link"  onClick={() => createOrder(equip.id)}>Criar Ordem de Serviço</button>
             <h2>Lista de Ordem de Serviços</h2>
             <table className="dynamic-list-table">
                 <thead>
@@ -152,9 +162,9 @@ function Home() {
                     ))}
                 </tbody>
             </table>
-            <button  onClick={() => addCalib(equip.id)}>Adicionar Calibração</button>
-
+            <br/><br/><br/><br/>
             
+            <button className="link"  onClick={() => addCalib(equip.id)}>Adicionar Calibração</button>
             <h2>Lista de Calibrações</h2>
             <table className="dynamic-list-table">
                 <thead>
@@ -175,8 +185,7 @@ function Home() {
                     ))}
                 </tbody>
             </table>
-            
-           
+                       
         </div>
     );
 }

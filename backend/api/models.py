@@ -28,17 +28,16 @@ class Equipment(models.Model):
 
 class ServiceOrder(models.Model):
     
-    #equipment = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order")
-    equipment = models.CharField(max_length=30)
     number = models.CharField(max_length=30)
     requester = models.CharField(max_length=30)
     executor = models.CharField(max_length=30)
     service_type = models.CharField(max_length=30)
-    created_at = models.DateTimeField(auto_now_add=True)
-    closed_at = models.DateTimeField()
+    closed_at = models.CharField(max_length=30)
     priority = models.CharField(max_length=30)
     title = models.CharField(max_length=30)
     issue_description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="order")
     
     def __str__(self):
         return self.number
@@ -50,7 +49,6 @@ class Calibration(models.Model):
     executor = models.CharField(max_length=30)
     expiration = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
-    #equip_id = models.CharField(max_length=300)
     equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="calibration")
     
     def __str__(self):

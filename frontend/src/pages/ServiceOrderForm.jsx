@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../api";
 import "../styles/Form.css"
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 function ServiceOrderForm() {
 
@@ -15,12 +16,16 @@ function ServiceOrderForm() {
         const [issue_description, setIssueDescription] = useState("");
 
         const navigate = useNavigate();
+        const location = useLocation();
+        const equip_id = location.state.attribute;
 
-        const addCalibration = (e) => {
+        const createServiceOrder = (e) => {
             e.preventDefault();
+            console.log({number, requester, executor,
+                service_type, closed_at, priority, title, issue_description,equip_id})
             api
-                .post("/api/serviceorders/", { number, requester, executor,
-                    service_type, closed_at, priority, title, issue_description})
+                .post("/api/serviceorders/", {number, requester, executor,
+                    service_type, closed_at, priority, title, issue_description, equip_id})
                 .then((res) => {
                     if (res.status === 201)
                     {
@@ -34,8 +39,8 @@ function ServiceOrderForm() {
     };
 
     return (
-        <form onSubmit={addCalibration}>
-        <h2>Adicionar Equipamento</h2>
+        <form onSubmit={createServiceOrder}>
+        <h2>Criar Ordem de Serviço</h2>
             <label htmlFor="number">Numero:</label>
             <br />
             <input
@@ -105,16 +110,6 @@ function ServiceOrderForm() {
                 //required
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
-            />
-            <label htmlFor="service_type">Tipo de Serviço:</label>
-            <br />
-            <input
-                type="text"
-                id="service_type"
-                name="service_type"
-                //required
-                onChange={(e) => setServiceType(e.target.value)}
-                value={service_type}
             />
             <label htmlFor="issue_description">Descrição do Problema:</label>
             <br />

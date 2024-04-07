@@ -3,11 +3,12 @@ import "../styles/DynamicList.css"
 
 function ServiceOrder({ order, onDelete }) {
 
-    const formattedDate = new Date(equip.created_at).toLocaleDateString("en-US")
+    const formattedDate = new Date(order.created_at).toLocaleDateString("en-US")
 
     return (
         <tr key={order.id}>
             <td>{order.id}</td>
+            <td>{order.equip_id}</td>
             <td>{order.number}</td>
             <td>{order.requester}</td>
             <td>{order.executor}</td>

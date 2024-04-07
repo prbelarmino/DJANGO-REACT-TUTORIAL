@@ -32,13 +32,12 @@ class EquipmentSerializer(serializers.ModelSerializer):
 class ServiceOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceOrder
-        fields = ["id", "equipment", "number", "requester", "executor", 
-                  "service_type", "closed_at","priority", 
-                  "title", "issue_description"]
-        extra_kwargs = {"equipment": {"read_only": True}}
+        fields = ["id", "number", "requester", "executor", "service_type", 
+                  "closed_at","priority","title", "issue_description", "created_at", "equip_id"]
+        #extra_kwargs = {"equip_id": {"read_only": True}}
 
 class CalibrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calibration
         fields = ["id","number","requester", "executor", "expiration", "created_at", "equip_id"]
-        #extra_kwargs = {"equipment": {"read_only": True}}
+        #extra_kwargs = {"equip_id": {"read_only": True}}
