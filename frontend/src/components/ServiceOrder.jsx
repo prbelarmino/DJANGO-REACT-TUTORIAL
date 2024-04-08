@@ -1,5 +1,7 @@
 import React from "react";
 import "../styles/DynamicList.css"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 function ServiceOrder({ order, onDelete }) {
 
@@ -19,7 +21,9 @@ function ServiceOrder({ order, onDelete }) {
             <td>{order.title}</td>
             <td>{order.issue_description}</td>
             <td>
-                <button className="delete-button" onClick={() => onDelete(order.id)}>Delete</button>
+                <button className="delete-button" onClick={() => onDelete(order.id)}>
+                    <FontAwesomeIcon icon={faTrash} /> {/* Remover */}
+                </button>
             </td>
         </tr>            
     );

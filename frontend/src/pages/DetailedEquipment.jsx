@@ -101,6 +101,7 @@ function Home() {
             
             <UpperBar />
             <h2>Informações Basicas</h2>
+            <div className="table-container">
             <table className="table">
                 <thead>
                     <tr>
@@ -136,10 +137,12 @@ function Home() {
                     </tr>   
                 </tbody>
             </table>
+            </div>
             <br/><br/><br/><br/>
 
             <button className="link"  onClick={() => createOrder(equip.id)}>Criar Ordem de Serviço</button>
             <h2>Lista de Ordem de Serviços</h2>
+            <div className="table-container">
             <table className="table">
                 <thead>
                     <tr>
@@ -163,6 +166,7 @@ function Home() {
                     ))}
                 </tbody>
             </table>
+            </div>
             <br/><br/><br/><br/>
             
             <button className="link"  onClick={() => addCalib(equip.id)}>Adicionar Calibração</button>
