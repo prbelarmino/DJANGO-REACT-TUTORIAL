@@ -8,6 +8,8 @@ import '../styles/DynamicList.css'; // Import CSS for styling
 import '../styles/Table.css'; // Import CSS for styling
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 function Home() {
 
@@ -132,13 +134,16 @@ function Home() {
                         <td>{equip.author}</td>
                         <td>{equip.created_at}</td>
                         <td>
-                            <button className="delete-button" onClick={() => deleteEquip(equip.id)}>Delete</button>
+                        <button className="delete-button" onClick={() => deleteEquip(equip.id)}>
+                            <FontAwesomeIcon icon={faTrash} /> {/* Remover */}
+                        </button>
+                
                         </td>
                     </tr>   
                 </tbody>
             </table>
             </div>
-            <br/><br/><br/><br/>
+            <br/><br/>
 
             <button className="link"  onClick={() => createOrder(equip.id)}>Criar Ordem de Serviço</button>
             <h2>Lista de Ordem de Serviços</h2>
@@ -167,7 +172,7 @@ function Home() {
                 </tbody>
             </table>
             </div>
-            <br/><br/><br/><br/>
+            <br/><br/>
             
             <button className="link"  onClick={() => addCalib(equip.id)}>Adicionar Calibração</button>
             <h2>Lista de Calibrações</h2>
