@@ -3,12 +3,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
-import EquipmentForm from "./pages/EquipmentForm"
+import EquipmentForm from "./components/EquipmentForm"
 import CalibrationForm from "./pages/CalibrationForm"
 import ServiceOrderForm from "./pages/ServiceOrderForm"
 import DetailedEquipment from "./pages/DetailedEquipment"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
+import Layout from "./pages/Layout"
+import "./index.css";
 
 function Logout() {
   localStorage.clear()
@@ -21,6 +23,7 @@ function RegisterAndLogout() {
 }
 
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
@@ -28,7 +31,9 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <Home />
+              <Layout >
+                <Home />
+              </Layout>
             </ProtectedRoute>
           }
         />
@@ -36,40 +41,51 @@ function App() {
           path="/add-equip"
           element={
             <ProtectedRoute>
-              <EquipmentForm />
+              <Layout >
+                <EquipmentForm />
+              </Layout>
             </ProtectedRoute>
           }
         />
-                <Route
+        <Route
           path="/show-equip"
           element={
             <ProtectedRoute>
-              <DetailedEquipment />
+              <Layout >
+                <DetailedEquipment />
+              </Layout>
             </ProtectedRoute>
           }
         />
-                <Route
+        <Route
           path="/create-so"
           element={
             <ProtectedRoute>
-              <ServiceOrderForm />
+              <Layout >
+                <ServiceOrderForm />
+              </Layout>
             </ProtectedRoute>
           }
         />
-                <Route
+        <Route
           path="/add-calib"
           element={
             <ProtectedRoute>
-              <CalibrationForm />
+              <Layout >
+                <CalibrationForm />
+              </Layout>
+              
             </ProtectedRoute>
           }
         />
+
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
+
   )
 }
 

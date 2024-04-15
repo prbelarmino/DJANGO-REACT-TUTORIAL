@@ -100,8 +100,6 @@ function Home() {
 
     return (
         <div>
-            
-            <UpperBar />
             <h2>Informações Basicas</h2>
             <div className="table-container">
             <table className="table">
