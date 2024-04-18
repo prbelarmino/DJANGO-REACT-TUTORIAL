@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import ServiceOrder from "../components/ServiceOrder"
-import Calibration from "../components/Calibration"
-import UpperBar from "../components/UpperBar";
-import "../styles/Home.css"
-import '../styles/DynamicList.css'; // Import CSS for styling
-import '../styles/Table.css'; // Import CSS for styling
+import ServiceOrderList from "../components/ServiceOrderList"
+import CalibrationList from "../components/CalibrationList"
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { Button, IconButton } from "@material-ui/core";
 
-function Home() {
+function DetailedEquipment() {
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -100,102 +96,25 @@ function Home() {
 
     return (
         <div>
-            <h2>Informações Basicas</h2>
-            <div className="table-container">
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tipo</th>
-                        <th>Estado</th>
-                        <th>Proprietario</th>
-                        <th>Modelo</th>
-                        <th>Fabricante</th>
-                        <th>Identificação</th>
-                        <th>Numero de Serie</th>
-                        <th>Adicionado por</th>
-                        <th>Adicionado em</th> 
-                        <th> </th>
-                    </tr>
- 
-                </thead>
-                <tbody>
-                    <tr key={equip.id}>
-                        <td>{equip.id}</td>
-                        <td>{equip.type}</td>
-                        <td>{equip.state}</td>
-                        <td>{equip.owner}</td>
-                        <td>{equip.model}</td>
-                        <td>{equip.manufacturer}</td>
-                        <td>{equip.identification}</td>
-                        <td>{equip.serial_number}</td>
-                        <td>{equip.author}</td>
-                        <td>{equip.created_at}</td>
-                        <td>
-                        <button className="delete-button" onClick={() => deleteEquip(equip.id)}>
-                            <FontAwesomeIcon icon={faTrash} /> {/* Remover */}
-                        </button>
-                
-                        </td>
-                    </tr>   
-                </tbody>
-            </table>
-            </div>
-            <br/><br/>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {createOrder(equip.id);}}
+            >
+                Criar Ordem de Serviço
+            </Button>
+            <ServiceOrderList rows={orders} onDelete={deleteServiceOrder}/>  
 
-            <button className="link"  onClick={() => createOrder(equip.id)}>Criar Ordem de Serviço</button>
-            <h2>Lista de Ordem de Serviços</h2>
-            <div className="table-container">
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Equipamento</th>
-                        <th>Numero</th>
-                        <th>Solicitante</th>
-                        <th>Responsavel</th>
-                        <th>Tipo de Serviço</th>
-                        <th>Criado em</th>
-                        <th>Fechado em</th>
-                        <th>Prioridade</th>
-                        <th>Titulo</th> 
-                        <th>Descrição do Problema</th>
-                        <th>Apagar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {orders.map((order) => (
-                        <ServiceOrder order={order} onDelete={deleteServiceOrder} key={order.id} />
-                    ))}
-                </tbody>
-            </table>
-            </div>
-            <br/><br/>
-            
-            <button className="link"  onClick={() => addCalib(equip.id)}>Adicionar Calibração</button>
-            <h2>Lista de Calibrações</h2>
-            <table className="dynamic-list-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Id do Equipamento</th>
-                        <th>Numero</th>
-                        <th>Solicitante</th>
-                        <th>Responsavel</th>
-                        <th>Criado em</th>
-                        <th>Validade</th>
-                        <th>Apagar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {calibrations.map((calib) => (
-                        <Calibration calib={calib} onDelete={deleteCalib} key={calib.id} />
-                    ))}
-                </tbody>
-            </table>
-                       
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {addCalib(equip.id);}}
+            >
+                Adicionar Calibração
+            </Button> 
+            <CalibrationList rows={calibrations} onDelete={deleteCalib}/>
         </div>
     );
 }
 
-export default Home;
+export default DetailedEquipment;

@@ -1,14 +1,15 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
-//import { tokens } from "../theme";
+import { tokens } from "../theme";
 
 //function EquipmentForm(){
 const EquipmentForm = () =>{
-//     const theme = useTheme();
-//   const colors = tokens(theme.palette.mode);
+  
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
@@ -16,7 +17,9 @@ const EquipmentForm = () =>{
   };
 
   return (
-    <Box m="20px">
+    <Box m="20px"
+    
+    >
       <Header title="Adicionar Equipamento" subtitle="Formulario para adicionar equipamento no sistema" />
       <Formik
         onSubmit={handleFormSubmit}

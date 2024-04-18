@@ -1,30 +1,16 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import Header from "../components/Header";
-import {EquipmentColumns} from "../headers/ListHeaders"
+import Header from "./Header";
+import {ServiceOrderColumns} from "../headers/ListHeaders"
 
-
-function EquipmentList({ rows, onDelete, onViewMore}) {
-
+function ServiceOrderList({ rows, onDelete }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // const handleCellClick = (params, event) => {
-  //   event.stopPropagation();
-  //   //console.log("Cell clicked:", params);
-  // };
-  // const handleRowClick = (params, event) => {
-  //   event.stopPropagation();
-  //   //console.log("Row clicked:", params);
-  // };
-
   return (
     <Box m="20px">
-      <Header title="Equipamentos" subtitle="Lista de Equipamentos" />
+      <Header title="Ordem de Serviços" subtitle="Lista de Ordem de Serviços" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -58,14 +44,12 @@ function EquipmentList({ rows, onDelete, onViewMore}) {
         }}
       >
         <DataGrid rows={rows} 
-            columns={EquipmentColumns(onDelete, onViewMore)} 
+            columns={ServiceOrderColumns(onDelete)} 
             components={{ Toolbar: GridToolbar }}
-            //onCellClick={handleCellClick}
-            //onRowClick={handleRowClick}
         />
       </Box>
     </Box>
   );
 };
 
-export default EquipmentList;
+export default ServiceOrderList;

@@ -3,9 +3,6 @@ import api from "../api";
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Equipment from "../components/Equipment"
 import EquipmentList from "../components/EquipmentList";
-import "../styles/Home.css"
-import '../styles/DynamicList.css'; // Import CSS for styling
-import '../styles/Table.css'; // Import CSS for styling
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -22,14 +19,14 @@ function Home() {
             .then((res) => res.data)
             .then((data) => {
                 setEquipments(data);
-                console.log(data);
+                //console.log(data);
             })
             .catch((err) => alert(err));
     };
 
-    const deleteEquip = (id) => {
+    const deleteEquip = (event, params) => {
         api
-            .delete(`/api/equipments/delete/${id}/`)
+            .delete(`/api/equipments/delete/${params.id}/`)
             .then((res) => {
                 if (res.status === 204) alert("Equipment deleted!");
                 else alert("Failed to delete Equipment.");
@@ -37,9 +34,12 @@ function Home() {
             })
             .catch((error) => alert(error));
     };
-    const showEquip = (id) => {
+    const showEquip = (event, params) => {
 
-        const selectedEquip = equipments.find(item => item.id === id);
+        console.log(params.id);
+        console.log(equipments);
+        const selectedEquip = equipments.find(item => item.id === params.id);
+        console.log(selectedEquip);
         navigate("/show-equip", { state: { attribute: selectedEquip } })
     };
 
@@ -48,7 +48,11 @@ function Home() {
             <Link to="/add-equip" className="link">
                 Adicionar Equipamento
             </Link>
-            <EquipmentList rows={equipments}/>    
+            <EquipmentList 
+                rows={equipments}
+                onDelete={deleteEquip}
+                onViewMore={showEquip}
+            />    
         </div>
     );
 }
