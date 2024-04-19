@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import Equipment from "../components/Equipment"
 import EquipmentList from "../components/EquipmentList";
 import { useNavigate } from "react-router-dom";
 
