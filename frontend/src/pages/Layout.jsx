@@ -14,14 +14,15 @@ function Layout({children}){
   // Conditionally render the top bar based on the route and authentication status
   return (
 
-        <div className="app">
-          <Sidebar isSidebar={isSidebar} />
-          <main className="content">
-            <Topbar setIsSidebar={setIsSidebar} />
-              {children}
-            </main>
-        </div>
-
+    <div  className="app">
+      <div  className="sidebar">
+        <Sidebar isSidebar={isSidebar} />
+      </div>
+      <main className="content">
+          <Topbar setIsSidebar={setIsSidebar} />
+          {children}
+      </main>
+    </div>
 
   );
 };

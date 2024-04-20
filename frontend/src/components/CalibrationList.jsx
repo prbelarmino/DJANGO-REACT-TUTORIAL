@@ -1,19 +1,26 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 import Header from "./Header";
 import {CalibrationColumns} from "../headers/ListHeaders"
 
-function CalibrationList({ rows, onDelete }) {
+function CalibrationList({ rows, onDelete, onAdd }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
     <Box m="20px">
       <Header title="Calibrações" subtitle="Lista de Calibrações" />
+      <Button
+                variant="contained"
+                color="secondary"
+                onClick={onAdd}
+            >
+                Adicionar Calibração
+            </Button> 
       <Box
-        m="40px 0 0 0"
-        height="75vh"
+        m="0 0 40px 0 "
+        height="60vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -43,9 +50,12 @@ function CalibrationList({ rows, onDelete }) {
           },
         }}
       >
-        <DataGrid rows={rows} 
+        <DataGrid 
+            rows={rows} 
             columns={CalibrationColumns(onDelete)} 
-            components={{ Toolbar: GridToolbar }}
+            slots={{
+              toolbar: GridToolbar,
+            }}
         />
       </Box>
     </Box>

@@ -86,23 +86,17 @@ function DetailedEquipment() {
     return (
         <div>
             <EquipmentRow rows={[equip]}/>
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {createOrder(equip.id);}}
-            >
-                Criar Ordem de Serviço
-            </Button>
-            <ServiceOrderList rows={orders} onDelete={deleteServiceOrder}/>  
 
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {addCalib(equip.id);}}
-            >
-                Adicionar Calibração
-            </Button> 
-            <CalibrationList rows={calibrations} onDelete={deleteCalib}/>
+            <ServiceOrderList 
+                rows={orders} 
+                onDelete={deleteServiceOrder} 
+                onCreate={() => {createOrder(equip.id);}}
+            />  
+            <CalibrationList 
+                rows={calibrations} 
+                onDelete={deleteCalib}
+                onAdd={() => {addCalib(equip.id);}}    
+            />
         </div>
     );
 }

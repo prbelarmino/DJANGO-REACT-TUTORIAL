@@ -44,9 +44,6 @@ function Home() {
 
     return (
         <div>
-            <Link to="/add-equip" className="link">
-                Adicionar Equipamento
-            </Link>
             <EquipmentList 
                 rows={equipments}
                 onDelete={deleteEquip}

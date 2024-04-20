@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
@@ -6,13 +6,13 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../components/Header";
 import {EquipmentColumns} from "../headers/ListHeaders"
-
+import { useNavigate } from 'react-router-dom';
 
 function EquipmentList({ rows, onDelete, onViewMore}) {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const navigate = useNavigate();
   // const handleCellClick = (params, event) => {
   //   event.stopPropagation();
   //   console.log("Cell clicked:", params);
@@ -25,8 +25,15 @@ function EquipmentList({ rows, onDelete, onViewMore}) {
   return (
     <Box m="20px">
       <Header title="Equipamentos" subtitle="Lista de Equipamentos" />
+      <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {navigate("/add-equip");} }
+      >
+          Adicionar Equipamento
+      </Button>
       <Box
-        m="40px 0 0 0"
+        m="0 0 40px 0 "
         height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
@@ -57,9 +64,12 @@ function EquipmentList({ rows, onDelete, onViewMore}) {
           },
         }}
       >
-        <DataGrid rows={rows} 
+        <DataGrid 
+            rows={rows} 
             columns={EquipmentColumns(onDelete, onViewMore)} 
-            components={{ Toolbar: GridToolbar }}
+            slots={{
+              toolbar: GridToolbar,
+            }}
             //onCellClick={handleCellClick}
             //onRowClick={handleRowClick}
         />
