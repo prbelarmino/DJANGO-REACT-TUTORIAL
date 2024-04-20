@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import ServiceOrderList from "../components/ServiceOrderList"
-import CalibrationList from "../components/CalibrationList"
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
-import { Button, IconButton } from "@material-ui/core";
+import ServiceOrderList from "../components/ServiceOrderList";
+import CalibrationList from "../components/CalibrationList";
+import EquipmentRow from "../components/EquipmentRow";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button, IconButton } from '@mui/material';
 
 function DetailedEquipment() {
 
@@ -20,16 +19,6 @@ function DetailedEquipment() {
         getCalibrations();
     }, []);
 
-    const deleteEquip = (id) => {
-        api
-            .delete(`/api/equipments/delete/${id}/`)
-            .then((res) => {
-                if (res.status === 204) alert("Equipment deleted!");
-                else alert("Failed to delete Equipment.");
-                getEquipments();
-            })
-            .catch((error) => alert(error));
-    };
     const getServiceOrder = () => {
         // Define query parameters
         const value = equip.id;
@@ -38,11 +27,11 @@ function DetailedEquipment() {
             field, value // Example equip_id value
         // Add more parameters as needed
         };
-        console.log(queryParams)
+        //console.log(queryParams)
         api
             .get('/api/serviceorders/',{ params: queryParams })
             .then((res) => {
-                console.log(res.data)
+                //console.log(res.data)
                 setOrder(res.data);
             })
             .catch((err) => alert(err));
@@ -96,9 +85,10 @@ function DetailedEquipment() {
 
     return (
         <div>
+            <EquipmentRow rows={[equip]}/>
             <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={() => {createOrder(equip.id);}}
             >
                 Criar Ordem de Serviço
@@ -107,7 +97,7 @@ function DetailedEquipment() {
 
             <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={() => {addCalib(equip.id);}}
             >
                 Adicionar Calibração

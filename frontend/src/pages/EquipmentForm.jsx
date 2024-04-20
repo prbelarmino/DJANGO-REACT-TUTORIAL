@@ -3,26 +3,37 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
+import api from "../api";
+import { useNavigate } from "react-router-dom";
 import { tokens } from "../theme";
 
 //function EquipmentForm(){
 const EquipmentForm = () =>{
   
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const addEquipment = (values) => {
+
+    api
+      .post("/api/equipments/", {...values})
+      .then((res) => {
+            if (res.status === 201)
+            {
+                alert("Equipment added!");
+                navigate("/")
+            } 
+            else alert("Failed to add Equipment.");
+        })
+        .catch((err) => alert(err));
   };
 
   return (
-    <Box m="20px"
-    
-    >
+    <Box m="20px">
       <Header title="Adicionar Equipamento" subtitle="Formulario para adicionar equipamento no sistema" />
       <Formik
-        onSubmit={handleFormSubmit}
+        onSubmit={addEquipment}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
       >

@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../theme";
 import { useState } from "react";
-import EquipmentForm from "../components/EquipmentForm"
+
 //const Layout = ({ children }) => {
 function Layout({children}){
   const [theme, colorMode] = useMode();

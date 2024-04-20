@@ -15,7 +15,7 @@ function EquipmentList({ rows, onDelete, onViewMore}) {
 
   // const handleCellClick = (params, event) => {
   //   event.stopPropagation();
-  //   //console.log("Cell clicked:", params);
+  //   console.log("Cell clicked:", params);
   // };
   // const handleRowClick = (params, event) => {
   //   event.stopPropagation();

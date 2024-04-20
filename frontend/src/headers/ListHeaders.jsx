@@ -2,8 +2,8 @@
 // import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@material-ui/icons";
 // import { createStyles, makeStyles } from "@material-ui/core/styles";
 
-import { Button, IconButton, Link } from "@material-ui/core";
-import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@material-ui/icons";
+import { Button, IconButton, Link } from '@mui/material';
+import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 // const handleClick = (event, cellValues) => {
 //   console.log(cellValues.row);
@@ -98,7 +98,53 @@ export const EquipmentColumns = (onDelete,onViewMore) => [
     },
   },
 ];
+export const EquipmentColumnsReduced = [
 
+  { field: "id", headerName: "ID" },
+  {
+    field: "type",
+    headerName: "Tipo",
+    //flex: 1,
+    cellClassName: "name-column--cell",
+  },
+  {
+    field: "state",
+    headerName: "Estado",
+    type: "number",
+    headerAlign: "left",
+    align: "left",
+  },
+  {
+    field: "owner",
+    headerName: "Proprietario",
+    flex: 1,
+  },
+  {
+    field: "manufacturer",
+    headerName: "Fabricante",
+    flex: 1,
+  },
+  {
+    field: "identification",
+    headerName: "Indetificação",
+    flex: 1,
+  },
+  {
+    field: "serial_number",
+    headerName: "Numero de Serie",
+    flex: 1,
+  },
+  {
+    field: "created_at",
+    headerName: "Adicionado em",
+    flex: 1,
+  },
+  {
+    field: "author",
+    headerName: "Adicionado por",
+    flex: 1,
+  },
+];
 export const ServiceOrderColumns = (onDelete) => [
   { field: "id", headerName: "ID" },
   {
