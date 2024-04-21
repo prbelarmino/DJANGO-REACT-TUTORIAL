@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import ServiceOrderList from "../components/ServiceOrderList";
-import CalibrationList from "../components/CalibrationList";
+import ServiceOrderEquip from "../components/ServiceOrderEquip";
+import CalibrationEquip from "../components/CalibrationEquip";
 import EquipmentRow from "../components/EquipmentRow";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
@@ -11,6 +11,7 @@ function DetailedEquipment() {
     const location = useLocation();
     const navigate = useNavigate();
     const equip = location.state.attribute;
+    const equip_id = equip.id;
     const [orders, setOrder] = useState([]);
     const [calibrations, setCalibration] = useState([]);
 
@@ -74,12 +75,12 @@ function DetailedEquipment() {
             })
             .catch((error) => alert(error));
     };
-    const addCalib = (equip_id) => {
+    const addCalib = () => {
 
         navigate("/add-calib", { state: { attribute: equip_id } })
     };
-    const createOrder = (equip_id) => {
-
+    const createOrder = (e) => {
+        e.preventDefault();
         navigate("/create-so", { state: { attribute: equip_id } })
     };
 
@@ -87,15 +88,15 @@ function DetailedEquipment() {
         <div>
             <EquipmentRow rows={[equip]}/>
 
-            <ServiceOrderList 
+            <ServiceOrderEquip 
                 rows={orders} 
                 onDelete={deleteServiceOrder} 
-                onCreate={() => {createOrder(equip.id);}}
+                onCreate={createOrder}
             />  
-            <CalibrationList 
+            <CalibrationEquip 
                 rows={calibrations} 
                 onDelete={deleteCalib}
-                onAdd={() => {addCalib(equip.id);}}    
+                onAdd={() => {addCalib();}}    
             />
         </div>
     );

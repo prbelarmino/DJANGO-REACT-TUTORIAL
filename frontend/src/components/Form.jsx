@@ -1,11 +1,13 @@
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { ACCESS_TOKEN, LOGGED_USER, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css"
 import LoadingIndicator from "./LoadingIndicator";
 
 function Form({ route, method }) {
+
+    //const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -20,9 +22,15 @@ function Form({ route, method }) {
         try {
             const res = await api.post(route, { username, password })
             if (method === "login") {
+                //console.log(res)
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/")
+                const user = { username: username};
+                //Maybe it is not safe
+                localStorage.setItem(LOGGED_USER, user.username);
+                setUsername("");
+                setPassword("");
+                navigate("/");
             } else {
                 navigate("/login")
             }

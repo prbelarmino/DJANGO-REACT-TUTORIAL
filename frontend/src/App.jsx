@@ -1,11 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
-import Register from "./pages/Register"
+import RegistartionForm from "./pages/RegistartionForm"
 import Home from "./pages/Home"
+import Equipment from "./pages/Equipment"
 import EquipmentForm from "./pages/EquipmentForm"
-import CalibrationForm from "./pages/CalibrationForm"
+import ServiceOrder from "./pages/ServiceOrder"
 import ServiceOrderForm from "./pages/ServiceOrderForm"
+import Calibration from "./pages/Calibration"
+import CalibrationForm from "./pages/CalibrationForm"
 import DetailedEquipment from "./pages/DetailedEquipment"
+import Team from "./pages/Team"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Layout from "./pages/Layout"
@@ -18,10 +22,6 @@ function Logout() {
   return <Navigate to="/login" />
 }
 
-function RegisterAndLogout() {
-  localStorage.clear()
-  return <Register />
-}
 
 function App() {
 
@@ -85,10 +85,54 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/team"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <Team />
+                  </Layout>
+                  
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <ServiceOrder />
+                  </Layout>
+                  
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/equipments"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <Equipment />
+                  </Layout>
+                  
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/calibrations"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <Calibration />
+                  </Layout>
+                  
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<RegisterAndLogout />} />
+            <Route path="/register" element={<RegistartionForm />} />
             <Route path="*" element={<NotFound />}></Route>
 
           </Routes>

@@ -6,13 +6,15 @@ from .models import *
 class UserSerializer(serializers.ModelSerializer):
     #Meta class define how the class behave
     class Meta:
-        model = User
-        fields = ["id", "username", "password"]
-        extra_kwargs = {"password": {"write_only": True}}
+        model = CustomUser
+        fields = ["id","first_name", "last_name", "email", "function", "phone_number", 
+                  "matriculation", "age", "location", "username", "password"]
+        #Only allow write the password but it cannot be requested
+        extra_kwargs = {"username": {"write_only": True}, "password": {"write_only": True}}
 
     def create(self, validated_data):
         print(validated_data)
-        user = User.objects.create_user(**validated_data)
+        user = CustomUser.objects.create_user(**validated_data)
         return user
 
 

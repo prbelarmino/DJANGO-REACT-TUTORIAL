@@ -6,6 +6,8 @@ import Header from "../components/Header";
 import api from "../api";
 import { useNavigate, useLocation } from "react-router-dom";
 import { tokens } from "../theme";
+import { useState } from "react";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 //function ServiceOrderForm(){
 const ServiceOrderForm = () =>{
@@ -15,21 +17,24 @@ const ServiceOrderForm = () =>{
     const location = useLocation();
     const equip_id = location.state.attribute;
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const [loading, setLoading] = useState(false);
 
-    const addServiceOrder = (values) => {
-        console.log(values)
-        api
-        .post("/api/serviceorders/", {...values, equip_id})
-        .then((res) => {
-            if (res.status === 201)
-            {
-                alert("ServiceOrder created!");
-                navigate("/")
-            } 
-            else alert("Failed to create ServiceOrder.");
-        })
-        .catch((err) => alert(err));
+    const handleSubmit = async (e) => {
+        
+      setLoading(true);
+      e.preventDefault();
+
+      try {
+          const res = await api.post("/api/user/register/", { ...values})
+          navigate("/login")
+      } 
+      catch (error) {
+          alert(error)
+      } finally {
+          setLoading(false)
+      }
   };
+
 
   return (
     <Box m="20px">
@@ -64,10 +69,10 @@ const ServiceOrderForm = () =>{
                     label="Número"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.type}
+                    value={values.number}
                     name="number"
-                    error={!!touched.type && !!errors.type}
-                    helperText={touched.type && errors.type}
+                    error={!!touched.number && !!errors.number}
+                    helperText={touched.number && errors.number}
                     sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
@@ -77,10 +82,10 @@ const ServiceOrderForm = () =>{
                     label="Solicitante"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.state}
+                    value={values.requester}
                     name="requester"
-                    error={!!touched.state && !!errors.state}
-                    helperText={touched.state && errors.state}
+                    error={!!touched.requester && !!errors.requester}
+                    helperText={touched.requester && errors.requester}
                     sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
@@ -90,10 +95,10 @@ const ServiceOrderForm = () =>{
                     label="Tecnico Executor"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.owner}
+                    value={values.executor}
                     name="executor"
-                    error={!!touched.owner && !!errors.owner}
-                    helperText={touched.owner && errors.owner}
+                    error={!!touched.executor && !!errors.executor}
+                    helperText={touched.executor && errors.executor}
                     sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
@@ -103,10 +108,10 @@ const ServiceOrderForm = () =>{
                     label="Tipo de Serviço"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.model}
+                    value={values.service_type}
                     name="service_type"
-                    error={!!touched.model && !!errors.model}
-                    helperText={touched.model && errors.model}
+                    error={!!touched.service_type && !!errors.service_type}
+                    helperText={touched.service_type && errors.service_type}
                     sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
@@ -116,10 +121,10 @@ const ServiceOrderForm = () =>{
                     label="Fechado em"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.manufacturer}
+                    value={values.closed_at}
                     name="closed_at"
-                    error={!!touched.manufacturer && !!errors.manufacturer}
-                    helperText={touched.manufacturer && errors.manufacturer}
+                    error={!!touched.closed_at && !!errors.closed_at}
+                    helperText={touched.closed_at && errors.closed_at}
                     sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
@@ -129,10 +134,10 @@ const ServiceOrderForm = () =>{
                     label="Prioridade"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.identification}
+                    value={values.priority}
                     name="priority"
-                    error={!!touched.identification && !!errors.identification}
-                    helperText={touched.identification && errors.identification}
+                    error={!!touched.priority && !!errors.priority}
+                    helperText={touched.priority && errors.priority}
                     sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
@@ -142,10 +147,10 @@ const ServiceOrderForm = () =>{
                     label="Titulo"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.serial_number}
+                    value={values.title}
                     name="title"
-                    error={!!touched.serial_number && !!errors.serial_number}
-                    helperText={touched.serial_number && errors.serial_number}
+                    error={!!touched.title && !!errors.title}
+                    helperText={touched.title && errors.title}
                     sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
@@ -155,10 +160,10 @@ const ServiceOrderForm = () =>{
                     label="Descrição do Problema"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.serial_number}
+                    value={values.issue_description}
                     name="issue_description"
-                    error={!!touched.serial_number && !!errors.serial_number}
-                    helperText={touched.serial_number && errors.serial_number}
+                    error={!!touched.issue_description && !!errors.issue_description}
+                    helperText={touched.issue_description && errors.issue_description}
                     sx={{ gridColumn: "span 4" }}
                 />
             </Box>

@@ -64,11 +64,12 @@ const CalibrationForm = () =>{
                     label="Número"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.type}
+                    value={values.number}
                     name="number"
-                    error={!!touched.type && !!errors.type}
-                    helperText={touched.type && errors.type}
+                    error={!!touched.number && !!errors.number}
+                    helperText={touched.number && errors.number}
                     sx={{ gridColumn: "span 2" }}
+
                 />
                 <TextField
                     fullWidth
@@ -77,10 +78,10 @@ const CalibrationForm = () =>{
                     label="Solicitante"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.state}
+                    value={values.requester}
                     name="requester"
-                    error={!!touched.state && !!errors.state}
-                    helperText={touched.state && errors.state}
+                    error={!!touched.requester && !!errors.requester}
+                    helperText={touched.requester && errors.requester}
                     sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
@@ -90,10 +91,10 @@ const CalibrationForm = () =>{
                     label="Tecnico Executor"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.owner}
+                    value={values.executor}
                     name="executor"
-                    error={!!touched.owner && !!errors.owner}
-                    helperText={touched.owner && errors.owner}
+                    error={!!touched.executor && !!errors.executor}
+                    helperText={touched.executor && errors.executor}
                     sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
@@ -103,10 +104,10 @@ const CalibrationForm = () =>{
                     label="Validade"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.model}
+                    value={values.expiration}
                     name="expiration"
-                    error={!!touched.model && !!errors.model}
-                    helperText={touched.model && errors.model}
+                    error={!!touched.expiration && !!errors.expiration}
+                    helperText={touched.expiration && errors.expiration}
                     sx={{ gridColumn: "span 4" }}
                 />
             </Box>

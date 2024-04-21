@@ -270,3 +270,51 @@ export const CalibrationColumns  = (onDelete) => [
     },
   },
 ];
+
+export const TeamColumns  = [
+  { field: "id", headerName: "ID" },
+  {
+    field: "first_name",
+    headerName: "Nome(s)",
+    //flex: 1,
+    cellClassName: "name-column--cell",
+  },
+  {
+    field: "last_name",
+    headerName: "Sobrenome(s)",
+    type: "string",
+    headerAlign: "right",
+    align: "right",
+  },
+  {
+    field: "email",
+    headerName: "E-mail",
+    flex: 1,
+  },
+  {
+    field: "function",
+    headerName: "Cargo",
+    flex: 1,
+  },
+  {
+    field: "phone_number",
+    headerName: "Numero de Telefone",
+    flex: 1,
+  },
+  {
+    field: "matriculation",
+    headerName: "Matricula",
+    flex: 1,
+  },
+  {
+    field: "age",
+    headerName: "Idade",
+    flex: 1,
+  },
+  {
+    field: "location",
+    headerName: "Locação",
+    flex: 1,
+  },
+  
+];

@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import *
 
+class CustomUser(User):
+
+    function = models.CharField(max_length=100)
+    matriculation = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=100)
+    age = models.IntegerField()
+    location = models.CharField(max_length=100)
+    
+
 
 class Note(models.Model):
     title = models.CharField(max_length=100)

@@ -1,26 +1,25 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
-import Header from "./Header";
-import {ServiceOrderColumns} from "../headers/ListHeaders"
 
-function ServiceOrderList({ rows, onDelete, onAdd }) {
+function CustomList({ rows, columns, height}) {
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  // const handleCellClick = (params, event) => {
+  //   event.stopPropagation();
+  //   console.log("Cell clicked:", params);
+  // };
+  // const handleRowClick = (params, event) => {
+  //   event.stopPropagation();
+  //   //console.log("Row clicked:", params);
+  // };
 
   return (
-    <Box m="20px">
-      <Header title="Ordem de Serviços" subtitle="Lista de Ordem de Serviços" />
-      <Button
-          variant="contained"
-          color="secondary"
-          onClick={onAdd}
-      >
-          Criar Ordem de Serviço
-      </Button>
-      <Box
-        m="0 0 100px 0 "
-        height="60vh"
+
+    <Box
+        m="0 0 20px 0"
+        height={height}
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -52,14 +51,16 @@ function ServiceOrderList({ rows, onDelete, onAdd }) {
       >
         <DataGrid 
             rows={rows} 
-            columns={ServiceOrderColumns(onDelete)} 
+            columns={columns} 
             slots={{
               toolbar: GridToolbar,
             }}
+            //onCellClick={handleCellClick}
+            //onRowClick={handleRowClick}
         />
-      </Box>
     </Box>
+
   );
 };
 
-export default ServiceOrderList;
+export default CustomList;

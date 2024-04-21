@@ -1,26 +1,48 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../components/Header";
 import {EquipmentColumns} from "../headers/ListHeaders"
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import api from "../api";
 
-function EquipmentList({ rows, onDelete, onViewMore}) {
+function Equipment() {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [equipments, setEquipments] = useState([]);
   const navigate = useNavigate();
-  // const handleCellClick = (params, event) => {
-  //   event.stopPropagation();
-  //   console.log("Cell clicked:", params);
-  // };
-  // const handleRowClick = (params, event) => {
-  //   event.stopPropagation();
-  //   //console.log("Row clicked:", params);
-  // };
+
+  useEffect(() => {
+      getEquipments();
+  }, []);
+
+  const getEquipments = () => {
+      api
+          .get("/api/equipments/")
+          .then((res) => res.data)
+          .then((data) => {
+              setEquipments(data);
+          })
+          .catch((err) => alert(err));
+  };
+
+  const onDelete = (event, params) => {
+      api
+          .delete(`/api/equipments/delete/${params.id}/`)
+          .then((res) => {
+              if (res.status === 204) alert("Equipment deleted!");
+              else alert("Failed to delete Equipment.");
+              getEquipments();
+          })
+          .catch((error) => alert(error));
+  };
+  const onViewMore = (event, params) => {
+
+      const selectedEquip = equipments.find(item => item.id === params.id);
+      navigate("/show-equip", { state: { attribute: selectedEquip } })
+  };
 
   return (
     <Box m="20px">
@@ -65,17 +87,15 @@ function EquipmentList({ rows, onDelete, onViewMore}) {
         }}
       >
         <DataGrid 
-            rows={rows} 
+            rows={equipments} 
             columns={EquipmentColumns(onDelete, onViewMore)} 
             slots={{
               toolbar: GridToolbar,
             }}
-            //onCellClick={handleCellClick}
-            //onRowClick={handleRowClick}
         />
       </Box>
     </Box>
   );
 };
 
-export default EquipmentList;
+export default Equipment;

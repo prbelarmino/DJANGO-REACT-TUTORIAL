@@ -11,7 +11,7 @@ class EquipmentListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        
+
         queryset = Equipment.objects.all()
         field = self.request.query_params.get('field')
         value = self.request.query_params.get('value')
@@ -118,9 +118,20 @@ class NoteDelete(generics.DestroyAPIView):
         user = self.request.user
         return Note.objects.filter(author=user)
 
-class CreateUserView(generics.CreateAPIView):
+class CreateUserView(generics.ListCreateAPIView):
     #List of all objects that it will be looked at when a new is being 
     # created to prevent creating an user that already exists
-    queryset = User.objects.all() 
+    queryset = CustomUser.objects.all() 
     serializer_class = UserSerializer #Specify the data type that the view uses
     permission_classes = [AllowAny] #Set any one can request this view if it is not authenticated
+    def get_queryset(self):
+                
+        queryset = CustomUser.objects.all()
+        field = self.request.query_params.get('field')
+        value = self.request.query_params.get('value')
+        if field and value:
+            queryset = queryset.filter(**{field: value})
+
+        return queryset
+    
+
