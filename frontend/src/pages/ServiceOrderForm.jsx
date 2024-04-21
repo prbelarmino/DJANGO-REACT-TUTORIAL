@@ -19,18 +19,20 @@ const ServiceOrderForm = () =>{
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async () => {
+  const handleSubmit = (values) => {
 
-      try {
-          const res = await api.post("/api/serviceorders/", { ...values})
-          navigate("/login")
-      } 
-      catch (error) {
-          alert(error)
-      } finally {
-          setLoading(false)
-      }
-  };
+    api
+        .post("/api/serviceorders/", {...values, equip_id})
+        .then((res) => {
+            if (res.status === 201)
+            {
+                alert("Calibratrion added!");
+                navigate("/")
+            } 
+            else alert("Failed to create Calibratrion");
+        })
+        .catch((err) => alert(err));
+    };
 
 
   return (
