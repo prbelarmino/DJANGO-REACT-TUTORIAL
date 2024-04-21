@@ -19,10 +19,7 @@ const ServiceOrderForm = () =>{
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
-        
-      setLoading(true);
-      e.preventDefault();
+    const handleSubmit = async () => {
 
       try {
           const res = await api.post("/api/serviceorders/", { ...values})
