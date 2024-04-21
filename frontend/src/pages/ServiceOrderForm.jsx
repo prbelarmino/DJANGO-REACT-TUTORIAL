@@ -5,9 +5,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
 import { useNavigate, useLocation } from "react-router-dom";
-import { tokens } from "../theme";
-import { useState } from "react";
-import LoadingIndicator from "../components/LoadingIndicator";
 
 //function ServiceOrderForm(){
 const ServiceOrderForm = () =>{
@@ -15,9 +12,9 @@ const ServiceOrderForm = () =>{
     const theme = useTheme();
     const navigate = useNavigate();
     const location = useLocation();
-    const equip_id = location.state.attribute;
+    const equip = location.state.attribute;
+    const equip_id = equip.id;
     const isNonMobile = useMediaQuery("(min-width:600px)");
-    const [loading, setLoading] = useState(false);
 
   const handleSubmit = (values) => {
 
@@ -27,7 +24,7 @@ const ServiceOrderForm = () =>{
             if (res.status === 201)
             {
                 alert("Calibratrion added!");
-                navigate("/")
+                navigate("/show-equip", { state: { attribute: equip } })
             } 
             else alert("Failed to create Calibratrion");
         })

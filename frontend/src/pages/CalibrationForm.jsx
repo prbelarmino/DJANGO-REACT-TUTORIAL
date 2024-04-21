@@ -13,7 +13,8 @@ const CalibrationForm = () =>{
     const theme = useTheme();
     const navigate = useNavigate();
     const location = useLocation();
-    const equip_id = location.state.attribute;
+    const equip = location.state.attribute;
+    const equip_id = equip.id;
     const isNonMobile = useMediaQuery("(min-width:600px)");
 
     const addCalibration = (values) => {
@@ -24,7 +25,7 @@ const CalibrationForm = () =>{
                 if (res.status === 201)
                 {
                     alert("Calibratrion added!");
-                    navigate("/")
+                    navigate("/show-equip", { state: { attribute: equip } })
                 } 
                 else alert("Failed to create Calibratrion");
             })

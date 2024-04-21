@@ -14,7 +14,7 @@ function EquipmentRow({ rows}) {
     <Box m="20px">
       <Header title="Equipamento" subtitle="Informações Basica" />
       <Box
-        m="0 0 100px 0 "
+        m="0 0 10px 0 "
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -37,10 +37,6 @@ function EquipmentRow({ rows}) {
       <DataGrid 
         rows={rows} 
         columns={EquipmentColumnsReduced} 
-        autoHeight
-            //rowHeight={52} // Adjust row height as needed
-            //onCellClick={handleCellClick}
-            //onRowClick={handleRowClick}
       />
       </Box>
     </Box>

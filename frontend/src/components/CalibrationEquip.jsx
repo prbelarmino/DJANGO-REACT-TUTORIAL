@@ -10,7 +10,7 @@ function CalibrationEquip({ rows, onDelete, onAdd }) {
 
   return (
     <Box m="30px">
-      <Header title="Calibrações" subtitle="Lista de Calibrações" />
+      <Header title="Calibrações" subtitle="Lista de Calibrações do Equipamento" />
       <Button
                 variant="contained"
                 color="secondary"

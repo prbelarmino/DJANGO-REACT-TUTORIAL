@@ -22,7 +22,7 @@ const EquipmentForm = () =>{
             if (res.status === 201)
             {
                 alert("Equipment added!");
-                navigate("/")
+                navigate("/equipments")
             } 
             else alert("Failed to add Equipment.");
         })

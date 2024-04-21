@@ -38,10 +38,10 @@ function Equipment() {
           })
           .catch((error) => alert(error));
   };
-  const onViewMore = (event, params) => {
+  const onViewMore = (event,params) => {
 
-      const selectedEquip = equipments.find(item => item.id === params.id);
-      navigate("/show-equip", { state: { attribute: selectedEquip } })
+    const selectedEquip = equipments.find(item => item.id === params.id);
+    navigate("/show-equip", { state: { attribute: selectedEquip } })
   };
 
   return (

@@ -18,7 +18,7 @@ function CustomList({ rows, columns, height}) {
   return (
 
     <Box
-        m="0 0 20px 0"
+        m="0 0 100px 0"
         height={height}
         sx={{
           "& .MuiDataGrid-root": {
@@ -55,6 +55,7 @@ function CustomList({ rows, columns, height}) {
             slots={{
               toolbar: GridToolbar,
             }}
+            //rowHeight={30}
             //onCellClick={handleCellClick}
             //onRowClick={handleRowClick}
         />
