@@ -25,7 +25,7 @@ const ServiceOrderForm = () =>{
       e.preventDefault();
 
       try {
-          const res = await api.post("/api/user/register/", { ...values})
+          const res = await api.post("/api/serviceorders/", { ...values})
           navigate("/login")
       } 
       catch (error) {
@@ -41,7 +41,7 @@ const ServiceOrderForm = () =>{
       
       <Header title="Adicionar Ordem de Serviço" subtitle="Formulario para adicionar Ordem de Serviço no sistema" />
       <Formik
-        onSubmit={addServiceOrder}
+        onSubmit={handleSubmit}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
       >
