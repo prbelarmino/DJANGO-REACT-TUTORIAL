@@ -10,4 +10,5 @@ urlpatterns = [
     path("serviceorders/delete/<int:pk>/", views.ServiceOrderDelete.as_view(), name="delete-serviceorder"),
     path("calibrations/", views.CalibrationListCreate.as_view(), name="calibration-list"),
     path("calibrations/delete/<int:pk>/", views.CalibrationDelete.as_view(), name="delete-calibration"),
+    path('calibrations/<int:equipment_id>/generate-pdf/', views.generate_pdf, name='generate_pdf'),
 ]

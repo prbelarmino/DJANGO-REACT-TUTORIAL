@@ -23,6 +23,29 @@ function Calibration() {
             })
             .catch((err) => alert(err));
     };
+    const deleteCalib = (id) => {
+        api
+            .delete(`/api/calibrations/delete/${id}/`)
+            .then((res) => {
+                if (res.status === 204) alert("Calibration deleted!");
+                else alert("Failed to delete Calibration.");
+                getCalibrations();
+            })
+            .catch((error) => alert(error));
+    };
+    const printCalib = (event,cellValues) => {
+        api
+            .get(`/api/calibrations/${cellValues.id}/generate-pdf/`)
+            .then(response => {
+                // Create a Blob from the PDF file data
+                const blob = new Blob([response.data], { type: 'application/pdf' });
+                // Create a URL for the Blob
+                const url = window.URL.createObjectURL(blob);
+                // Open the PDF file in a new browser tab
+                window.open(url, '_blank');
+                })
+            .catch((err) => alert(err));
+    };
 
     return (
         <div>
@@ -30,8 +53,8 @@ function Calibration() {
             <Header title="Calibrações" subtitle="Lista de todas as Calibrações" />
                 <CustomList 
                     rows={calibrations}
-                    columns={CalibrationColumns(()=>{})}
-                    height={"80vh"}
+                    columns={CalibrationColumns(deleteCalib, printCalib)}
+                    height={"100vh"}
                 />
             </Box>
         </div>

@@ -4,7 +4,7 @@ import Header from "./Header";
 import {CalibrationColumns} from "../headers/ListHeaders"
 import CustomList from "../components/CustomList";
 
-function CalibrationEquip({ rows, onDelete, onAdd }) {
+function CalibrationEquip({ rows, onDelete, onAdd, onPrint }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -20,7 +20,7 @@ function CalibrationEquip({ rows, onDelete, onAdd }) {
       </Button> 
       <CustomList 
         rows={rows}
-        columns={CalibrationColumns(onDelete)}
+        columns={CalibrationColumns(onDelete, onPrint)}
         height={"60vh"}
       />
     </Box>

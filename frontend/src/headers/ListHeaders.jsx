@@ -4,7 +4,12 @@
 
 import { IconButton } from '@mui/material';
 import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
+import ExpandCellRenderer from './ExpandCells';
 
+const multiLineWrap = (value) => {
+  return <div className="multiLineWrap">{value}</div>;
+};
 
 export const EquipmentColumnsReduced = [
 
@@ -16,6 +21,7 @@ export const EquipmentColumnsReduced = [
     //cellClassName: "name-column--cell",
     headerAlign: "center",
     align: "center",
+    width: "200",
   },
   {
     field: "state",
@@ -30,12 +36,20 @@ export const EquipmentColumnsReduced = [
     headerName: "Proprietario",
     headerAlign: "center",
     align: "center",
+    width: "200",
+  },
+  {
+    field: "model",
+    headerName: "Modelo",
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "manufacturer",
     headerName: "Fabricante",
     headerAlign: "center",
     align: "center",
+    width: "150",
   },
   {
     field: "identification",
@@ -67,7 +81,6 @@ export const EquipmentColumnsReduced = [
 
 export const EquipmentColumns = (onDelete,onViewMore) => [
 
-  ...EquipmentColumnsReduced,
   {
     field: "actions",
     headerName: "",
@@ -93,77 +106,11 @@ export const EquipmentColumns = (onDelete,onViewMore) => [
       );
     },
   },
+  ...EquipmentColumnsReduced,
 ];
 
-
 export const ServiceOrderColumns = (onDelete) => [
-  { field: "id", headerName: "ID", flex: "1" },
-  {
-    field: "number",
-    headerName: "Numero",
-    headerAlign: "center",
-    align: "center",
-    cellClassName: "name-column--cell",
-  },
-  {
-    field: "requester",
-    headerName: "Solicitante",
-    type: "string",
-    headerAlign: "center",
-    align: "center",
-  },
-  {
-    field: "executor",
-    headerName: "Tecnico Executor",
-    width: 120,
-    headerAlign: "center",
-    align: "center",
-  },
-  {
-    field: "service_type",
-    headerName: "Tipo de serviço",
-    headerAlign: "center",
-    align: "center",
-    //flex: 1,
-  },
-  {
-    field: "closed_at",
-    headerName: "Fechado em",
-    headerAlign: "center",
-    align: "center",
 
-    //flex: 1,
-  },
-  {
-    field: "title",
-    headerName: "Titulo",
-    headerAlign: "center",
-    align: "center",
-    //flex: 1,
-  },
-  {
-    field: "issue_description",
-    headerName: "Descrição do Problema",
-    headerAlign: "center",
-    align: "center",
-    width: "150"
-    //flex: 1,
-  },
-  {
-    field: "created_at",
-    headerName: "Adicionado em",
-    headerAlign: "center",
-    align: "center",
-    //flex: 1,
-  },
-  {
-    field: "equip_id",
-    headerName: "Id do Equipamento",
-    headerAlign: "center",
-    align: "center",
-    width: "150"
-    //flex: 1,
-  },
   {
     field: "actions",
     headerName: "",
@@ -184,9 +131,103 @@ export const ServiceOrderColumns = (onDelete) => [
       );
     },
   },
+  { field: "id", headerName: "ID", flex: "1" },
+  {
+    field: "number",
+    headerName: "Numero",
+    headerAlign: "center",
+    align: "center",
+    cellClassName: "name-column--cell",
+  },
+  {
+    field: "requester",
+    headerName: "Solicitante",
+    type: "string",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "executor",
+    headerName: "Tecnico Executor",
+    width: 120,
+    headerAlign: "center",
+    align: "center",
+    wrap: 'true',
+  },
+  {
+    field: "service_type",
+    headerName: "Tipo de serviço",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+    //flex: 1,
+  },
+  {
+    field: "closed_at",
+    headerName: "Fechado em",
+    headerAlign: "center",
+    align: "center",
+    //flex: 1,
+  },
+  {
+    field: "title",
+    headerName: "Titulo",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+    //flex: 1,
+  },
+  {
+    field: "issue_description",
+    headerName: "Descrição do Problema",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "created_at",
+    headerName: "Adicionado em",
+    headerAlign: "center",
+    align: "center",
+    //flex: 1,
+  },
+  {
+    field: "equip_id",
+    headerName: "Id do Equipamento",
+    headerAlign: "center",
+    align: "center",
+    width: "150"
+    //flex: 1,
+  },
 ];
 
-export const CalibrationColumns  = (onDelete) => [
+export const CalibrationColumns  = (onDelete, onPrint) => [
+  
+  {
+    field: "actions",
+    headerName: "",
+    renderCell: (cellValues) => {
+      return (
+        <>
+          <IconButton
+            //className={classes.iconButton}
+            onClick={(event) => onPrint(event,cellValues)}
+          >
+            <PrintOutlinedIcon />
+
+          </IconButton>
+          <IconButton
+            //className={classes.iconButton}
+            onClick={() => onDelete(cellValues.id)}
+          >
+            <DeleteIcon />
+
+          </IconButton>
+        </>
+      );
+    },
+  },
   { field: "id", headerName: "ID", flex: "1" },
   {
     field: "number",
@@ -201,13 +242,14 @@ export const CalibrationColumns  = (onDelete) => [
     type: "string",
     headerAlign: "center",
     align: "center",
+    width: "150",
   },
   {
     field: "executor",
     headerName: "Tecnico Executor",
     headerAlign: "center",
     align: "center",
-    width: "130",
+    width: "150",
   },
   {
     field: "expiration",
@@ -227,24 +269,6 @@ export const CalibrationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "130",
-  },
-  {
-    field: "actions",
-    headerName: "",
-
-    renderCell: (cellValues) => {
-      return (
-        <>
-          <IconButton
-            //className={classes.iconButton}
-            onClick={() => onDelete(cellValues.id)}
-          >
-            <DeleteIcon />
-
-          </IconButton>
-        </>
-      );
-    },
   },
 ];
 

@@ -32,3 +32,11 @@ body,
 ::-webkit-scrollbar-track:hover {
   background: #555;
 }
+
+.multiLineWrap {
+  white-space: normal;
+  word-break: break-all;
+  font: initial;
+  font-size: 14px;
+  display: inline-block;
+}

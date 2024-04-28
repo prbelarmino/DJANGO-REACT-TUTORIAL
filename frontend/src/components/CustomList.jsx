@@ -14,7 +14,6 @@ function CustomList({ rows, columns, height}) {
   //   event.stopPropagation();
   //   //console.log("Row clicked:", params);
   // };
-
   return (
 
     <Box
@@ -51,11 +50,11 @@ function CustomList({ rows, columns, height}) {
       >
         <DataGrid 
             rows={rows} 
-            columns={columns} 
+            columns={columns}
             slots={{
               toolbar: GridToolbar,
             }}
-            //rowHeight={30}
+            //rowHeight={100}
             //onCellClick={handleCellClick}
             //onRowClick={handleRowClick}
         />

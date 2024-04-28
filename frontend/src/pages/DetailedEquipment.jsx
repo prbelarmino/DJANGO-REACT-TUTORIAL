@@ -20,14 +20,14 @@ function DetailedEquipment() {
         getCalibrations();
     }, []);
 
-    const getServiceOrder = () => {
+    const getServiceOrder = (event) => {
         // Define query parameters
         const field = "equip_id";
         const queryParams = {
-            field, equip_id // Example equip_id value
+            equip_id // Example equip_id value
         // Add more parameters as needed
         };
-        //console.log(queryParams)
+        console.log(queryParams)
         api
             .get('/api/serviceorders/',{ params: queryParams })
             .then((res) => {
@@ -52,7 +52,7 @@ function DetailedEquipment() {
         // Define query parameters
         const field = "equip_id";
         const queryParams = {
-            field, equip_id // Example equip_id value
+            equip_id // Example equip_id value
         // Add more parameters as needed
         };
         api
@@ -72,6 +72,19 @@ function DetailedEquipment() {
                 getCalibrations();
             })
             .catch((error) => alert(error));
+    };
+    const printCalib = (event,cellValues) => {
+        api
+            .get(`/api/calibrations/${cellValues.id}/generate-pdf/`)
+            .then(response => {
+                // Create a Blob from the PDF file data
+                const blob = new Blob([response.data], { type: 'application/pdf' });
+                // Create a URL for the Blob
+                const url = window.URL.createObjectURL(blob);
+                // Open the PDF file in a new browser tab
+                window.open(url, '_blank');
+                })
+            .catch((err) => alert(err));
     };
     const addCalib = () => {
 
@@ -94,7 +107,8 @@ function DetailedEquipment() {
             <CalibrationEquip 
                 rows={calibrations} 
                 onDelete={deleteCalib}
-                onAdd={() => {addCalib();}}    
+                onAdd={() => {addCalib();}}
+                onPrint={printCalib}  
             />
         </div>
     );

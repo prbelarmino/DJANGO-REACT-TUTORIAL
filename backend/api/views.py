@@ -4,7 +4,14 @@ from rest_framework import generics
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import *
-
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from django.http import HttpResponse
+from rest_framework.response import Response
+from rest_framework.views import APIView
+#from .generate_dummy_data import generate_dummy_data
+        
 class EquipmentListCreate(generics.ListCreateAPIView):
 
     serializer_class = EquipmentSerializer
@@ -42,10 +49,15 @@ class ServiceOrderListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         
         queryset = ServiceOrder.objects.all()
-        field = self.request.query_params.get('field')
-        value = self.request.query_params.get('value')
-        if field and value:
-            queryset = queryset.filter(**{field: value})
+        #field = self.request.query_params.get('field')
+        #value = self.request.query_params.get('value')
+        id = self.request.query_params.get('equip_id')
+        # field_name = list(self.request.query_params.keys())[0]
+        # value = self.request.query_params.get(field_name)
+        # print(field_name,value)
+        
+        if id:
+            queryset = queryset.filter(**{"equip_id": id})
         
         return queryset
     
@@ -71,10 +83,12 @@ class CalibrationListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         
         queryset = Calibration.objects.all()
-        field = self.request.query_params.get('field')
-        value = self.request.query_params.get('value')
-        if field and value:
-            queryset = queryset.filter(**{field: value})
+        # field = self.request.query_params.get('field')
+        # value = self.request.query_params.get('value')
+        id = self.request.query_params.get('equip_id')
+
+        if id:
+            queryset = queryset.filter(**{"equip_id": id})
         
         return queryset
     
@@ -134,4 +148,37 @@ class CreateUserView(generics.ListCreateAPIView):
 
         return queryset
     
+def generate_pdf(request, equipment_id):
+    try:
+        # Get the equipment instance with the specified ID
+        calibration_instance = Calibration.objects.get(pk=equipment_id)
+    except Calibration.DoesNotExist:
+        return HttpResponse("Equipment not found", status=404)
 
+    # Serialize the equipment instance
+    calibration_serializer = CalibrationSerializer(calibration_instance)
+    
+    # Create response object
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="{equipment_id}_invoice.pdf"'
+
+    # Create PDF document
+    doc = SimpleDocTemplate(response, pagesize=letter)
+    elements = []
+    
+    # Add table with equipment data to PDF
+    data = list(calibration_serializer.data.items())
+    table = Table(data)
+    table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                               ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                               ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                               ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                               ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                               ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                               ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
+    elements.append(table)
+
+    # Build PDF document
+    doc.build(elements)
+
+    return response

@@ -31,7 +31,7 @@ function ServiceOrder() {
             <CustomList 
             rows={orders}
             columns={ServiceOrderColumns(()=>{})}
-            height={"80vh"}
+            height={"100vh"}
             />
         </Box>
 

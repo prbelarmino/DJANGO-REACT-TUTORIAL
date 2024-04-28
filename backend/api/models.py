@@ -23,7 +23,7 @@ class Note(models.Model):
 class Equipment(models.Model):
 
     type = models.CharField(max_length=30)
-    state = models.CharField(max_length=10)
+    state = models.CharField(max_length=30)
     owner = models.CharField(max_length=30)
     model = models.CharField(max_length=30)
     manufacturer = models.CharField(max_length=30)
