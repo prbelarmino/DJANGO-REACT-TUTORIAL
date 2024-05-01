@@ -1,10 +1,11 @@
-import { Box, Button, TextField, useTheme } from "@mui/material";
+import { Box, Button, TextField, MenuItem, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 //function ServiceOrderForm(){
 const ServiceOrderForm = () =>{
@@ -15,12 +16,14 @@ const ServiceOrderForm = () =>{
     const equip = location.state.attribute;
     const equip_id = equip.id;
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const [loading, setLoading] = useState(false);
 
   const handleSubmit = (values) => {
-
+    setLoading(true);
     api
         .post("/api/serviceorders/", {...values, equip_id})
         .then((res) => {
+            setLoading(false);
             if (res.status === 201)
             {
                 alert("Calibratrion added!");
@@ -75,6 +78,23 @@ const ServiceOrderForm = () =>{
                     fullWidth
                     variant="filled"
                     type="text"
+                    label="Estado"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.state}
+                    name="state"
+                    error={!!touched.state && !!errors.state}
+                    helperText={touched.state && errors.state}
+                    sx={{ gridColumn: "span 2" }}
+                    select
+                    >
+                    <MenuItem value="ABERTA">Aberta</MenuItem>
+                    <MenuItem value="FECHADA">Fechada</MenuItem>
+                  </TextField> 
+                <TextField
+                    fullWidth
+                    variant="filled"
+                    type="text"
                     label="Solicitante"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -82,7 +102,7 @@ const ServiceOrderForm = () =>{
                     name="requester"
                     error={!!touched.requester && !!errors.requester}
                     helperText={touched.requester && errors.requester}
-                    sx={{ gridColumn: "span 2" }}
+                    sx={{ gridColumn: "span 4" }}
                 />
                 <TextField
                     fullWidth
@@ -109,7 +129,12 @@ const ServiceOrderForm = () =>{
                     error={!!touched.service_type && !!errors.service_type}
                     helperText={touched.service_type && errors.service_type}
                     sx={{ gridColumn: "span 4" }}
-                />
+                    select
+                    >
+                    <MenuItem value="CORRETIVA">Corretiva</MenuItem>
+                    <MenuItem value="CALIBRAÇÃO">Calibração</MenuItem>
+                    <MenuItem value="PREVENTIVA">Preventiva</MenuItem>
+                  </TextField> 
                 <TextField
                     fullWidth
                     variant="filled"
@@ -165,7 +190,11 @@ const ServiceOrderForm = () =>{
             </Box>
             
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
+            <Button type="submit" 
+                      color="secondary" 
+                      variant="contained"
+                      disabled={loading}
+              >
                 Criar
               </Button>
             </Box>
@@ -181,6 +210,7 @@ const phoneRegExp =
 
 const checkoutSchema = yup.object().shape({
     number: yup.string().required("required"),
+    state: yup.string().required("required"),
     requester: yup.string().required("required"),
     executor: yup.string().required("required"),
     service_type: yup.string().required("required"),
@@ -191,6 +221,7 @@ const checkoutSchema = yup.object().shape({
 });
 const initialValues = {
     number: "",
+    state: "",
     requester: "",
     executor: "",
     service_type: "",

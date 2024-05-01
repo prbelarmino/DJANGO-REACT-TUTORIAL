@@ -3,14 +3,15 @@ import api from "../api";
 import ServiceOrderEquip from "../components/ServiceOrderEquip";
 import CalibrationEquip from "../components/CalibrationEquip";
 import EquipmentRow from "../components/EquipmentRow";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams} from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
 
 function DetailedEquipment() {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const equip = location.state.attribute;
+    const [searchParams, setSearchParams] = useSearchParams();
+    const equip = JSON.parse(searchParams.get('equip'));
     const equip_id = equip.id;
     const [orders, setOrder] = useState([]);
     const [calibrations, setCalibration] = useState([]);
@@ -21,13 +22,12 @@ function DetailedEquipment() {
     }, []);
 
     const getServiceOrder = (event) => {
-        // Define query parameters
-        const field = "equip_id";
+        // Define query parameter
         const queryParams = {
             equip_id // Example equip_id value
         // Add more parameters as needed
         };
-        console.log(queryParams)
+        //console.log(queryParams)
         api
             .get('/api/serviceorders/',{ params: queryParams })
             .then((res) => {
@@ -49,7 +49,6 @@ function DetailedEquipment() {
     };
     const getCalibrations = () => {
    
-        // Define query parameters
         const field = "equip_id";
         const queryParams = {
             equip_id // Example equip_id value

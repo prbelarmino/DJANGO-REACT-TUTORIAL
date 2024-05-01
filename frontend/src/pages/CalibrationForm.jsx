@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import api from "../api";
 import { useNavigate, useLocation} from "react-router-dom";
 import { tokens } from "../theme";
+import { useState } from "react";
 
 //function CalibrationForm(){
 const CalibrationForm = () =>{
@@ -16,12 +17,14 @@ const CalibrationForm = () =>{
     const equip = location.state.attribute;
     const equip_id = equip.id;
     const isNonMobile = useMediaQuery("(min-width:600px)");
+    const [loading, setLoading] = useState(false);
 
     const addCalibration = (values) => {
-
+        setLoading(true);
         api
             .post("/api/calibrations/", {...values, equip_id})
             .then((res) => {
+                setLoading(false);
                 if (res.status === 201)
                 {
                     alert("Calibratrion added!");
@@ -113,7 +116,11 @@ const CalibrationForm = () =>{
                 />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
+            <Button type="submit" 
+                      color="secondary" 
+                      variant="contained"
+                      disabled={loading}
+              >
                 Adiconar
               </Button>
             </Box>

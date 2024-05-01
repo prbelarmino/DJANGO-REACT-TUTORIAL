@@ -44,13 +44,13 @@ def create_equipment(num_equipment, users):
         user = choice(users)
         equip = Equipment.objects.create(
             type= tipo,
-            state=choice(['Fechada', 'Aberta']),
+            state=choice(['Ativo', 'Inativo']),
             owner=choice(hospitals),
             model=provider["MODELO"],
             manufacturer=provider["FABRICANTE"],
             identification=fake.random_number(digits=10),
             serial_number=fake.random_number(digits=10),
-            author=user
+            added_by=user
         )
         #print(equip.id)
         equipment.append(equip)
@@ -72,6 +72,7 @@ def create_service_orders(num_orders, users, equipment):
 
         order = ServiceOrder.objects.create(
             number=fake.random_number(digits=6),
+            state=choice(['Fechada', 'Aberta']),
             requester=requester_full_name,
             executor=executor_full_name,
             service_type=tipo,

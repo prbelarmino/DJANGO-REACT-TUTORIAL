@@ -18,23 +18,17 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class NoteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Note
-        fields = ["id", "title", "content", "created_at", "author"]
-        extra_kwargs = {"author": {"read_only": True}}
-
 class EquipmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
-                  "identification", "serial_number","created_at", "author"]
+                  "identification", "serial_number","created_at", "added_by"]
         extra_kwargs = {"author": {"read_only": True}}
 
 class ServiceOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceOrder
-        fields = ["id", "number", "requester", "executor", "service_type", 
+        fields = ["id", "number", "state", "requester", "executor", "service_type", 
                   "closed_at","priority","title", "issue_description", "created_at", "equip_id"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
 

@@ -1,4 +1,4 @@
-functions_options = ["Tecnico", "Supervisor", "Gerente"]
+functions_options = ["Técnico", "Supervisor", "Gerente"]
 functions_weights = [25, 5, 1]
 location_options = ["Aracaju", "Salvador"]
 location_weights = [1, 7]

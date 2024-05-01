@@ -4,6 +4,7 @@ import RegistartionForm from "./pages/RegistartionForm"
 import Home from "./pages/Home"
 import Equipment from "./pages/Equipment"
 import EquipmentForm from "./pages/EquipmentForm"
+import EquipmentEdition from "./pages/EquipmentEdition"
 import ServiceOrder from "./pages/ServiceOrder"
 import ServiceOrderForm from "./pages/ServiceOrderForm"
 import Calibration from "./pages/Calibration"
@@ -50,6 +51,16 @@ function App() {
                 <ProtectedRoute>
                   <Layout >
                     <EquipmentForm />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit-equip"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <EquipmentEdition/>
                   </Layout>
                 </ProtectedRoute>
               }

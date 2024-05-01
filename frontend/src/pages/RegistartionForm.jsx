@@ -1,4 +1,4 @@
-import { Box, Button, TextField, useTheme } from "@mui/material";
+import { Box, Button, TextField, MenuItem, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -107,8 +107,12 @@ const RegistrationForm = () =>{
                 error={!!touched.function && !!errors.function}
                 helperText={touched.function && errors.function}
                 sx={{ gridColumn: "span 2" }}
-              />
-                          
+                select
+              >
+                <MenuItem value="Gerente">Gerente</MenuItem>
+                <MenuItem value="Supervisor">Supervisor</MenuItem>
+                <MenuItem value="Técnico">Técnico</MenuItem>
+              </TextField>        
               <TextField
                 fullWidth
                 variant="filled"
@@ -194,7 +198,11 @@ const RegistrationForm = () =>{
               {loading && <LoadingIndicator />}
             </Box> */}
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
+              <Button type="submit" 
+                      color="secondary" 
+                      variant="contained"
+                      disabled={loading}
+              >
                 Adiconar
               </Button>
             </Box>
@@ -211,11 +219,24 @@ const phoneRegExp =
 const checkoutSchema = yup.object().shape({
   first_name: yup.string().required("required"),
   last_name: yup.string().required("required"),
-  email: yup.string().required("required"),
+  email: yup.string()
+            .email('Invalid email')
+            .required('Email is required'),
   function: yup.string().required("required"),
-  phone_number: yup.string().required("required"),
-  matriculation: yup.string().required("required"),
-  age: yup.string().required("required"),
+  phone_number: yup.string()
+                    .matches(phoneRegExp, 'Must be only digits')
+                    .min(10, 'Too short')
+                    .max(15, 'Too long')
+                    .required('Phone number is required'),
+  matriculation: yup.string()
+                    .matches(/^[0-9]+$/, 'Must be only digits')
+                    .min(4, 'Too short')
+                    .max(10, 'Too long')
+                    .required('Field is required'),
+  age: yup.number().typeError('Age must be a number')
+                    .integer('Age must be an integer')
+                    .min(18, 'Age must be at least 18')
+                    .max(80, 'Age must not exceed 80'),
   location: yup.string().required("required"),
   username: yup.string().required("required"),
   password: yup.string().required("required"),

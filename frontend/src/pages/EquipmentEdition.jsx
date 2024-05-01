@@ -1,44 +1,58 @@
-import { Box, Button, TextField, MenuItem, useTheme } from "@mui/material";
+import { Box, Button, Grid, TextField, MenuItem, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { tokens } from "../theme";
 import { useState } from "react";
 
-//function EquipmentForm(){
-const EquipmentForm = () =>{
+//function EquipmentEdition(){
+const EquipmentEdition = () =>{
   
   const theme = useTheme();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [loading, setLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const data = JSON.parse(searchParams.get('equip'));
+  const initialValues = {
+    type: data.type,
+    state: data.state,
+    owner: data.owner,
+    model: data.model,
+    manufacturer: data.manufacturer,
+    identification: data.identification,
+    serial_number: data.serial_number,
+  };
 
-  const addEquipment = (values) => {
+  const editEquipment = async (values) => {
 
     setLoading(true);
-    api
-      .post("/api/equipments/", {...values})
-      .then((res) => {
-            setLoading(false);
-            if (res.status === 201)
-            {
-                alert("Equipment added!");
-                navigate("/equipments")
-            } 
-            else alert("Failed to add Equipment.");
-            
-        })
-        .catch((err) => alert(err));
+    
+    
+    //e.preventDefault();
+    try {
+
+        const added_by = data.added_by;
+        const created_at = data.created_at;
+        const res = await api.put(`/api/equipments/${data.id}/`, { ...values, created_at, added_by})
+        alert("Equipment updated!");
+        navigate("/equipments")
+        
+    } catch (error) {
+        alert(error)
+    } finally {
+        setLoading(false)
+    }
   };
 
   return (
     <Box m="20px">
-      <Header title="Adicionar Equipamento" subtitle="Formulario para adicionar equipamento no sistema" />
+      <Header title="Editar Equipamento" subtitle="Formulario para editar equipamento" />
       <Formik
-        onSubmit={addEquipment}
+        onSubmit={editEquipment}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
       >
@@ -159,13 +173,25 @@ const EquipmentForm = () =>{
             </Box>
             
             <Box display="flex" justifyContent="end" mt="20px">
+
             <Button type="submit" 
-                      color="secondary" 
-                      variant="contained"
-                      disabled={loading}
-              >
-                Adiconar
-              </Button>
+                    color="secondary" 
+                    variant="contained"
+                    disabled={loading}
+                    sx={{ mr: 2 }}
+            >
+              Editar
+            </Button>
+
+            <Button color="secondary" 
+                    variant="contained"
+                    disabled={loading}
+                    sl={{ ml: 2 }}
+                    onClick={() => {navigate("/equipments");} }
+            >
+              Cancelar
+            </Button>
+
             </Box>
           </form>
         )}
@@ -186,14 +212,6 @@ const checkoutSchema = yup.object().shape({
     identification: yup.string().required("required"),
     serial_number: yup.string().required("required"),
 });
-const initialValues = {
-    type: "",
-    state: "",
-    owner: "",
-    model: "",
-    manufacturer: "",
-    identification: "",
-    serial_number: "",
-};
 
-export default EquipmentForm;
+
+export default EquipmentEdition;

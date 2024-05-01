@@ -5,6 +5,7 @@
 import { IconButton } from '@mui/material';
 import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ExpandCellRenderer from './ExpandCells';
 
 const multiLineWrap = (value) => {
@@ -13,7 +14,7 @@ const multiLineWrap = (value) => {
 
 export const EquipmentColumnsReduced = [
 
-  { field: "id", headerName: "ID", flex: "1" },
+  { field: "id", headerName: "ID", flex: "1"},
   {
     field: "type",
     headerName: "Tipo",
@@ -26,7 +27,7 @@ export const EquipmentColumnsReduced = [
   {
     field: "state",
     headerName: "Estado",
-    type: "number",
+    type: "string",
     headerAlign: "center",
     align: "center",
     
@@ -79,28 +80,25 @@ export const EquipmentColumnsReduced = [
   },
 ];
 
-export const EquipmentColumns = (onDelete,onViewMore) => [
+export const EquipmentColumns = (onEdit,onDelete,onViewMore) => [
 
   {
     field: "actions",
     headerName: "",
+    width: "150",
     renderCell: (cellValues) => {
       return (
         <>
-          <IconButton
-            //className={classes.iconButton}
-            onClick={(event) => onViewMore(event,cellValues)}
-          >
-            <VisibilityIcon />
-
+          <IconButton onClick={(event) => onEdit(event,cellValues)}>
+            <EditOutlinedIcon />
           </IconButton>
 
-          <IconButton
-            //className={classes.iconButton}
-            onClick={(event) => onDelete(event,cellValues)}
-          >
-            <DeleteIcon />
+          <IconButton onClick={(event) => onViewMore(event,cellValues)}>
+            <VisibilityIcon />
+          </IconButton>
 
+          <IconButton onClick={(event) => onDelete(event,cellValues)}>
+            <DeleteIcon />
           </IconButton>
         </>
       );
@@ -119,13 +117,11 @@ export const ServiceOrderColumns = (onDelete) => [
     renderCell: (cellValues) => {
       return (
         <>
-
           <IconButton
             //className={classes.iconButton}
             onClick={() => onDelete(cellValues.id)}
           >
             <DeleteIcon />
-
           </IconButton>
         </>
       );
@@ -138,6 +134,14 @@ export const ServiceOrderColumns = (onDelete) => [
     headerAlign: "center",
     align: "center",
     cellClassName: "name-column--cell",
+  },
+  {
+    field: "state",
+    headerName: "Estado",
+    type: "string",
+    headerAlign: "center",
+    align: "center",
+    
   },
   {
     field: "requester",
@@ -203,7 +207,7 @@ export const ServiceOrderColumns = (onDelete) => [
 ];
 
 export const CalibrationColumns  = (onDelete, onPrint) => [
-  
+
   {
     field: "actions",
     headerName: "",
@@ -228,7 +232,7 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
       );
     },
   },
-  { field: "id", headerName: "ID", flex: "1" },
+  { field: "id", headerName: "ID"},
   {
     field: "number",
     headerName: "Numero",

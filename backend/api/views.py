@@ -40,6 +40,12 @@ class EquipmentDelete(generics.DestroyAPIView):
     def get_queryset(self):
 
         return Equipment.objects
+    
+class EquipmentUpdate(generics.UpdateAPIView):
+
+    queryset = Equipment.objects.all()
+    serializer_class = EquipmentSerializer
+    permission_classes = [IsAuthenticated]
 
 class ServiceOrderListCreate(generics.ListCreateAPIView):
 
@@ -106,32 +112,6 @@ class CalibrationDelete(generics.DestroyAPIView):
 
         return Calibration.objects
       
-class NoteListCreate(generics.ListCreateAPIView):
-
-    serializer_class = NoteSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        
-        #Only gets Notes created by the user
-        #user = self.request.user
-        #return Note.objects.filter(author=user)
-        return Note.objects
-    
-    def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save(author=self.request.user)
-        else:
-            print(serializer.errors)
-
-class NoteDelete(generics.DestroyAPIView):
-    serializer_class = NoteSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        return Note.objects.filter(author=user)
-
 class CreateUserView(generics.ListCreateAPIView):
     #List of all objects that it will be looked at when a new is being 
     # created to prevent creating an user that already exists

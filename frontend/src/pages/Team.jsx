@@ -35,6 +35,7 @@ function Team() {
       <CustomList 
         rows={team}
         columns={TeamColumns}
+        height={"75vh"}
       />
     </Box>
   );

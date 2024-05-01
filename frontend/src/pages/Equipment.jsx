@@ -3,7 +3,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 import Header from "../components/Header";
 import {EquipmentColumns} from "../headers/ListHeaders"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, createSearchParams} from 'react-router-dom';
 import { useState, useEffect } from "react";
 import api from "../api";
 
@@ -23,7 +23,8 @@ function Equipment() {
           .get("/api/equipments/")
           .then((res) => res.data)
           .then((data) => {
-              setEquipments(data);
+              const sortedData = data.sort((a, b) => a.id - b.id); // Sort by ID
+              setEquipments(sortedData);
           })
           .catch((err) => alert(err));
   };
@@ -41,7 +42,22 @@ function Equipment() {
   const onViewMore = (event,params) => {
 
     const selectedEquip = equipments.find(item => item.id === params.id);
-    navigate("/show-equip", { state: { attribute: selectedEquip } })
+    navigate({
+      pathname: "/show-equip",
+      search: createSearchParams({
+          equip: JSON.stringify(selectedEquip)
+      }).toString()
+    })
+  };
+  const onEdit = (event,params) => {
+
+    const selectedEquip = equipments.find(item => item.id === params.id);
+    navigate({
+      pathname: "/edit-equip",
+      search: createSearchParams({
+          equip: JSON.stringify(selectedEquip)
+      }).toString()
+    })
   };
 
   return (
@@ -88,7 +104,7 @@ function Equipment() {
       >
         <DataGrid 
             rows={equipments} 
-            columns={EquipmentColumns(onDelete, onViewMore)} 
+            columns={EquipmentColumns(onEdit, onDelete, onViewMore)} 
             slots={{
               toolbar: GridToolbar,
             }}
