@@ -3,12 +3,11 @@ import api from "../api";
 import ServiceOrderEquip from "../components/ServiceOrderEquip";
 import CalibrationEquip from "../components/CalibrationEquip";
 import EquipmentRow from "../components/EquipmentRow";
-import { useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import { useNavigate, useSearchParams} from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
 
 function DetailedEquipment() {
 
-    const location = useLocation();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const equip = JSON.parse(searchParams.get('equip'));

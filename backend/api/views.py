@@ -8,10 +8,55 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from django.http import HttpResponse
-from rest_framework.response import Response
-from rest_framework.views import APIView
 #from .generate_dummy_data import generate_dummy_data
-        
+# views.py
+import pandas as pd
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Equipment
+import pandas as pd
+
+class UploadFile(APIView):
+    def post(self, request, format=None):
+        file = request.FILES['file']
+        expected_columns = [
+                'Tipo', 'Estado', 'Proprietario', 'Modelo', 'Fabricante',
+                'Indetificação', 'Numero de Serie'
+            ]
+        try:
+            if file.name.endswith('.csv'):
+                df = pd.read_csv(file)
+            elif file.name.endswith('.xlsx'):
+                df = pd.read_excel(file)
+            else:
+                return Response({'error': 'Unsupported file format'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if not all(col in df.columns for col in expected_columns):
+                return Response({'error': 'Invalid file format. Header does not match expected columns'}, status=status.HTTP_400_BAD_REQUEST)
+
+            for index, row in df.iterrows():
+                if Equipment.objects.filter(serial_number=row['Numero de Serie']).exists():
+                    return Response({'error': 'Serial number must be unique'}, status=status.HTTP_400_BAD_REQUEST)
+               
+                else:
+
+                    Equipment.objects.create(
+                        type=row['Tipo'],
+                        state=row['Estado'],
+                        owner=row['Proprietario'],
+                        model=row['Modelo'],
+                        manufacturer=row['Fabricante'],
+                        identification=row['Indetificação'],
+                        serial_number=row['Numero de Serie'],
+                        added_by=request.user  # Assuming user is authenticated
+                    )
+
+            return Response({'message': 'File uploaded successfully'}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class EquipmentListCreate(generics.ListCreateAPIView):
 
     serializer_class = EquipmentSerializer
@@ -28,8 +73,9 @@ class EquipmentListCreate(generics.ListCreateAPIView):
         return queryset
     
     def perform_create(self, serializer):
+
         if serializer.is_valid():
-            serializer.save(author=self.request.user)
+            serializer.save(added_by=self.request.user)
         else:
             print(serializer.errors)
 

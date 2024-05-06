@@ -23,7 +23,7 @@ class EquipmentSerializer(serializers.ModelSerializer):
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
                   "identification", "serial_number","created_at", "added_by"]
-        extra_kwargs = {"author": {"read_only": True}}
+        extra_kwargs = {"added_by": {"read_only": True}}
 
 class ServiceOrderSerializer(serializers.ModelSerializer):
     class Meta:

@@ -2,6 +2,7 @@ import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 import Header from "../components/Header";
+import UploadForm from "../components/UploadForm";
 import {EquipmentColumns} from "../headers/ListHeaders"
 import { useNavigate, createSearchParams} from 'react-router-dom';
 import { useState, useEffect } from "react";
@@ -23,7 +24,7 @@ function Equipment() {
           .get("/api/equipments/")
           .then((res) => res.data)
           .then((data) => {
-              const sortedData = data.sort((a, b) => a.id - b.id); // Sort by ID
+              const sortedData = data.sort((b, a) => a.id - b.id); // Sort by ID
               setEquipments(sortedData);
           })
           .catch((err) => alert(err));
@@ -70,6 +71,7 @@ function Equipment() {
       >
           Adicionar Equipamento
       </Button>
+      <UploadForm updateList={getEquipments}  />
       <Box
         m="0 0 40px 0 "
         height="75vh"

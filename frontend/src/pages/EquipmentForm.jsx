@@ -22,7 +22,7 @@ const EquipmentForm = () =>{
     api
       .post("/api/equipments/", {...values})
       .then((res) => {
-            setLoading(false);
+            
             if (res.status === 201)
             {
                 alert("Equipment added!");
@@ -32,6 +32,7 @@ const EquipmentForm = () =>{
             
         })
         .catch((err) => alert(err));
+    setLoading(false);
   };
 
   return (

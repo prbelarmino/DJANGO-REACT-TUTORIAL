@@ -165,3 +165,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
  # fix issue to external origin application request
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
+
