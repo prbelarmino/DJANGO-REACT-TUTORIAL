@@ -19,7 +19,7 @@ const UploadForm = ({ updateList }) => {
         formData.append('file', file);
 
         try {
-            loading(true);
+            setLoading(true);
             const response = await api.post('/api/upload/', formData, {
                 headers: {
                 'Content-Type': 'multipart/form-data'
@@ -30,7 +30,7 @@ const UploadForm = ({ updateList }) => {
         } catch (error) {
             alert('Error uploading file:' + error.response.data.error);
         } finally {
-            loading(false);
+            setLoading(false);
             setFile(null);
         }
     }
