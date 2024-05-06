@@ -5,10 +5,10 @@ import api from "../api";
 const UploadForm = ({ updateList }) => {
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    console.log(selectedFile);
     setFile(selectedFile);
   };
 
@@ -19,6 +19,7 @@ const UploadForm = ({ updateList }) => {
         formData.append('file', file);
 
         try {
+            loading(true);
             const response = await api.post('/api/upload/', formData, {
                 headers: {
                 'Content-Type': 'multipart/form-data'
@@ -27,9 +28,9 @@ const UploadForm = ({ updateList }) => {
             alert('File uploaded successfully:');
             updateList();
         } catch (error) {
-            console.error('Error uploading file:', error.response.data.error);
+            alert('Error uploading file:' + error.response.data.error);
         } finally {
-        //setSubmitting(false);
+            loading(false);
             setFile(null);
         }
     }
@@ -55,6 +56,7 @@ const UploadForm = ({ updateList }) => {
         color="secondary" 
         variant="contained"
         //sx={{ mr: 4, ml: 4}}
+        disabled={loading}
         >
         {file ? 'Importar Tabela' : 'Selecionar Tabela'}
       </Button>
