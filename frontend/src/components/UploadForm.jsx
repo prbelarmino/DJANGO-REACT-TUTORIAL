@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import {Box, FormControl, Button, Typography } from '@mui/material';
 import api from "../api";
 
@@ -39,10 +41,12 @@ const UploadForm = ({ updateList }) => {
     }
   };
 
+  const resetFile = (event) => {
+    setFile(null);
+  };
   return (
-    
-      <FormControl>
-        <Box ml="20px">
+    <FormControl>
+      <Box ml="20px">
       <input
         type="file"
         accept=".csv"
@@ -58,12 +62,19 @@ const UploadForm = ({ updateList }) => {
         //sx={{ mr: 4, ml: 4}}
         disabled={loading}
         >
-        {file ? 'Importar Tabela' : 'Selecionar Tabela'}
-      </Button>
-      
-      <Typography variant="body1" color="textSecondary">
-        {file ? file.name : 'Nenhuma Tabela Selecionada'}
-      </Typography>
+          {file ? 'Importar Tabela' : 'Selecionar Tabela'}
+        </Button>
+
+        <Box display="flex" alignItems="center" height="20px">
+          <Typography variant="body1" color="textSecondary" style={{ margin: '0px' }}>
+            {file ? file.name : 'Nenhuma Tabela Selecionada'}
+          </Typography>
+          {file &&(
+            <IconButton onClick={ (event) => resetFile() }>
+              <CloseIcon/>
+            </IconButton>
+          )}
+        </Box>
       </Box>
     </FormControl>
     

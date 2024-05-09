@@ -15,8 +15,8 @@ import pandas as pd
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Equipment
 import pandas as pd
+from django.core.mail import send_mail
 
 class UploadFile(APIView):
     def post(self, request, format=None):
@@ -78,6 +78,14 @@ class EquipmentListCreate(generics.ListCreateAPIView):
             serializer.save(added_by=self.request.user)
         else:
             print(serializer.errors)
+        
+        send_mail(
+            'New Model Created',
+            'A new instance of YourModel was created.',
+            'rccliniceng@gmail.com',
+            ['pauloroquebelarmino@gmail.com'],
+            fail_silently=False,
+        )
 
 class EquipmentDelete(generics.DestroyAPIView):
     serializer_class = EquipmentSerializer
