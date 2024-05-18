@@ -5,7 +5,8 @@
 import { IconButton } from '@mui/material';
 import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'; 
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ExpandCellRenderer from './ExpandCells';
 
 const multiLineWrap = (value) => {
@@ -14,7 +15,7 @@ const multiLineWrap = (value) => {
 
 export const EquipmentColumnsReduced = [
 
-  { field: "id", headerName: "ID", flex: "1"},
+  { field: "id", headerName: "ID", align: "center", width: "50"},
   {
     field: "type",
     headerName: "Tipo",
@@ -112,8 +113,8 @@ export const ServiceOrderColumns = (onDelete) => [
   {
     field: "actions",
     headerName: "",
-    align: "center",
-    flex: 1,
+    // align: "center",
+    // flex: 1,
     renderCell: (cellValues) => {
       return (
         <>
@@ -121,13 +122,13 @@ export const ServiceOrderColumns = (onDelete) => [
             //className={classes.iconButton}
             onClick={() => onDelete(cellValues.id)}
           >
-            <DeleteIcon />
+            <DeleteIcon/>
           </IconButton>
         </>
       );
     },
   },
-  { field: "id", headerName: "ID", flex: "1" },
+  { field: "id", headerName: "ID", align: "center", width: "50" },
   {
     field: "number",
     headerName: "Numero",
@@ -232,7 +233,7 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
       );
     },
   },
-  { field: "id", headerName: "ID"},
+  { field: "id", headerName: "ID", align: "center", width: "50"},
   {
     field: "number",
     headerName: "Numero",
@@ -277,7 +278,7 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
 ];
 
 export const TeamColumns  = [
-  { field: "id", headerName: "ID", flex: "1"},
+  { field: "id", headerName: "ID", align: "center", width: "50"},
   {
     field: "first_name",
     headerName: "Nome(s)",
