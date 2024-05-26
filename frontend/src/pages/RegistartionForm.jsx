@@ -182,7 +182,7 @@ const RegistrationForm = () =>{
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
+                type="password"
                 label="Senha"
                 onBlur={handleBlur}
                 onChange={handleChange}

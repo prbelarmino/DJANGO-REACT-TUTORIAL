@@ -28,6 +28,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   const colors = tokens(theme.palette.mode);
   return (
     <MenuItem
+      title={title}
       active={selected === title}
       style={{
         color: colors.grey[100],
@@ -161,14 +162,14 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0px 5px 5px" }}
             >
-              Dados
+              Cadastros
             </Typography>
             <Item
               title="Equipe"
               to="/team"
-              icon={<PeopleOutlinedIcon />}
+              icon={<PeopleOutlinedIcon/>}
               selected={selected}
               setSelected={setSelected}
             />
@@ -190,12 +191,12 @@ const Sidebar = () => {
               title="Calibrações"
               to="/calibrations"
               icon={<TuneOutlinedIcon />}
-              selected={selected}
+              selected={false}
               setSelected={setSelected}
             />
 
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
@@ -222,6 +223,7 @@ const Sidebar = () => {
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              disabled={true}
             />
 
             <Typography
@@ -258,7 +260,7 @@ const Sidebar = () => {
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
           </Box>
         </Menu>
       </ProSidebar>

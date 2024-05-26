@@ -76,16 +76,18 @@ class EquipmentListCreate(generics.ListCreateAPIView):
 
         if serializer.is_valid():
             serializer.save(added_by=self.request.user)
-        else:
-            print(serializer.errors)
-        
-        send_mail(
+            queryset = CustomUser.objects.get(id=self.request.user.id)
+            send_mail(
             'New Model Created',
             'A new instance of YourModel was created.',
             'rccliniceng@gmail.com',
-            ['pauloroquebelarmino@gmail.com'],
+            [queryset.email],
             fail_silently=False,
-        )
+            )
+        else:
+            print(serializer.errors)
+        
+        
 
 class EquipmentDelete(generics.DestroyAPIView):
     serializer_class = EquipmentSerializer
