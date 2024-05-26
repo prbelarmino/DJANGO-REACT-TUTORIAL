@@ -5,6 +5,7 @@ import CalibrationEquip from "../components/CalibrationEquip";
 import EquipmentRow from "../components/EquipmentRow";
 import { useNavigate, useSearchParams} from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
+import { formatDate } from '../components/dateUtils';
 
 function DetailedEquipment() {
 
@@ -30,8 +31,11 @@ function DetailedEquipment() {
         api
             .get('/api/serviceorders/',{ params: queryParams })
             .then((res) => {
-                //console.log(res.data)
-                setOrder(res.data);
+                const formattedData = res.data.map(item => ({
+                    ...item,
+                    created_at: formatDate(item.created_at) // Apply formatDate to format the date
+                  }));
+                setOrder(formattedData);
             })
             .catch((err) => alert(err));
     
@@ -56,7 +60,12 @@ function DetailedEquipment() {
         api
             .get('/api/calibrations/',{ params: queryParams })
             .then((res) => {
-                setCalibration(res.data);
+                const formattedData = res.data.map(item => ({
+                    ...item,
+                    created_at: formatDate(item.created_at), // Apply formatDate to format the date
+                    expiration: formatDate(item.expiration) 
+                }));
+                setCalibrations(formattedData);
             })
             .catch((err) => alert(err));
             

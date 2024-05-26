@@ -4,6 +4,7 @@ import {CalibrationColumns} from "../headers/ListHeaders"
 import { Box } from "@mui/material";
 import CustomList from "../components/CustomList";
 import Header from "../components/Header";
+import { formatDate } from '../components/dateUtils';
 
 function Calibration() {
 
@@ -18,8 +19,12 @@ function Calibration() {
         api
             .get('/api/calibrations/')
             .then((res) => {
-                //console.log(res.data)
-                setCalibrations(res.data);
+                const formattedData = res.data.map(item => ({
+                    ...item,
+                    created_at: formatDate(item.created_at), // Apply formatDate to format the date
+                    expiration: formatDate(item.expiration) 
+                }));
+                setCalibrations(formattedData);
             })
             .catch((err) => alert(err));
     };
