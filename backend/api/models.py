@@ -49,7 +49,7 @@ class Calibration(models.Model):
     executor = models.CharField(max_length=30)
     expiration = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
-    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="calibration")
+    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="calibrations")
     
     def __str__(self):
         return self.number

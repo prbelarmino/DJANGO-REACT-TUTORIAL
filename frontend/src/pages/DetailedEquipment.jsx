@@ -14,7 +14,7 @@ function DetailedEquipment() {
     const equip = JSON.parse(searchParams.get('equip'));
     const equip_id = equip.id;
     const [orders, setOrder] = useState([]);
-    const [calibrations, setCalibration] = useState([]);
+    const [calibrations, setCalibrations] = useState([]);
 
     useEffect(() => {
         getServiceOrder();

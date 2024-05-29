@@ -73,7 +73,7 @@ export const EquipmentColumnsReduced = [
     align: "center",
   },
   {
-    field: "author",
+    field: "added_by",
     headerName: "Adicionado por",
     headerAlign: "center",
     align: "center",

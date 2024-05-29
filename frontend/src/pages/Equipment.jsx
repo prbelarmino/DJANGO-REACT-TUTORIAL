@@ -4,7 +4,7 @@ import { tokens } from "../theme";
 import Header from "../components/Header";
 import UploadForm from "../components/UploadForm";
 import {EquipmentColumns} from "../headers/ListHeaders"
-import { useNavigate, createSearchParams} from 'react-router-dom';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import api from "../api";
 import { formatDate } from '../components/dateUtils';
@@ -30,7 +30,8 @@ function Equipment() {
                 ...item,
                 created_at: formatDate(item.created_at) // Apply formatDate to format the date
               }));
-              //console.log(formattedData)
+              
+              console.log(formattedData[0].calibration)
               setEquipments(formattedData);
           })
           .catch((err) => alert(err));

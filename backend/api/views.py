@@ -67,6 +67,13 @@ class EquipmentListCreate(generics.ListCreateAPIView):
         queryset = Equipment.objects.all()
         field = self.request.query_params.get('field')
         value = self.request.query_params.get('value')
+        query = Equipment.objects.get(id=48)
+        print(query.model)
+        calibrations =  query.calibrations.all()
+        print(len(calibrations))
+        for calibration in  calibrations:
+            print(calibration.requester)
+
         if field and value:
             queryset = queryset.filter(**{field: value})
         

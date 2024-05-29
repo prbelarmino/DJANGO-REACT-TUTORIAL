@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -41,17 +41,33 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     </MenuItem>
   );
 };
+const routeDictionary = {
+  '/': "Dashboard",
+  '/team': "Equipe",
+  '/equipments': "Equipamentos",
+  '/orders': "Ordem de Serviços",
+  '/calibrations': "Calibrações"
+};
 
 const Sidebar = () => {
   const theme = useTheme();
+  const location = useLocation();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  console.log(location.pathname)
+  const [selected, setSelected] = useState(routeDictionary[location.pathname]);
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [func, setFunction] = useState("");
 
+  // React.useEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+  //   params.set('count', count);
+  //   const newUrl = `${location.pathname}?${params.toString()}`;
+  //   window.history.replaceState({}, '', newUrl);
+  // }, [count, location.pathname]);
   useEffect(() => {
+     
     getUserInfo();
   }, []);
   const getUserInfo = () => {
@@ -191,7 +207,7 @@ const Sidebar = () => {
               title="Calibrações"
               to="/calibrations"
               icon={<TuneOutlinedIcon />}
-              selected={false}
+              selected={selected}
               setSelected={setSelected}
             />
 
