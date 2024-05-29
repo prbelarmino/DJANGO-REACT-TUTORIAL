@@ -94,8 +94,6 @@ class EquipmentListCreate(generics.ListCreateAPIView):
         else:
             print(serializer.errors)
         
-        
-
 class EquipmentDelete(generics.DestroyAPIView):
     serializer_class = EquipmentSerializer
     permission_classes = [IsAuthenticated]
