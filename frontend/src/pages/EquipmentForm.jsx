@@ -17,7 +17,7 @@ const EquipmentForm = () =>{
   const [loading, setLoading] = useState(false);
 
   const addEquipment = (values) => {
-
+    console.log(values)
     setLoading(true);
     api
       .post("/api/equipments/", {...values})
