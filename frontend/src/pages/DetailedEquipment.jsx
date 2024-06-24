@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams} from 'react-router-dom';
 import { formatDate } from '../components/dateUtils';
 import Typography from '@mui/material/Typography';
 import CardInfo from "../components/CardInfo";
-
+import EquipMetrics from "../components/EquipMetrics";
 
 function DetailedEquipment() {
 
@@ -103,12 +103,15 @@ function DetailedEquipment() {
         e.preventDefault();
         navigate("/create-so", { state: { attribute: equip } })
     };
-
+    
     return (
         <div>
             <Typography sx={{ fontSize: 30, m: "0px 0px 50px 20px"}} color="text.secondary" gutterBottom>
                     {equip.type} {equip.model}
             </Typography>
+            
+            <EquipMetrics/>
+            
             <CardInfo data={equip} keysToDisplay={EquipBasicInfo}/>
 
             <ServiceOrderEquip 
