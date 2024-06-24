@@ -24,7 +24,7 @@ function Calibration() {
                     created_at: formatDate(item.created_at), // Apply formatDate to format the date
                     expiration: formatDate(item.expiration) 
                 }));
-                setCalibrations(formattedData);
+                setCalibrations(res.data);
             })
             .catch((err) => alert(err));
     };

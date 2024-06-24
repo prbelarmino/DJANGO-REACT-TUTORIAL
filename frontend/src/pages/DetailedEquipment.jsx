@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import ServiceOrderEquip from "../components/ServiceOrderEquip";
 import CalibrationEquip from "../components/CalibrationEquip";
-import EquipmentRow from "../components/EquipmentRow";
 import { useNavigate, useSearchParams} from 'react-router-dom';
-import { Button, IconButton } from '@mui/material';
 import { formatDate } from '../components/dateUtils';
+import Typography from '@mui/material/Typography';
+import CardInfo from "../components/CardInfo";
+
 
 function DetailedEquipment() {
 
@@ -15,6 +16,7 @@ function DetailedEquipment() {
     const equip_id = equip.id;
     const [orders, setOrder] = useState([]);
     const [calibrations, setCalibrations] = useState([]);
+    const EquipBasicInfo = ["identification", "state", "type", "owner", "manufacturer"];
 
     useEffect(() => {
         getServiceOrder();
@@ -104,7 +106,10 @@ function DetailedEquipment() {
 
     return (
         <div>
-            <EquipmentRow rows={[equip]}/>
+            <Typography sx={{ fontSize: 30, m: "0px 0px 50px 20px"}} color="text.secondary" gutterBottom>
+                    {equip.type} {equip.model}
+            </Typography>
+            <CardInfo data={equip} keysToDisplay={EquipBasicInfo}/>
 
             <ServiceOrderEquip 
                 rows={orders} 

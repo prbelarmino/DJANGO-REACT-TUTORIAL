@@ -19,6 +19,7 @@ function CustomList({ rows, columns, height}) {
     <Box
         m="0 0 100px 0"
         height={height}
+        width="80vw"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",

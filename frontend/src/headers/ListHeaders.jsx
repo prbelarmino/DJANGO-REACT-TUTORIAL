@@ -86,19 +86,30 @@ export const EquipmentColumns = (onEdit,onDelete,onViewMore) => [
   {
     field: "actions",
     headerName: "",
-    width: "150",
+    //flex: "1",
+    width: "95",
+    //align: "center",
     renderCell: (cellValues) => {
       return (
         <>
-          <IconButton onClick={(event) => onEdit(event,cellValues)}>
+          <IconButton 
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
+            onClick={(event) => onEdit(event,cellValues)}
+          >
             <EditOutlinedIcon />
           </IconButton>
 
-          <IconButton onClick={(event) => onViewMore(event,cellValues)}>
+          <IconButton 
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
+            onClick={(event) => onViewMore(event,cellValues)}
+          >
             <VisibilityIcon />
           </IconButton>
 
-          <IconButton onClick={(event) => onDelete(event,cellValues)}>
+          <IconButton           
+            sx={{padding:"0px"}}
+            onClick={(event) => onDelete(event,cellValues)}
+          >
             <DeleteIcon />
           </IconButton>
         </>

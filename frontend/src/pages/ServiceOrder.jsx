@@ -23,7 +23,8 @@ function ServiceOrder() {
                     ...item,
                     created_at: formatDate(item.created_at) // Apply formatDate to format the date
                   }));
-                setOrder(formattedData);
+                  console.log(res)
+                setOrder(res.data);
             })
             .catch((err) => alert(err));
     };

@@ -31,7 +31,7 @@ function Equipment() {
                 created_at: formatDate(item.created_at) // Apply formatDate to format the date
               }));
               
-              console.log(formattedData[0].calibration)
+              //console.log(formattedData[0].calibration)
               setEquipments(formattedData);
           })
           .catch((err) => alert(err));
@@ -67,7 +67,7 @@ function Equipment() {
       }).toString()
     })
   };
-
+  
   return (
     <Box m="20px">
       <Header title="Equipamentos" subtitle="Lista de Equipamentos" />
@@ -117,6 +117,9 @@ function Equipment() {
             slots={{
               toolbar: GridToolbar,
             }}
+            hideFooterSelectedRowCount
+            rowHeight={30}
+            //sx={{ padding: "0px" }}
         />
       </Box>
     </Box>
