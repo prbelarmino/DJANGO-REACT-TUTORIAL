@@ -25,6 +25,7 @@ function Calibration() {
                     expiration: formatDate(item.expiration) 
                 }));
                 setCalibrations(res.data);
+                //console.log(res.data[0].equip);
             })
             .catch((err) => alert(err));
     };

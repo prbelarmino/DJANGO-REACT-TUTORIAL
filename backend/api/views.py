@@ -8,6 +8,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from django.http import HttpResponse
+import json
 #from .generate_dummy_data import generate_dummy_data
 # views.py
 import pandas as pd
@@ -64,15 +65,10 @@ class EquipmentListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
 
-        queryset = Equipment.objects.all()
+        #queryset = Equipment.objects.all()
+        queryset = Equipment.objects.select_related('added_by').all()
         field = self.request.query_params.get('field')
         value = self.request.query_params.get('value')
-        query = Equipment.objects.get(id=48)
-        print(query.model)
-        calibrations =  query.calibrations.all()
-        print(len(calibrations))
-        for calibration in  calibrations:
-            print(calibration.requester)
 
         if field and value:
             queryset = queryset.filter(**{field: value})
@@ -118,13 +114,13 @@ class ServiceOrderListCreate(generics.ListCreateAPIView):
         queryset = ServiceOrder.objects.all()
         #field = self.request.query_params.get('field')
         #value = self.request.query_params.get('value')
-        id = self.request.query_params.get('equip_id')
+        id = self.request.query_params.get('equip')
         # field_name = list(self.request.query_params.keys())[0]
         # value = self.request.query_params.get(field_name)
         # print(field_name,value)
         
         if id:
-            queryset = queryset.filter(**{"equip_id": id})
+            queryset = queryset.filter(**{"equip": id})
         
         return queryset
     
@@ -149,14 +145,20 @@ class CalibrationListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         
-        queryset = Calibration.objects.all()
+        #queryset = Calibration.objects.all()
+        queryset = Calibration.objects.select_related('equip').all()
         # field = self.request.query_params.get('field')
         # value = self.request.query_params.get('value')
-        id = self.request.query_params.get('equip_id')
-
+        id = self.request.query_params.get('equip')
         if id:
-            queryset = queryset.filter(**{"equip_id": id})
-        
+            queryset = queryset.filter(**{"equip": id})
+        #for query in queryset:
+        print(queryset.first().equip.owner)
+        serializer = CalibrationSerializer(queryset, many=True)
+
+        # Print the serialized data
+        serialized_data = serializer.data
+        print(json.dumps(serialized_data, indent=4))
         return queryset
     
     def perform_create(self, serializer):

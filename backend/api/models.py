@@ -37,7 +37,7 @@ class ServiceOrder(models.Model):
     title = models.CharField(max_length=30)
     issue_description = models.TextField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="order")
+    equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="order")
     
     def __str__(self):
         return self.number
@@ -49,7 +49,7 @@ class Calibration(models.Model):
     executor = models.CharField(max_length=30)
     expiration = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
-    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="calibrations")
+    equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="calibrations")
     
     def __str__(self):
         return self.number

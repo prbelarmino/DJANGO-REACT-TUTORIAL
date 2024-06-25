@@ -26,7 +26,7 @@ function DetailedEquipment() {
     const getServiceOrder = (event) => {
         // Define query parameter
         const queryParams = {
-            equip_id // Example equip_id value
+            equip // Example equip value
         // Add more parameters as needed
         };
         //console.log(queryParams)
@@ -38,6 +38,7 @@ function DetailedEquipment() {
                     created_at: formatDate(item.created_at) // Apply formatDate to format the date
                   }));
                 setOrder(formattedData);
+                console.log(res.data[0])
             })
             .catch((err) => alert(err));
     
@@ -54,9 +55,9 @@ function DetailedEquipment() {
     };
     const getCalibrations = () => {
    
-        const field = "equip_id";
+        const field = "equip";
         const queryParams = {
-            equip_id // Example equip_id value
+            equip_id // Example equip value
         // Add more parameters as needed
         };
         api
@@ -97,11 +98,11 @@ function DetailedEquipment() {
     };
     const addCalib = () => {
 
-        navigate("/add-calib", { state: { attribute: equip } })
+        navigate("/add-calib", { state: { attribute: equip_id } })
     };
     const createOrder = (e) => {
         e.preventDefault();
-        navigate("/create-so", { state: { attribute: equip } })
+        navigate("/create-so", { state: { attribute: equip_id } })
     };
     
     return (

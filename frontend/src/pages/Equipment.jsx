@@ -31,7 +31,7 @@ function Equipment() {
                 created_at: formatDate(item.created_at) // Apply formatDate to format the date
               }));
               
-              //console.log(formattedData[0].calibration)
+              console.log(data)
               setEquipments(formattedData);
           })
           .catch((err) => alert(err));

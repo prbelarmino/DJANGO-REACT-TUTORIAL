@@ -19,21 +19,24 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class EquipmentSerializer(serializers.ModelSerializer):
+    #added_by = UserSerializer(many=False)
     class Meta:
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
                   "identification", "serial_number","created_at", "added_by"]
-        extra_kwargs = {"added_by": {"read_only": True}}
+        #extra_kwargs = {"added_by": {"read_only": True}}
 
 class ServiceOrderSerializer(serializers.ModelSerializer):
+    equip = EquipmentSerializer(many=False)
     class Meta:
         model = ServiceOrder
         fields = ["id", "number", "state", "requester", "executor", "service_type", 
-                  "closed_at","priority","title", "issue_description", "created_at", "equip_id"]
+                  "closed_at","priority","title", "issue_description", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
 
 class CalibrationSerializer(serializers.ModelSerializer):
+    equip = EquipmentSerializer(many=False)
     class Meta:
         model = Calibration
-        fields = ["id","number","requester", "executor", "expiration", "created_at", "equip_id"]
+        fields = ["id","number","requester", "executor", "expiration", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
