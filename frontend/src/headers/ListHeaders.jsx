@@ -209,7 +209,7 @@ export const ServiceOrderColumns = (onDelete) => [
     //flex: 1,
   },
   {
-    field: "equip",
+    field: "equip.id",
     headerName: "Id do Equipamento",
     headerAlign: "center",
     align: "center",
@@ -280,7 +280,7 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     align: "center",
   },
   {
-    field: "equip",
+    field: "equip.id",
     headerName: "Id do Equipamento",
     headerAlign: "center",
     align: "center",
