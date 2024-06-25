@@ -213,8 +213,16 @@ export const ServiceOrderColumns = (onDelete) => [
     headerName: "Id do Equipamento",
     headerAlign: "center",
     align: "center",
-    width: "150"
+    width: "150",
     //flex: 1,
+    renderCell: (cellValues) => {
+      return (
+        <>
+          {cellValues.id}
+        </>
+      );
+    },
+  
   },
 ];
 
@@ -280,11 +288,18 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     align: "center",
   },
   {
-    field: "equip.id",
+    field: "equip",
     headerName: "Id do Equipamento",
     headerAlign: "center",
     align: "center",
     width: "130",
+    renderCell: (cellValues) => {
+      return (
+        <>
+          {cellValues.id}
+        </>
+      );
+    },
   },
 ];
 
