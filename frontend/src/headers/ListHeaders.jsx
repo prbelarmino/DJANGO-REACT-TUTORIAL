@@ -300,13 +300,13 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     headerAlign: "center",
     align: "center",
     width: "130",
-    renderCell: (cellValues) => {
-      return (
-        <>
-          {cellValues.formattedValue.type}
-        </>
-      );
-    },
+    // renderCell: (cellValues) => {
+    //   return (
+    //     <>
+    //       {cellValues.formattedValue.type} 
+    //     </>
+    //   );
+    // },
   },
 ];
 

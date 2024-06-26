@@ -36,7 +36,7 @@ class ServiceOrderSerializer(serializers.ModelSerializer):
         #extra_kwargs = {"equip_id": {"read_only": True}}
 
 class CalibrationSerializer(serializers.ModelSerializer):
-    equip = EquipmentSerializer(many=False)
+    #equip = EquipmentSerializer(many=False)
     class Meta:
         model = Calibration
         fields = ["id","number","requester", "executor", "expiration", "created_at", "equip"]
