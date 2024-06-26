@@ -108,19 +108,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'verceldb',
-#         'USER': 'default',
-#         'PASSWORD': '6dAi8ZncHkOr',
-#         'HOST': 'ep-wandering-frog-a21omeyv-pooler.eu-central-1.aws.neon.tech',
-#         'PORT': '5432',
-#     }
-# }
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

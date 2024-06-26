@@ -20,7 +20,7 @@ class Equipment(models.Model):
     identification = models.CharField(max_length=30)
     serial_number = models.CharField(max_length=30, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="equipment")
+    added_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="equipment")
 
     def __str__(self):
         return self.type

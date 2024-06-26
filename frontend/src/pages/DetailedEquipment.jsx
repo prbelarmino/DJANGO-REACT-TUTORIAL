@@ -16,7 +16,7 @@ function DetailedEquipment() {
     const equip_id = equip.id;
     const [orders, setOrder] = useState([]);
     const [calibrations, setCalibrations] = useState([]);
-    const EquipBasicInfo = ["identification", "state", "type", "owner", "manufacturer"];
+    const EquipBasicInfo = ["identification", "state", "type", "owner", "manufacturer", "added_by"];
 
     useEffect(() => {
         getServiceOrder();

@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class EquipmentSerializer(serializers.ModelSerializer):
-    #added_by = UserSerializer(many=False)
+    added_by = UserSerializer(many=False)
     class Meta:
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
@@ -27,7 +27,8 @@ class EquipmentSerializer(serializers.ModelSerializer):
         #extra_kwargs = {"added_by": {"read_only": True}}
 
 class ServiceOrderSerializer(serializers.ModelSerializer):
-    equip = EquipmentSerializer(many=False)
+    # It takes too long to respond, it leads to gateway error 504 
+    #equip = EquipmentSerializer(many=False)
     class Meta:
         model = ServiceOrder
         fields = ["id", "number", "state", "requester", "executor", "service_type", 

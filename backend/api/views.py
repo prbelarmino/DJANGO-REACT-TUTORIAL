@@ -112,13 +112,8 @@ class ServiceOrderListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         
         queryset = ServiceOrder.objects.all()
-        #field = self.request.query_params.get('field')
-        #value = self.request.query_params.get('value')
         id = self.request.query_params.get('equip')
-        # field_name = list(self.request.query_params.keys())[0]
-        # value = self.request.query_params.get(field_name)
-        # print(field_name,value)
-        
+
         if id:
             queryset = queryset.filter(**{"equip": id})
         
@@ -153,12 +148,10 @@ class CalibrationListCreate(generics.ListCreateAPIView):
         if id:
             queryset = queryset.filter(**{"equip": id})
         #for query in queryset:
-        print(queryset.first().equip.owner)
         serializer = CalibrationSerializer(queryset, many=True)
 
         # Print the serialized data
         serialized_data = serializer.data
-        print(json.dumps(serialized_data, indent=4))
         return queryset
     
     def perform_create(self, serializer):

@@ -78,6 +78,13 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "130",
+    renderCell: (cellValues) => {
+      return (
+        <>
+          {cellValues.formattedValue.first_name} {cellValues.formattedValue.last_name}
+        </>
+      );
+    },
   },
 ];
 
@@ -289,14 +296,14 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
   },
   {
     field: "equip",
-    headerName: "Id do Equipamento",
+    headerName: "Equipamento",
     headerAlign: "center",
     align: "center",
     width: "130",
     renderCell: (cellValues) => {
       return (
         <>
-          {cellValues.id}
+          {cellValues.formattedValue.type}
         </>
       );
     },

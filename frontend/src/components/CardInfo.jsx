@@ -52,7 +52,8 @@ function CardInfo({ data, keysToDisplay}) {
                   {EquipmentDictionary[item]}:
                 </Typography>
                 <Typography>
-                  {data[item]}
+                  {item == "added_by" ? data[item].first_name + " " +
+                   data[item].last_name : data[item]}
                 </Typography>
               </Box>
             ))}
