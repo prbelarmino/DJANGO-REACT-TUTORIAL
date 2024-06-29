@@ -11,7 +11,7 @@
         }
     ],
     "functions": {
-        "backend/api/**/*": {
+        "api/*": {
             "maxDuration": 60
         }
     }
