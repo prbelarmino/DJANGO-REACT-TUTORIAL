@@ -9,5 +9,10 @@
             "src": "/(.*)",
             "dest": "backend/wsgi.py"
         }
-    ]
+    ],
+    "functions": {
+    "backend/api/**/*": {
+      "maxDuration": 60
+    }
+  }
 }
