@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class EquipmentSerializer(serializers.ModelSerializer):
 
-    added_by = UserSerializer(many=False)
+    #added_by = UserSerializer(many=False)
     owner = LocationSerializer(many=False)
     class Meta:
         model = Equipment
