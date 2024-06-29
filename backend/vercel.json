@@ -10,9 +10,14 @@
             "dest": "backend/wsgi.py"
         }
     ],
-    "functions": {
-    "backend/api/**/*": {
-      "maxDuration": 60
-    }
+    "functions": [
+        {
+            "backend/api/**/*": [
+                {
+                    "maxDuration": 60
+                }
+            ]
+        }
+        ]
   }
 }
