@@ -26,13 +26,7 @@ function Equipment() {
           .then((res) => res.data)
           .then((data) => {
               const sortedData = data.sort((b, a) => a.id - b.id); // Sort by ID
-              const formattedData = sortedData.map(item => ({
-                ...item,
-                created_at: formatDate(item.created_at) // Apply formatDate to format the date
-              }));
-              
-              console.log(data)
-              setEquipments(formattedData);
+              setEquipments(sortedData);
           })
           .catch((err) => alert(err));
   };

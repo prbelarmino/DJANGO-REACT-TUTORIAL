@@ -125,6 +125,12 @@ class ServiceOrderListCreate(generics.ListCreateAPIView):
         else:
             print(serializer.errors)
 
+class ServiceOrderUpdate(generics.UpdateAPIView):
+
+    queryset = ServiceOrder.objects.all()
+    serializer_class = ServiceOrderSerializer
+    permission_classes = [IsAuthenticated]
+    
 class ServiceOrderDelete(generics.DestroyAPIView):
     serializer_class = ServiceOrderSerializer
     permission_classes = [IsAuthenticated]
@@ -144,14 +150,13 @@ class CalibrationListCreate(generics.ListCreateAPIView):
         queryset = Calibration.objects.select_related('equip').all()
         # field = self.request.query_params.get('field')
         # value = self.request.query_params.get('value')
-        id = self.request.query_params.get('equip')
+        
+        id = self.request.query_params.get('equip_id')
         if id:
+            
+            #print(queryset.first().equip.id)
             queryset = queryset.filter(**{"equip": id})
-        #for query in queryset:
-        serializer = CalibrationSerializer(queryset, many=True)
-
-        # Print the serialized data
-        serialized_data = serializer.data
+            
         return queryset
     
     def perform_create(self, serializer):
@@ -185,6 +190,7 @@ class CreateUserView(generics.ListCreateAPIView):
         return queryset
     
 def generate_pdf(request, equipment_id):
+
     try:
         # Get the equipment instance with the specified ID
         calibration_instance = Calibration.objects.get(pk=equipment_id)
@@ -218,3 +224,69 @@ def generate_pdf(request, equipment_id):
     doc.build(elements)
 
     return response
+
+class ClientListCreate(generics.ListCreateAPIView):
+
+    serializer_class = ClientSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        queryset = Client.objects.all()
+        field = self.request.query_params.get('field')
+        value = self.request.query_params.get('value')
+
+        if field and value:
+            queryset = queryset.filter(**{field: value})
+        
+        return queryset
+    
+    def perform_create(self, serializer):
+
+        if serializer.is_valid():
+            serializer.save()
+            
+        else:
+            print(serializer.errors)
+        
+class ClientDelete(generics.DestroyAPIView):
+    serializer_class = ClientSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        return Client.objects
+    
+class LocationListCreate(generics.ListCreateAPIView):
+
+    serializer_class = LocationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        #queryset = Equipment.objects.all()
+        queryset = Location.objects.select_related('client').all()
+        field = self.request.query_params.get('field')
+        value = self.request.query_params.get('value')
+
+        if field and value:
+            queryset = queryset.filter(**{field: value})
+        
+        return queryset
+    
+    def perform_create(self, serializer):
+
+        if serializer.is_valid():
+            serializer.save()
+            
+        else:
+            print(serializer.errors)
+        
+class LocationDelete(generics.DestroyAPIView):
+    serializer_class = LocationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        return Location.objects
+    

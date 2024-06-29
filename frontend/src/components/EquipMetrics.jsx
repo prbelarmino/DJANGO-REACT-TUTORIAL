@@ -5,7 +5,7 @@ import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import CircularProgressWithLabel from "./CircularProgressWithLabel";
 import CircularProgress from '@mui/material/CircularProgress';
 
-function EquipMetrics({ data}) {
+function EquipMetrics({ data, mtbf}) {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -89,7 +89,7 @@ function EquipMetrics({ data}) {
       >
         <Box  display="flex" sx={{ marginBottom: '30px', alignItems: 'flex-end' }}>
           <Typography variant="h8">
-            0 dia(s) 
+            {mtbf.daysString} 
           </Typography>
           <Typography 
             //variant="h1" 
@@ -98,7 +98,7 @@ function EquipMetrics({ data}) {
               fontSize: '60px', 
               color: colors.greenAccent[500]
             }}>
-            00:00:00
+            {mtbf.timeString} 
           </Typography>
         </Box>
         <Typography variant="h4" align="center">

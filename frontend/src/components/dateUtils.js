@@ -15,3 +15,40 @@ export function formatDate(dateString) {
   
     return formattedDate;
   }
+
+export function divideDateByInteger(dateString, divisor) {
+  // Passo 1: Converter a string de data em um objeto Date
+  let daysString = "0 dia(s)"
+  let timeString = "00:00:00"
+
+  if (divisor > 0){
+
+    const date = new Date(dateString);
+
+    // Passo 2: Calcular o timestamp em milissegundos e dividir pelo divisor
+    
+    const timestamp = date.getTime();
+    const dividedTimestamp = timestamp / divisor;
+  
+    // Passo 3: Converter o timestamp dividido de volta para um objeto Date
+    const dividedDate = new Date(dividedTimestamp);
+  
+    // Passo 4: Calcular os dias, horas, minutos e segundos
+    const days = Math.floor(dividedTimestamp / (1000 * 60 * 60 * 24));
+    const hours = dividedDate.getUTCHours();
+    const minutes = dividedDate.getUTCMinutes();
+    const seconds = dividedDate.getUTCSeconds();
+    console.log(date)
+
+    console.log(dividedDate)
+    console.log(days)
+    // Passo 5: Formatar as variáveis de saída
+    daysString = `${days} dia(s)`;
+    timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  
+  }
+  return {daysString, timeString}
+}
+
+
+  

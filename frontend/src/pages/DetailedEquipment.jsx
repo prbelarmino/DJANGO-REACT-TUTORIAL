@@ -3,10 +3,10 @@ import api from "../api";
 import ServiceOrderEquip from "../components/ServiceOrderEquip";
 import CalibrationEquip from "../components/CalibrationEquip";
 import { useNavigate, useSearchParams} from 'react-router-dom';
-import { formatDate } from '../components/dateUtils';
 import Typography from '@mui/material/Typography';
 import CardInfo from "../components/CardInfo";
 import EquipMetrics from "../components/EquipMetrics";
+import {divideDateByInteger} from "../components/dateUtils";
 
 function DetailedEquipment() {
 
@@ -15,6 +15,9 @@ function DetailedEquipment() {
     const equip = JSON.parse(searchParams.get('equip'));
     const equip_id = equip.id;
     const [orders, setOrder] = useState([]);
+    const [mtbf, setMTBF] = useState([
+        { daysString: "0 dia(s)", timeString: '00:00:00'}
+      ]);
     const [calibrations, setCalibrations] = useState([]);
     const EquipBasicInfo = ["identification", "state", "type", "owner", "manufacturer", "added_by"];
 
@@ -33,12 +36,7 @@ function DetailedEquipment() {
         api
             .get('/api/serviceorders/',{ params: queryParams })
             .then((res) => {
-                const formattedData = res.data.map(item => ({
-                    ...item,
-                    created_at: formatDate(item.created_at) // Apply formatDate to format the date
-                  }));
-                setOrder(formattedData);
-                console.log(res.data[0])
+                setOrder(res.data);
             })
             .catch((err) => alert(err));
     
@@ -63,12 +61,9 @@ function DetailedEquipment() {
         api
             .get('/api/calibrations/',{ params: queryParams })
             .then((res) => {
-                const formattedData = res.data.map(item => ({
-                    ...item,
-                    created_at: formatDate(item.created_at), // Apply formatDate to format the date
-                    expiration: formatDate(item.expiration) 
-                }));
-                setCalibrations(formattedData);
+                setCalibrations(res.data);
+                const value = divideDateByInteger(equip.created_at,res.data.length)
+                setMTBF(value)
             })
             .catch((err) => alert(err));
             
@@ -111,7 +106,7 @@ function DetailedEquipment() {
                     {equip.type} {equip.model}
             </Typography>
             
-            <EquipMetrics/>
+            <EquipMetrics mtbf={mtbf} />
             
             <CardInfo data={equip} keysToDisplay={EquipBasicInfo}/>
 

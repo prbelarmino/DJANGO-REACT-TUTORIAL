@@ -1,21 +1,23 @@
 functions_options = ["Técnico", "Supervisor", "Gerente"]
 functions_weights = [25, 5, 1]
-location_options = ["Aracaju", "Salvador"]
-location_weights = [1, 7]
-location_options = ["Aracaju", "Salvador"]
-location_weights = [1, 7]
 location_weights = [1, 7]
 service_type_options = ["CORRETIVA", "PREVENTIVA"]
 service_type_weights = [5, 1]
 
-hospitals = [
-    "HOSPITAL SÃO RAFAEL",
-    "HOSPITAL GERAL ROBERTO SANTOS",
-    "HOSPITAL SANTA ISABEL",
-    "HOSPITAL PORTUGUÊS",
-    "HOSPITAL ERNESTO SIMÕES FILHO",
-    "HUSE"
+company_names = [
+    "VitalCare Consultoria Hospitalar",
+    "MediSoluções Gestão Hospitalar",
+    "InovaSaúde Consultoria e Gestão"
 ]
+location_options = [{"city": "Aracaju", "state": "Sergipe", 
+                     "hospitals":["HUSE","HOSPITAL PRIMAVERA"]}, 
+                     {"city": "Salvador", "state": "Bahia", 
+                     "hospitals":["HOSPITAL SÃO RAFAEL",
+                        "HOSPITAL GERAL ROBERTO SANTOS",
+                        "HOSPITAL SANTA ISABEL",
+                        "HOSPITAL PORTUGUÊS",
+                        "HOSPITAL ERNESTO SIMÕES FILHO"]}]
+
 
 equip_dict = {
     "MONITORES DE PACIENTE": {

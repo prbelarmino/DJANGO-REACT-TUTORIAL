@@ -6,6 +6,7 @@ import { IconButton } from '@mui/material';
 import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'; 
+import { formatDate } from '../components/dateUtils';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import ExpandCellRenderer from './ExpandCells';
 
@@ -39,6 +40,13 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "200",
+    renderCell: (cellValues) => {
+      return (
+        <>
+          {cellValues.formattedValue.name} 
+        </>
+      );
+    },
   },
   {
     field: "model",
@@ -71,6 +79,13 @@ export const EquipmentColumnsReduced = [
     headerName: "Adicionado em",
     headerAlign: "center",
     align: "center",
+    renderCell: (cellValues) => {
+      return (
+        <>
+        {formatDate(cellValues.formattedValue)}
+        </>
+      );
+    },
   },
   {
     field: "added_by",
@@ -188,10 +203,17 @@ export const ServiceOrderColumns = (onDelete) => [
   },
   {
     field: "closed_at",
-    headerName: "Fechado em",
+    headerName: "Fechada em",
     headerAlign: "center",
     align: "center",
     //flex: 1,
+    renderCell: (cellValues) => {
+      return (
+        <>
+        {formatDate(cellValues.formattedValue)}
+        </>
+      );
+    },
   },
   {
     field: "title",
@@ -210,10 +232,17 @@ export const ServiceOrderColumns = (onDelete) => [
   },
   {
     field: "created_at",
-    headerName: "Adicionado em",
+    headerName: "Aberta em",
     headerAlign: "center",
     align: "center",
     //flex: 1,
+    renderCell: (cellValues) => {
+      return (
+        <>
+        {formatDate(cellValues.formattedValue)}
+        </>
+      );
+    },
   },
   {
     field: "equip.id",
@@ -287,12 +316,26 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     headerName: "Validade",
     headerAlign: "center",
     align: "center",
+    renderCell: (cellValues) => {
+      return (
+        <>
+        {formatDate(cellValues.formattedValue)}
+        </>
+      );
+    },
   },
   {
     field: "created_at",
     headerName: "Adicionado em",
     headerAlign: "center",
     align: "center",
+    renderCell: (cellValues) => {
+      return (
+        <>
+        {formatDate(cellValues.formattedValue)}
+        </>
+      );
+    },
   },
   {
     field: "equip",
@@ -353,8 +396,8 @@ export const TeamColumns  = [
     align: "center",
   },
   {
-    field: "age",
-    headerName: "Idade",
+    field: "birth_date",
+    headerName: "Data de Nascimento",
     headerAlign: "center",
     align: "center",
   },
@@ -365,4 +408,148 @@ export const TeamColumns  = [
     align: "center",
   },
   
+];
+
+export const ClientColumns  = (onDelete) => [
+
+  {
+    field: "actions",
+    headerName: "",
+    renderCell: (cellValues) => {
+      return (
+        <>
+          <IconButton
+            //className={classes.iconButton}
+            onClick={() => onDelete(cellValues.id)}
+          >
+            <DeleteIcon />
+
+          </IconButton>
+        </>
+      );
+    },
+  },
+  { field: "id", headerName: "ID", align: "center", width: "50"},
+  {
+    field: "name",
+    headerName: "Nome",
+    headerAlign: "center",
+    align: "center",
+    //cellClassName: "name-column--cell",
+  },
+  {
+    field: "cnpj",
+    headerName: "CNPJ",
+    type: "string",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "contract_number",
+    headerName: "Número do Contrato",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+];
+
+export const LocationColumns  = (onDelete) => [
+
+  {
+    field: "actions",
+    headerName: "",
+    renderCell: (cellValues) => {
+      return (
+        <>
+          <IconButton
+            //className={classes.iconButton}
+            onClick={() => onDelete(cellValues.id)}
+          >
+            <DeleteIcon />
+
+          </IconButton>
+        </>
+      );
+    },
+  },
+  { field: "id", headerName: "ID", align: "center", width: "50"},
+  {
+    field: "name",
+    headerName: "Nome",
+    headerAlign: "center",
+    align: "center",
+    //cellClassName: "name-column--cell",
+  },
+  {
+    field: "supervisor",
+    headerName: "Responsável",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "phone_number",
+    headerName: "Telefone",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "street",
+    headerName: "Rua",
+    type: "string",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "number",
+    headerName: "Número",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "neighborhood",
+    headerName: "Bairro",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "cep",
+    headerName: "CEP",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "city",
+    headerName: "Cidade",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "state",
+    headerName: "Estado",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+  },
+  {
+    field: "client",
+    headerName: "Client",
+    headerAlign: "center",
+    align: "center",
+    width: "150",
+    renderCell: (cellValues) => {
+      return (
+        <>
+          {cellValues.formattedValue.name} 
+        </>
+      );
+    },
+  },
 ];

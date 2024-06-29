@@ -183,6 +183,13 @@ const Sidebar = () => {
               Cadastros
             </Typography>
             <Item
+              title="Clientes"
+              to="/clients"
+              icon={<PersonOutlinedIcon/>}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Equipe"
               to="/team"
               icon={<PeopleOutlinedIcon/>}

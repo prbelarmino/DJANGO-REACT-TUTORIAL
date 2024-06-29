@@ -2,13 +2,25 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import *
 
+class ClientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Client
+        fields = ["id","name","cnpj", "contract_number"]
+
+class LocationSerializer(serializers.ModelSerializer):
+
+    client = ClientSerializer(many=False)
+    class Meta:
+        model = Location
+        fields = ["id","name", "supervisor", "phone_number", "street", "number", "neighborhood", "cep", "city", "state", "client"]
 
 class UserSerializer(serializers.ModelSerializer):
     #Meta class define how the class behave
     class Meta:
         model = CustomUser
         fields = ["id","first_name", "last_name", "email", "function", "phone_number", 
-                  "matriculation", "age", "location", "username", "password"]
+                  "matriculation", "birth_date", "location","date_joined", "username", "password"]
         #Only allow write the password but it cannot be requested
         extra_kwargs = {"username": {"write_only": True}, "password": {"write_only": True}}
 
@@ -19,7 +31,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class EquipmentSerializer(serializers.ModelSerializer):
+
     added_by = UserSerializer(many=False)
+    owner = LocationSerializer(many=False)
     class Meta:
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
@@ -41,3 +55,4 @@ class CalibrationSerializer(serializers.ModelSerializer):
         model = Calibration
         fields = ["id","number","requester", "executor", "expiration", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
+

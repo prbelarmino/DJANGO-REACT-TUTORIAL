@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import RegistartionForm from "./pages/RegistartionForm"
 import Home from "./pages/Home"
+import Clients from "./pages/Clients"
 import Equipment from "./pages/Equipment"
 import EquipmentForm from "./pages/EquipmentForm"
 import EquipmentEdition from "./pages/EquipmentEdition"
@@ -81,6 +82,16 @@ function App() {
                 <ProtectedRoute>
                   <Layout >
                     <ServiceOrderForm />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clients"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <Clients />
                   </Layout>
                 </ProtectedRoute>
               }

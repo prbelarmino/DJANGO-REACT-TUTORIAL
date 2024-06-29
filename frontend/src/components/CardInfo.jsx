@@ -5,10 +5,27 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import {EquipmentDictionary} from "../headers/ModelDictionaries"
 
+
 function CardInfo({ data, keysToDisplay}) {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  function displayValue(dataArray, item){
+    let value = "";
+    if (item == "added_by"){
+      value = dataArray[item].first_name + " " + dataArray[item].last_name;
+    }
+    else if (item == "owner"){
+      value = dataArray[item].name
+    }
+    else{
+      value = dataArray[item]
+    }
+
+    return value
+  
+  }
   return (
     <Box sx={{m: "30px 0 70px 20px", width: '500px' }}>
       <Typography 
@@ -52,8 +69,7 @@ function CardInfo({ data, keysToDisplay}) {
                   {EquipmentDictionary[item]}:
                 </Typography>
                 <Typography>
-                  {item == "added_by" ? data[item].first_name + " " +
-                   data[item].last_name : data[item]}
+                  {displayValue(data,item)}
                 </Typography>
               </Box>
             ))}

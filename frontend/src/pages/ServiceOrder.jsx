@@ -19,10 +19,6 @@ function ServiceOrder() {
         api
             .get('/api/serviceorders/')
             .then((res) => {
-                const formattedData = res.data.map(item => ({
-                    ...item,
-                    created_at: formatDate(item.created_at) // Apply formatDate to format the date
-                  }));
                 console.log(res.data)
                 setOrder(res.data);
             })
