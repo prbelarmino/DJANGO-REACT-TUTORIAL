@@ -178,6 +178,9 @@ const ServiceOrderForm = () =>{
                 />
                 <TextField
                     fullWidth
+                    multiline
+                    rows={4}
+                    inputProps={{ maxLength: 30 }}
                     variant="filled"
                     type="text"
                     label="Descrição do Problema"

@@ -54,7 +54,6 @@ const Sidebar = () => {
   const location = useLocation();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  console.log(location.pathname)
   const [selected, setSelected] = useState(routeDictionary[location.pathname]);
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");

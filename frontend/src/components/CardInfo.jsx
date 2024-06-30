@@ -43,11 +43,12 @@ function CardInfo({ data, keysToDisplay, dictionary}) {
           Dados Básicos
       </Typography>
       <Card 
+        variant="filled"
         sx={{
           minWidth: 275, 
-          borderTopLeftRadius: -5, 
-          borderTopRightRadius: 0, 
-          backgroundColor: theme.palette.background.default,
+          borderTopLeftRadius: 0, 
+          borderRadius: -5, 
+          backgroundColor: theme.palette.primary.shadow,
           }}
         >
           <CardContent sx={{

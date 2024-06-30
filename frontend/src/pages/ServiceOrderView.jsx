@@ -17,6 +17,7 @@ function ServiceOrderView() {
     const [loading, setLoading] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const order = JSON.parse(searchParams.get('order'));
+    console.log(order)
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const orderBasicInfo = ["number", "state", "requester", "executor", "service_type", "issue_description"];
 
@@ -24,14 +25,11 @@ function ServiceOrderView() {
     const editServiceOrder = async (values) => {
 
         setLoading(true);
-        
-        
         //e.preventDefault();
         try {
     
             const closed_at = new Date();
             const state = "FECHADA";
-            console.log(values)
             const res = await api.put(`/api/serviceorders/${order.id}/`, { ...values, state, closed_at})
             alert("ServiceOrder updated!");
             navigate("/orders")
@@ -74,20 +72,19 @@ function ServiceOrderView() {
                                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
                             }}
                             >
-                                
-                                <Field
-                                
+                                <TextField
                                     variant="filled"
-                                    as="textarea"
+                                    multiline
+                                    rows={4}
+                                    inputProps={{ maxLength: 30 }}
                                     label="Descrição do Problema"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.issue_description}
                                     name="issue_description"
-                          
                                     style={{height: '100px', 
-                                            backgroundColor: theme.palette.background.default, 
-                                            color: theme.palette.text.primary
+                                            //backgroundColor: theme.palette.primary.shadow, 
+                                            //color: theme.palette.text.primary
                                         }}
                                 />
                             </Box>
@@ -116,14 +113,6 @@ const phoneRegExp =
 
 
 const checkoutSchema = yup.object().shape({
-    number: yup.string().required("required"),
-    state: yup.string().required("required"),
-    requester: yup.string().required("required"),
-    executor: yup.string().required("required"),
-    service_type: yup.string().required("required"),
-    closed_at: yup.string().required("required"),
-    priority: yup.string().required("required"),
-    title: yup.string().required("required"),
     issue_description: yup.string().required("required"),
 });
 export default ServiceOrderView;

@@ -102,7 +102,7 @@ const EquipmentForm = () =>{
                 name="owner"
                 error={!!touched.owner && !!errors.owner}
                 helperText={touched.owner && errors.owner}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 4"}}
               />
               <TextField
                 fullWidth

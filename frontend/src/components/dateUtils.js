@@ -1,6 +1,9 @@
 
 export function formatDate(dateString) {
     // Parse the date string
+    if (dateString == null){
+      return ""
+    }
     const parsedDate = new Date(dateString);
   
     // Format the date
