@@ -141,11 +141,12 @@ export const EquipmentColumns = (onEdit,onDelete,onViewMore) => [
   ...EquipmentColumnsReduced,
 ];
 
-export const ServiceOrderColumns = (onDelete) => [
+export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
 
   {
     field: "actions",
     headerName: "",
+    width: "105",
     // align: "center",
     // flex: 1,
     renderCell: (cellValues) => {
@@ -156,6 +157,20 @@ export const ServiceOrderColumns = (onDelete) => [
             onClick={() => onDelete(cellValues.id)}
           >
             <DeleteIcon/>
+          </IconButton>
+
+          <IconButton 
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
+            onClick={(event) => onEdit(event,cellValues)}
+          >
+            <EditOutlinedIcon />
+          </IconButton>
+
+          <IconButton 
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
+            onClick={(event) => onViewMore(event,cellValues)}
+          >
+            <VisibilityIcon />
           </IconButton>
         </>
       );
@@ -245,19 +260,19 @@ export const ServiceOrderColumns = (onDelete) => [
     },
   },
   {
-    field: "equip.id",
-    headerName: "Id do Equipamento",
+    field: "equip",
+    headerName: "Equipamento",
     headerAlign: "center",
     align: "center",
     width: "150",
     //flex: 1,
-    renderCell: (cellValues) => {
-      return (
-        <>
-          {cellValues.id}
-        </>
-      );
-    },
+    // renderCell: (cellValues) => {
+    //   return (
+    //     <>
+    //       {cellValues.id}
+    //     </>
+    //   );
+    // },
   
   },
 ];

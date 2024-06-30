@@ -1,48 +1,88 @@
-import { Box, Button, TextField, MenuItem, useTheme } from "@mui/material";
+import { Box, Button, Grid, TextField, MenuItem, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { tokens } from "../theme";
+import { useEffect, useState } from "react";
 
-//function ServiceOrderForm(){
-const ServiceOrderForm = () =>{
+//function ServiceOrderEdition(){
+const ServiceOrderEdition = () =>{
   
-    const theme = useTheme();
-    const navigate = useNavigate();
-    const location = useLocation();
-    const equip = location.state.attribute;
-    const isNonMobile = useMediaQuery("(min-width:600px)");
-    const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [loading, setLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const data = JSON.parse(searchParams.get('order'));
+  const [team, setTeam] = useState([]);
 
-  const handleSubmit = (values) => {
+  const initialValues = {
+    number: data.number,
+    state: data.state,
+    requester: data.requester,
+    executor: data.executor || "",
+    service_type: data.service_type,
+    closed_at: data.closed_at || "",
+    priority: data.priority,
+    title: data.title,
+    issue_description: data.issue_description,
+    created_at: data.created_at,
+    equip: data.equip,
+  };
+  useEffect(() => {
+    getTeam();
+  }, []);
+
+  const editServiceOrder = async (values) => {
+
     setLoading(true);
-    console.log( {...values, equip})
+    
+    let sentValues = values;
+    //e.preventDefault();
+    try {
+        // Need to improve the database dont accept "" for datefield, and formik dont accept null
+        if (sentValues.executor == ""){
+          sentValues.executor = null;
+        }
+        if (sentValues.closed_at == ""){
+          sentValues.closed_at = null;
+        }
+        const res = await api.put(`/api/serviceorders/${data.id}/`, { ...sentValues})
+        alert("ServiceOrder updated!");
+        navigate("/orders")
+        
+    } catch (error) {
+        alert(error)
+    } finally {
+        setLoading(false)
+    }
+  };
+
+  const getTeam = (event) => {
+    // Define query parameter
+    const queryParams = {
+        field: "function",
+        value: "Técnico",
+      // Add more parameters as needed
+    };
+    //console.log(queryParams)
     api
-        .post("/api/serviceorders/", {...values, equip})
+        .get('/api/user/register/',{ params: queryParams })
         .then((res) => {
-            
-            if (res.status === 201)
-            {
-                alert("Service Order Created!");
-                navigate("/orders", { state: { attribute: equip } })
-            } 
-            else alert("Failed to create Calibratrion");
+          setTeam(res.data);
+          console.log(team)
         })
         .catch((err) => alert(err));
-        setLoading(false);
-        
-    };
 
-
+};
   return (
     <Box m="20px">
-      
-      <Header title="Adicionar Ordem de Serviço" subtitle="Formulario para adicionar Ordem de Serviço no sistema" />
+      <Header title="Editar Ordem de Serviço" subtitle="Formulario para editar Ordem de Serviço" />
       <Formik
-        onSubmit={handleSubmit}
+        onSubmit={editServiceOrder}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
       >
@@ -106,7 +146,7 @@ const ServiceOrderForm = () =>{
                     helperText={touched.requester && errors.requester}
                     sx={{ gridColumn: "span 4" }}
                 />
-                {/* <TextField
+                <TextField
                     fullWidth
                     variant="filled"
                     type="text"
@@ -118,7 +158,14 @@ const ServiceOrderForm = () =>{
                     error={!!touched.executor && !!errors.executor}
                     helperText={touched.executor && errors.executor}
                     sx={{ gridColumn: "span 4" }}
-                /> */}
+                    select
+                    >
+                    {team.map((option, index) => (
+                      <MenuItem key={index} value={option.first_name + " " + option.last_name}>
+                        {option.first_name + " " + option.last_name}
+                      </MenuItem>
+                    ))}
+                  </TextField> 
                 <TextField
                     fullWidth
                     variant="filled"
@@ -137,7 +184,7 @@ const ServiceOrderForm = () =>{
                     <MenuItem value="CALIBRAÇÃO">Calibração</MenuItem>
                     <MenuItem value="PREVENTIVA">Preventiva</MenuItem>
                   </TextField> 
-                {/* <TextField
+                <TextField
                     fullWidth
                     variant="filled"
                     type="text"
@@ -149,7 +196,7 @@ const ServiceOrderForm = () =>{
                     error={!!touched.closed_at && !!errors.closed_at}
                     helperText={touched.closed_at && errors.closed_at}
                     sx={{ gridColumn: "span 4" }}
-                /> */}
+                />
                 <TextField
                     fullWidth
                     variant="filled"
@@ -197,9 +244,10 @@ const ServiceOrderForm = () =>{
                       variant="contained"
                       disabled={loading}
               >
-                Criar
+                Editar
               </Button>
             </Box>
+
           </form>
         )}
       </Formik>
@@ -210,7 +258,8 @@ const ServiceOrderForm = () =>{
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
-const checkoutSchema = yup.object().shape({
+
+  const checkoutSchema = yup.object().shape({
     number: yup.string().required("required"),
     state: yup.string().required("required"),
     requester: yup.string().required("required"),
@@ -221,17 +270,6 @@ const checkoutSchema = yup.object().shape({
     title: yup.string().required("required"),
     issue_description: yup.string().required("required"),
 });
-const initialValues = {
-    number: "",
-    state: "",
-    requester: "",
-    //executor: "",
-    service_type: "",
-    //closed_at: "",
-    priority: "",
-    title: "",
-    issue_description: "",
-    equip: "",
-};
 
-export default ServiceOrderForm;
+
+export default ServiceOrderEdition;

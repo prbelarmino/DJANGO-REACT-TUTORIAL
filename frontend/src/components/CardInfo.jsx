@@ -3,10 +3,8 @@ import { tokens } from "../theme";
 import Header from "./Header";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import {EquipmentDictionary} from "../headers/ModelDictionaries"
 
-
-function CardInfo({ data, keysToDisplay}) {
+function CardInfo({ data, keysToDisplay, dictionary}) {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -66,7 +64,7 @@ function CardInfo({ data, keysToDisplay}) {
                     minWidth: '100px'
                   }}
                 >
-                  {EquipmentDictionary[item]}:
+                  {dictionary[item]}:
                 </Typography>
                 <Typography>
                   {displayValue(data,item)}

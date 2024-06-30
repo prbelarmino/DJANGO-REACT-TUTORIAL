@@ -10,3 +10,17 @@ export const EquipmentDictionary = {
   created_at: "Adicionado em",
   added_by: "Adicionado por"
 };
+
+export const OrderDictionary = {
+  number: "Número",
+  state: "Estado",
+  requester: "Solicitante",
+  executor: "Técnico Executor",
+  service_type: "Tipo de Serviço",
+  closed_at: "Fechada em",
+  priority: "Prioridade",
+  title: "Título",
+  issue_description: "Descrição do Problema",
+  created_at: "Aberta em",
+  equip: "Equipamento"
+};

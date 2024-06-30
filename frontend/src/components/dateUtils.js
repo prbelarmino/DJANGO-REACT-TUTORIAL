@@ -38,10 +38,8 @@ export function divideDateByInteger(dateString, divisor) {
     const hours = dividedDate.getUTCHours();
     const minutes = dividedDate.getUTCMinutes();
     const seconds = dividedDate.getUTCSeconds();
-    console.log(date)
 
-    console.log(dividedDate)
-    console.log(days)
+
     // Passo 5: Formatar as variáveis de saída
     daysString = `${days} dia(s)`;
     timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;

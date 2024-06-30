@@ -8,6 +8,8 @@ import EquipmentForm from "./pages/EquipmentForm"
 import EquipmentEdition from "./pages/EquipmentEdition"
 import ServiceOrder from "./pages/ServiceOrder"
 import ServiceOrderForm from "./pages/ServiceOrderForm"
+import ServiceOrderEdition from "./pages/ServiceOrderEdition"
+import ServiceOrderView from "./pages/ServiceOrderView"
 import Calibration from "./pages/Calibration"
 import CalibrationForm from "./pages/CalibrationForm"
 import DetailedEquipment from "./pages/DetailedEquipment"
@@ -82,6 +84,26 @@ function App() {
                 <ProtectedRoute>
                   <Layout >
                     <ServiceOrderForm />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit-order"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <ServiceOrderEdition />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/view-order"
+              element={
+                <ProtectedRoute>
+                  <Layout >
+                    <ServiceOrderView />
                   </Layout>
                 </ProtectedRoute>
               }

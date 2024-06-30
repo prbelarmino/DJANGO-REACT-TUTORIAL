@@ -112,7 +112,7 @@ class ServiceOrderListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         
         queryset = ServiceOrder.objects.all()
-        id = self.request.query_params.get('equip')
+        id = self.request.query_params.get('equip_id')
 
         if id:
             queryset = queryset.filter(**{"equip": id})
@@ -182,6 +182,7 @@ class CreateUserView(generics.ListCreateAPIView):
     def get_queryset(self):
                 
         queryset = CustomUser.objects.all()
+        print(self.request.query_params)
         field = self.request.query_params.get('field')
         value = self.request.query_params.get('value')
         if field and value:

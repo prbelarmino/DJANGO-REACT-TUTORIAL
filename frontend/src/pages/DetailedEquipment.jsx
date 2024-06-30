@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import CardInfo from "../components/CardInfo";
 import EquipMetrics from "../components/EquipMetrics";
 import {divideDateByInteger} from "../components/dateUtils";
+import {EquipmentDictionary} from "../headers/ModelDictionaries"
 
 function DetailedEquipment() {
 
@@ -27,9 +28,9 @@ function DetailedEquipment() {
     }, []);
 
     const getServiceOrder = (event) => {
-        // Define query parameter
+
         const queryParams = {
-            equip // Example equip value
+            equip_id // Example equip value
         // Add more parameters as needed
         };
         //console.log(queryParams)
@@ -108,7 +109,11 @@ function DetailedEquipment() {
             
             <EquipMetrics mtbf={mtbf} />
             
-            <CardInfo data={equip} keysToDisplay={EquipBasicInfo}/>
+            <CardInfo 
+                data={equip} 
+                keysToDisplay={EquipBasicInfo} 
+                dictionary={EquipmentDictionary}
+            />
 
             <ServiceOrderEquip 
                 rows={orders} 
