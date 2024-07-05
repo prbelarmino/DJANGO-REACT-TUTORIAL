@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import pandas as pd
 from django.core.mail import send_mail
+from .pdf_creator.PDFCreator import PDFCreator
 
 class UploadFile(APIView):
     def post(self, request, format=None):
@@ -199,31 +200,14 @@ def generate_pdf(request, equipment_id):
         return HttpResponse("Equipment not found", status=404)
 
     # Serialize the equipment instance
-    calibration_serializer = CalibrationSerializer(calibration_instance)
+    calibration_serializer = FullCalibrationSerializer(calibration_instance)
     
     # Create response object
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="{equipment_id}_invoice.pdf"'
-
-    # Create PDF document
-    doc = SimpleDocTemplate(response, pagesize=letter)
-    elements = []
+    calib_pdf = PDFCreator(response=response, data = calibration_serializer)
+    calib_pdf.create()
     
-    # Add table with equipment data to PDF
-    data = list(calibration_serializer.data.items())
-    table = Table(data)
-    table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                               ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                               ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                               ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                               ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                               ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                               ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
-    elements.append(table)
-
-    # Build PDF document
-    doc.build(elements)
-
     return response
 
 class ClientListCreate(generics.ListCreateAPIView):

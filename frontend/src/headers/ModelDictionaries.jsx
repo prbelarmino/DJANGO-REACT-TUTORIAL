@@ -21,6 +21,7 @@ export const OrderDictionary = {
   priority: "Prioridade",
   title: "Título",
   issue_description: "Descrição do Problema",
+  solution: "Descrição do Serviço",
   created_at: "Aberta em",
   equip: "Equipamento"
 };

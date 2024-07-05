@@ -34,6 +34,10 @@ class CustomUser(User):
     phone_number = models.CharField(max_length=30)
     birth_date = models.DateTimeField(default=timezone.now)
     location = models.CharField(max_length=30)
+
+    def __str__(self):
+
+        return self.get_full_name()
     
     
 class Equipment(models.Model):
@@ -62,6 +66,7 @@ class ServiceOrder(models.Model):
     priority = models.CharField(max_length=30)
     title = models.CharField(max_length=30)
     issue_description = models.TextField(max_length=100)
+    solution = models.TextField(max_length=100,null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="order")
     

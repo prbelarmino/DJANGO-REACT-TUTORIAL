@@ -32,21 +32,29 @@ class UserSerializer(serializers.ModelSerializer):
 
 class EquipmentSerializer(serializers.ModelSerializer):
 
-    added_by = UserSerializer(many=False)
-    #owner = LocationSerializer(many=False)
+    added_by = serializers.StringRelatedField()
+    owner  = serializers.StringRelatedField()
     class Meta:
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
                   "identification", "serial_number","created_at", "added_by"]
         #extra_kwargs = {"added_by": {"read_only": True}}
 
+class FullEquipmentSerializer(serializers.ModelSerializer):
+
+    added_by = UserSerializer(many=False)
+    owner = LocationSerializer(many=False)
+    class Meta:
+        model = Equipment
+        fields = ["id", "type", "state", "owner", "model", "manufacturer", 
+                  "identification", "serial_number","created_at", "added_by"]
 class ServiceOrderSerializer(serializers.ModelSerializer):
     # It takes too long to respond, it leads to gateway error 504 
     #equip = EquipmentSerializer(many=False)
     class Meta:
         model = ServiceOrder
         fields = ["id", "number", "state", "requester", "executor", "service_type", 
-                  "closed_at","priority","title", "issue_description", "created_at", "equip"]
+                  "closed_at","priority","title", "issue_description", "solution", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
 
 class CalibrationSerializer(serializers.ModelSerializer):
@@ -56,3 +64,9 @@ class CalibrationSerializer(serializers.ModelSerializer):
         fields = ["id","number","requester", "executor", "expiration", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
 
+class FullCalibrationSerializer(serializers.ModelSerializer):
+    equip = FullEquipmentSerializer(many=False)
+    class Meta:
+        model = Calibration
+        fields = ["id","number","requester", "executor", "expiration", "created_at", "equip"]
+        #extra_kwargs = {"equip_id": {"read_only": True}}

@@ -17,9 +17,8 @@ function ServiceOrderView() {
     const [loading, setLoading] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const order = JSON.parse(searchParams.get('order'));
-    console.log(order)
     const isNonMobile = useMediaQuery("(min-width:600px)");
-    const orderBasicInfo = ["number", "state", "requester", "executor", "service_type", "issue_description"];
+    const orderBasicInfo = ["number", "state", "requester", "executor", "service_type", "issue_description", "solution"];
 
     
     const editServiceOrder = async (values) => {
@@ -77,11 +76,11 @@ function ServiceOrderView() {
                                     multiline
                                     rows={4}
                                     inputProps={{ maxLength: 30 }}
-                                    label="Descrição do Problema"
+                                    label="Descrição do Serviço"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.issue_description}
-                                    name="issue_description"
+                                    value={values.solution}
+                                    name="solution"
                                     style={{height: '100px', 
                                             //backgroundColor: theme.palette.primary.shadow, 
                                             //color: theme.palette.text.primary

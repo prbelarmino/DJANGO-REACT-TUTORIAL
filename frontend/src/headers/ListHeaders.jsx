@@ -40,13 +40,7 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "200",
-    renderCell: (cellValues) => {
-      return (
-        <>
-          {cellValues.formattedValue.name} 
-        </>
-      );
-    },
+    
   },
   {
     field: "model",
@@ -93,13 +87,6 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "130",
-    renderCell: (cellValues) => {
-      return (
-        <>
-          {cellValues.formattedValue.first_name} {cellValues.formattedValue.last_name}
-        </>
-      );
-    },
   },
 ];
 
