@@ -133,7 +133,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
   {
     field: "actions",
     headerName: "",
-    width: "105",
+    width: "115",
     // align: "center",
     // flex: 1,
     renderCell: (cellValues) => {
