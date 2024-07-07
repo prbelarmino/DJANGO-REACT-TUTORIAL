@@ -57,6 +57,15 @@ class ServiceOrderSerializer(serializers.ModelSerializer):
                   "closed_at","priority","title", "issue_description", "solution", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
 
+class FullServiceOrderSerializer(serializers.ModelSerializer):
+    # It takes too long to respond, it leads to gateway error 504 
+    equip = FullEquipmentSerializer(many=False)
+    class Meta:
+        model = ServiceOrder
+        fields = ["id", "number", "state", "requester", "executor", "service_type", 
+                  "closed_at","priority","title", "issue_description", "solution", "created_at", "equip"]
+        #extra_kwargs = {"equip_id": {"read_only": True}}
+
 class CalibrationSerializer(serializers.ModelSerializer):
     #equip = EquipmentSerializer(many=False)
     class Meta:

@@ -7,6 +7,7 @@ urlpatterns = [
     path("equipments/<int:pk>/", views.EquipmentUpdate.as_view(), name="edit-equipment"),
     path("serviceorders/", views.ServiceOrderListCreate.as_view(), name="serviceorder-list"),
     path("serviceorders/<int:pk>/", views.ServiceOrderUpdate.as_view(), name="edit-serviceorder"),
+    path("fullserviceorder/<int:id>/", views.FullServiceOrderList.as_view(), name="full-serviceorder"),
     path("serviceorders/delete/<int:pk>/", views.ServiceOrderDelete.as_view(), name="delete-serviceorder"),
     path("calibrations/", views.CalibrationListCreate.as_view(), name="calibration-list"),
     path("calibrations/delete/<int:pk>/", views.CalibrationDelete.as_view(), name="delete-calibration"),

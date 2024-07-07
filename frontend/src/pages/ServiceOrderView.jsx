@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { useNavigate, useSearchParams} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import CardInfo from "../components/CardInfo";
+import OSDetails from "../components/OSDetails";
 import {divideDateByInteger} from "../components/dateUtils";
 import {OrderDictionary} from "../headers/ModelDictionaries"
 import { Formik, Field } from "formik";
@@ -15,12 +15,26 @@ function ServiceOrderView() {
     const theme = useTheme();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [order, setOrder] = useState({equip: {owner:{client: {}}}});
     const [searchParams, setSearchParams] = useSearchParams();
-    const order = JSON.parse(searchParams.get('order'));
+    const order_id = JSON.parse(searchParams.get('order'));
     const isNonMobile = useMediaQuery("(min-width:600px)");
-    const orderBasicInfo = ["number", "state", "requester", "executor", "service_type", "issue_description", "solution"];
-
     
+    useEffect(() => {
+        getServiceOrder();
+    }, []);
+
+    const getServiceOrder = (event) => {
+
+        api
+            .get(`/api/fullserviceorder/${order_id}/`)
+            .then((res) => {
+                setOrder(res.data);
+            })
+            .catch((err) => alert(err));
+    
+    };
+
     const editServiceOrder = async (values) => {
 
         setLoading(true);
@@ -29,7 +43,7 @@ function ServiceOrderView() {
     
             const closed_at = new Date();
             const state = "FECHADA";
-            const res = await api.put(`/api/serviceorders/${order.id}/`, { ...values, state, closed_at})
+            const res = await api.put(`/api/serviceorders/${order_id}/`, { ...values, state, closed_at})
             alert("ServiceOrder updated!");
             navigate("/orders")
             
@@ -43,10 +57,10 @@ function ServiceOrderView() {
     return (
         <Box>
             <Typography sx={{ fontSize: 30, m: "0px 0px 50px 20px"}} color="text.secondary" gutterBottom>
-                    {order.number} {order.state}
+                Ordem de Serviço Nº {order.number} | {order.state}
             </Typography>
             
-            <CardInfo data={order} keysToDisplay={orderBasicInfo} dictionary={OrderDictionary}/>
+            <OSDetails data={order}/>
             {order.state != "FECHADA" && (
                 <Box width={'500px'} m={"20px"}>
                     <Formik

@@ -72,7 +72,7 @@ class ServiceOrder(models.Model):
     
     def __str__(self):
         return self.number
-    
+ 
 class Calibration(models.Model):
     
     number = models.CharField(max_length=30)

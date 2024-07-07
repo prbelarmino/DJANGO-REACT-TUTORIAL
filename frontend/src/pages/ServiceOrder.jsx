@@ -23,6 +23,7 @@ function ServiceOrder() {
 
                 const sortedData = res.data.sort((b, a) => a.id - b.id);
                 setOrder(sortedData);
+                console.log(sortedData)
             })
             .catch((err) => alert(err));
     };
@@ -43,7 +44,7 @@ function ServiceOrder() {
         navigate({
           pathname: "/view-order",
           search: createSearchParams({
-              order: JSON.stringify(selectedOrder)
+              order: JSON.stringify(params.id)
           }).toString()
         })
       };

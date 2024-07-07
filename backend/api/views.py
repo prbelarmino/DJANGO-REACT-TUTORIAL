@@ -126,6 +126,13 @@ class ServiceOrderListCreate(generics.ListCreateAPIView):
         else:
             print(serializer.errors)
 
+class FullServiceOrderList(generics.RetrieveAPIView):
+
+    queryset = ServiceOrder.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = FullServiceOrderSerializer
+    lookup_field = 'id'  # This assumes the primary key is 'id'
+
 class ServiceOrderUpdate(generics.UpdateAPIView):
 
     queryset = ServiceOrder.objects.all()

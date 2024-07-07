@@ -8,7 +8,7 @@ function CardInfo({ data, keysToDisplay, dictionary}) {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  //console.log(data)
   return (
     <Box sx={{m: "30px 0 70px 20px", width: '500px' }}>
       <Typography 
