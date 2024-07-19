@@ -1,13 +1,13 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
-import Header from "../components/Header";
-import UploadForm from "../components/UploadForm";
+import EquipmentsHeader from "../components/EquipmentsHeader";
+
 import {EquipmentColumns} from "../headers/ListHeaders"
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import api from "../api";
-import { formatDate } from '../components/dateUtils';
+
 
 function Equipment() {
 
@@ -22,7 +22,7 @@ function Equipment() {
 
   const getEquipments = () => {
       api
-          .get("/api/equipments/")
+          .get("/api/equipments/list/")
           .then((res) => res.data)
           .then((data) => {
               const sortedData = data.sort((b, a) => a.id - b.id); // Sort by ID
@@ -43,36 +43,17 @@ function Equipment() {
   };
   const onViewMore = (event,params) => {
 
-    const selectedEquip = equipments.find(item => item.id === params.id);
-    navigate({
-      pathname: "/show-equip",
-      search: createSearchParams({
-          equip: JSON.stringify(selectedEquip)
-      }).toString()
-    })
+    navigate(`/equipments/${params.id}`)
   };
   const onEdit = (event,params) => {
 
-    const selectedEquip = equipments.find(item => item.id === params.id);
-    navigate({
-      pathname: "/edit-equip",
-      search: createSearchParams({
-          equip: JSON.stringify(selectedEquip)
-      }).toString()
-    })
+    navigate(`/equipments/update/${params.id}`)
   };
   
   return (
     <Box m="20px">
-      <Header title="Equipamentos" subtitle="Lista de Equipamentos" />
-      <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {navigate("/add-equip");} }
-      >
-          Adicionar Equipamento
-      </Button>
-      <UploadForm updateList={getEquipments}  />
+      <EquipmentsHeader getEquipments={getEquipments}/>
+      
       <Box
         m="0 0 40px 0 "
         height="75vh"

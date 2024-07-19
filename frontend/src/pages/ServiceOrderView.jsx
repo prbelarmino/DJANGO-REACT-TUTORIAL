@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import { useNavigate, useSearchParams} from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import OSDetails from "../components/OSDetails";
 import {divideDateByInteger} from "../components/dateUtils";
@@ -13,21 +13,20 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 function ServiceOrderView() {
 
     const theme = useTheme();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [order, setOrder] = useState({equip: {owner:{client: {}}}});
-    const [searchParams, setSearchParams] = useSearchParams();
-    const order_id = JSON.parse(searchParams.get('order'));
     const isNonMobile = useMediaQuery("(min-width:600px)");
     
     useEffect(() => {
         getServiceOrder();
     }, []);
 
-    const getServiceOrder = (event) => {
+    const getServiceOrder = () => {
 
         api
-            .get(`/api/fullserviceorder/${order_id}/`)
+            .get(`/api/fullserviceorder/${id}/`)
             .then((res) => {
                 setOrder(res.data);
             })
@@ -40,10 +39,19 @@ function ServiceOrderView() {
         setLoading(true);
         //e.preventDefault();
         try {
-    
-            const closed_at = new Date();
-            const state = "FECHADA";
-            const res = await api.put(`/api/serviceorders/${order_id}/`, { ...values, state, closed_at})
+            const updated_order = {
+                number: order.number,
+                state: "FECHADA",
+                requester: order.requester,
+                service_type: order.service_type,
+                closed_at:  new Date(),
+                priority: order.priority,
+                title: order.title,
+                issue_description: order.issue_description,
+                solution: values.solution,
+                equip: order.equip.id, 
+            }
+            const res = await api.put(`/api/serviceorders/${id}/`, updated_order)
             alert("ServiceOrder updated!");
             navigate("/orders")
             
@@ -126,7 +134,7 @@ const phoneRegExp =
 
 
 const checkoutSchema = yup.object().shape({
-    issue_description: yup.string().required("required"),
+    solution: yup.string().required("required"),
 });
 export default ServiceOrderView;
 

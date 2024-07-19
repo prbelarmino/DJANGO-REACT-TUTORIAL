@@ -8,6 +8,12 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = ["id","name","cnpj", "contract_number"]
 
+class BasicLocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Location
+        fields = ["id","name"]
+
 class LocationSerializer(serializers.ModelSerializer):
 
     client = ClientSerializer(many=False)
@@ -29,17 +35,46 @@ class UserSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.create_user(**validated_data)
         return user
 
+class BasicUserSerializer(serializers.ModelSerializer):
 
+    fullname = serializers.SerializerMethodField('get_fullname')
+    def get_fullname(self, obj):
+
+        return f"{obj.first_name} {obj.last_name}"
+    
+    class Meta:
+        model = CustomUser
+        fields = ["id","fullname","function"]
+
+
+class UpdateEquipmentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Equipment
+        fields = ["id", "type", "state", "owner", "model", "manufacturer", 
+                  "identification", "serial_number"]
+        
 class EquipmentSerializer(serializers.ModelSerializer):
 
     added_by = serializers.StringRelatedField()
-    owner  = serializers.StringRelatedField()
+    owner  = BasicLocationSerializer()
     class Meta:
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
                   "identification", "serial_number","created_at", "added_by"]
         #extra_kwargs = {"added_by": {"read_only": True}}
 
+class EquipmentDetailSerializer(serializers.ModelSerializer):
+
+    added_by = serializers.StringRelatedField()
+    owner = serializers.StringRelatedField()
+    #calibrations = CalibrationSerializer(read_only=True)
+    #orders = ServiceOrderSerializer(read_only=True)
+    class Meta:
+        model = Equipment
+        fields = ["id", "type", "state", "owner", "model", "manufacturer", 
+                  "identification", "serial_number","created_at", "added_by"]
+        
 class FullEquipmentSerializer(serializers.ModelSerializer):
 
     added_by = UserSerializer(many=False)
@@ -48,6 +83,7 @@ class FullEquipmentSerializer(serializers.ModelSerializer):
         model = Equipment
         fields = ["id", "type", "state", "owner", "model", "manufacturer", 
                   "identification", "serial_number","created_at", "added_by"]
+               
 class ServiceOrderSerializer(serializers.ModelSerializer):
     # It takes too long to respond, it leads to gateway error 504 
     #equip = EquipmentSerializer(many=False)
@@ -79,3 +115,14 @@ class FullCalibrationSerializer(serializers.ModelSerializer):
         model = Calibration
         fields = ["id","number","requester", "executor", "expiration", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
+
+class EquipmentDetailSerializer(serializers.ModelSerializer):
+
+    added_by = serializers.StringRelatedField()
+    owner = serializers.StringRelatedField()
+    #calibrations = CalibrationSerializer(read_only=True)
+    #orders = ServiceOrderSerializer(read_only=True)
+    class Meta:
+        model = Equipment
+        fields = ["id", "type", "state", "owner", "model", "manufacturer", 
+                  "identification", "serial_number","created_at", "added_by"]

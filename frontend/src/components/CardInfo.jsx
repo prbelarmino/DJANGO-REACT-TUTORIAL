@@ -1,6 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import Header from "./Header";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
@@ -47,19 +46,19 @@ function CardInfo({ data, keysToDisplay, dictionary}) {
                   sx={{
                     fontWeight: 'bold',
                     marginRight: '10px',
-                    minWidth: '100px'
+                    minWidth: '110px'
                   }}
                 >
                   {dictionary[item]}:
                 </Typography>
                 <Typography>
-                  {data[item]}
+                  {item === "owner" ? data.owner.name : data[item]}
                 </Typography>
               </Box>
             ))}
           </CardContent>
       </Card>
-  </Box>
+    </Box>
   );
 };
 

@@ -1,43 +1,80 @@
-import { Box, Button, Grid, TextField, MenuItem, useTheme } from "@mui/material";
+import { Box, Button, Autocomplete, TextField, MenuItem, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { tokens } from "../theme";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //function EquipmentEdition(){
 const EquipmentEdition = () =>{
   
   const theme = useTheme();
+  const [equipment, setEquipment] = useState({});
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const data = JSON.parse(searchParams.get('equip'));
+  const [valuesFlag, setValuesFlag] = useState(false);
+  const { id } = useParams();
+  
   const initialValues = {
-    type: data.type,
-    state: data.state,
-    owner: data.owner,
-    model: data.model,
-    manufacturer: data.manufacturer,
-    identification: data.identification,
-    serial_number: data.serial_number,
+    type: equipment.type,
+    state: equipment.state,
+    owner: equipment.owner,
+    model: equipment.model,
+    manufacturer: equipment.manufacturer,
+    identification: equipment.identification,
+    serial_number: equipment.serial_number,
   };
+  //console.log(initialValues)
+  useEffect(() => {
+    getEquipment();
+    getLocations();
+
+  }, []);
+  const getLocations = (event) => {
+    // Define query parameter
+    api
+        .get('/api/basiclocations/')
+        .then((res) => {
+          const sortedData = res.data.sort((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            }
+            if (a.name > b.name) {
+                return 1;
+            }
+            return 0;
+        });
+
+          setLocations(sortedData);
+        })
+        .catch((err) => alert(err));
+
+  };
+  const getEquipment = (event) => {
+
+    api
+        .get(`/api/equipments/retrieve/${id}/`)
+        .then((res) => {
+          setEquipment(res.data);
+          setValuesFlag(true);
+        })
+        .catch((err) => alert(err));
+
+};
 
   const editEquipment = async (values) => {
 
     setLoading(true);
-    
-    
-    //e.preventDefault();
     try {
 
-        const added_by = data.added_by;
-        const created_at = data.created_at;
-        const res = await api.put(`/api/equipments/${data.id}/`, { ...values, created_at, added_by})
+        const equip = {...values};
+        equip.owner = values.owner.id;
+        const res = await api.put(`/api/equipments/update/${equipment.id}/`, equip)
         alert("Equipment updated!");
         navigate("/equipments")
         
@@ -51,6 +88,7 @@ const EquipmentEdition = () =>{
   return (
     <Box m="20px">
       <Header title="Editar Equipamento" subtitle="Formulario para editar equipamento" />
+      {valuesFlag && (
       <Formik
         onSubmit={editEquipment}
         initialValues={initialValues}
@@ -63,6 +101,7 @@ const EquipmentEdition = () =>{
           handleBlur,
           handleChange,
           handleSubmit,
+          setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
             <Box
@@ -103,20 +142,24 @@ const EquipmentEdition = () =>{
                 <MenuItem value="ATIVO">Ativo</MenuItem>
                 <MenuItem value="INATIVO">Inativo</MenuItem>
               </TextField>
-              
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Proprietario"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.owner}
+              <Autocomplete
+                options={locations}
+                getOptionLabel={(option) => option.name || ""}
                 name="owner"
-                error={!!touched.owner && !!errors.owner}
-                helperText={touched.owner && errors.owner}
-                sx={{ gridColumn: "span 4" }}
+                onChange={(e, value) => setFieldValue("owner", value)}
+                isOptionEqualToValue={(option, value) => option.name === value.name}
+                value={values.owner}
+                sx={{ gridColumn: "span 4"}}
+                renderInput={(params) => (
+                  <TextField {...params} 
+                            fullWidth
+                            variant="filled"
+                            type="text"
+                            label="Proprietário" 
+                  />
+                )}
               />
+              
               <TextField
                 fullWidth
                 variant="filled"
@@ -154,7 +197,7 @@ const EquipmentEdition = () =>{
                 name="identification"
                 error={!!touched.identification && !!errors.identification}
                 helperText={touched.identification && errors.identification}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
             />
             <TextField
                 fullWidth
@@ -167,35 +210,34 @@ const EquipmentEdition = () =>{
                 name="serial_number"
                 error={!!touched.serial_number && !!errors.serial_number}
                 helperText={touched.serial_number && errors.serial_number}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
               />
               
             </Box>
             
             <Box display="flex" justifyContent="end" mt="20px">
-
-            <Button type="submit" 
-                    color="secondary" 
-                    variant="contained"
-                    disabled={loading}
-                    sx={{ mr: 2 }}
-            >
-              Editar
-            </Button>
-
-            <Button color="secondary" 
-                    variant="contained"
-                    disabled={loading}
-                    sl={{ ml: 2 }}
-                    onClick={() => {navigate("/equipments");} }
-            >
-              Cancelar
-            </Button>
-
+              <Button type="submit" 
+                      color="secondary" 
+                      variant="contained"
+                      disabled={loading}
+                      sx={{ mr: 2 }}
+                      //onClick={(values) => {console.log(values)} }
+              >
+                Editar
+              </Button>
+              <Button color="secondary" 
+                      variant="contained"
+                      disabled={loading}
+                      sl={{ ml: 2 }}
+                      onClick={() => {navigate("/equipments");} }
+              >
+                Cancelar
+              </Button>
             </Box>
           </form>
         )}
       </Formik>
+      )}
     </Box>
   );
 };
@@ -206,7 +248,10 @@ const phoneRegExp =
 const checkoutSchema = yup.object().shape({
     type: yup.string().required("required"),
     state: yup.string().required("required"),
-    owner: yup.string().required("required"),
+    owner: yup.object().shape({
+      id: yup.number().required(),
+      name: yup.string().required(),
+    }).nullable().required('required'),
     model: yup.string().required("required"),
     manufacturer: yup.string().required("required"),
     identification: yup.string().required("required"),

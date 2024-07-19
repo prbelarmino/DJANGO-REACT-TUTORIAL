@@ -1,34 +1,54 @@
-import { Box, Button, TextField, useTheme } from "@mui/material";
+import { Autocomplete, Box, Button, TextField, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
-import { useNavigate, useLocation} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { tokens } from "../theme";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //function CalibrationForm(){
 const CalibrationForm = () =>{
   
     const theme = useTheme();
     const navigate = useNavigate();
-    const location = useLocation();
-    const equip = location.state.attribute;
-    const equip_id = equip.id;
+    const { id } = useParams();
+    const equip = id;
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [loading, setLoading] = useState(false);
+    const [team, setTeam] = useState([]);
 
+    useEffect(() => {
+      getTeam();
+    }, []);
+    const getTeam = (event) => {
+      // Define query parameter
+      const func = "Técnico"
+      const queryParams = {
+        func
+      };
+      api
+          .get('/api/team/',{ params: queryParams })
+          .then((res) => {
+            const names = res.data.map(item => item.fullname);
+            names.sort()
+            setTeam(names);
+            
+          })
+          .catch((err) => alert(err));
+  
+    };
     const addCalibration = (values) => {
         setLoading(true);
         api
-            .post("/api/calibrations/", {...values, equip_id})
+            .post("/api/calibrations/", {...values, equip})
             .then((res) => {
                 setLoading(false);
                 if (res.status === 201)
                 {
                     alert("Calibratrion added!");
-                    navigate("/show-equip", { state: { attribute: equip } })
+                    navigate(`/equipments/${equip}`)
                 } 
                 else alert("Failed to create Calibratrion");
             })
@@ -51,6 +71,7 @@ const CalibrationForm = () =>{
           handleBlur,
           handleChange,
           handleSubmit,
+          setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
             <Box
@@ -88,19 +109,22 @@ const CalibrationForm = () =>{
                     helperText={touched.requester && errors.requester}
                     sx={{ gridColumn: "span 2" }}
                 />
-                <TextField
-                    fullWidth
-                    variant="filled"
-                    type="text"
-                    label="Tecnico Executor"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.executor}
-                    name="executor"
-                    error={!!touched.executor && !!errors.executor}
-                    helperText={touched.executor && errors.executor}
-                    sx={{ gridColumn: "span 4" }}
-                />
+                <Autocomplete
+                options={team}
+                //getOptionLabel={(option) => option || ""}
+                name="executor"
+                onChange={(e, value) => setFieldValue("executor", value)}
+                value={values.executor}
+                sx={{ gridColumn: "span 2"}}
+                renderInput={(params) => (
+                  <TextField {...params} 
+                            fullWidth
+                            variant="filled"
+                            type="text"
+                            label="Técnico Executor" 
+                  />
+                )}
+              />
                 <TextField
                     fullWidth
                     variant="filled"
@@ -112,7 +136,7 @@ const CalibrationForm = () =>{
                     name="expiration"
                     error={!!touched.expiration && !!errors.expiration}
                     helperText={touched.expiration && errors.expiration}
-                    sx={{ gridColumn: "span 4" }}
+                    sx={{ gridColumn: "span 2" }}
                 />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">

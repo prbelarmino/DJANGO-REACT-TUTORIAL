@@ -1,36 +1,50 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from 'react-router-dom';
 import api from "../api";
 import ServiceOrderEquip from "../components/ServiceOrderEquip";
 import CalibrationEquip from "../components/CalibrationEquip";
-import { useNavigate, useSearchParams} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import CardInfo from "../components/CardInfo";
 import EquipMetrics from "../components/EquipMetrics";
-import {divideDateByInteger} from "../components/dateUtils";
+import EquipMenu from "../components/EquipMenu";
 import {EquipmentDictionary} from "../headers/ModelDictionaries"
+import { Box } from "@mui/material";
 
-function DetailedEquipment() {
 
+function EquipmentDetail() {
+
+    const { id } = useParams();
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const equip = JSON.parse(searchParams.get('equip'));
-    const equip_id = equip.id;
+    const [equipments, setEquipments] = useState([]);
+    const [valuesFlag, setValuesFlag] = useState(false);
     const [orders, setOrder] = useState([]);
-    const [mtbf, setMTBF] = useState([
-        { daysString: "0 dia(s)", timeString: '00:00:00'}
-      ]);
     const [calibrations, setCalibrations] = useState([]);
     const EquipBasicInfo = ["identification", "state", "type", "owner", "manufacturer", "added_by"];
-
+    
     useEffect(() => {
+        getEquipment();
         getServiceOrder();
         getCalibrations();
     }, []);
 
+    
+    const getEquipment = (event) => {
+
+        api
+            .get(`/api/equipments/retrieve/${id}/`)
+            .then((res) => {
+              setEquipments(res.data);
+              setValuesFlag(true);
+            })
+            .catch((err) => alert(err));
+    
+    };
     const getServiceOrder = (event) => {
 
+        const equip_id = id;
         const queryParams = {
-            equip_id // Example equip value
+            equip_id
+            // Example equip value
         // Add more parameters as needed
         };
         //console.log(queryParams)
@@ -52,19 +66,25 @@ function DetailedEquipment() {
             })
             .catch((error) => alert(error));
     };
+    const onOrderViewMore = (event,params) => {
+        navigate(`/orders/${params.id}`)
+      };
+    const onOrderEdit = (event,params) => {
+
+        navigate(`/orders/update/${params.id}`)
+    };
     const getCalibrations = () => {
    
-        const field = "equip";
+        const equip_id = id;
         const queryParams = {
-            equip_id // Example equip value
+            equip_id
+            // Example equip value
         // Add more parameters as needed
         };
         api
             .get('/api/calibrations/',{ params: queryParams })
             .then((res) => {
                 setCalibrations(res.data);
-                const value = divideDateByInteger(equip.created_at,res.data.length)
-                setMTBF(value)
             })
             .catch((err) => alert(err));
             
@@ -92,42 +112,40 @@ function DetailedEquipment() {
                 })
             .catch((err) => alert(err));
     };
-    const addCalib = () => {
 
-        navigate("/add-calib", { state: { attribute: equip_id } })
-    };
-    const createOrder = (e) => {
-        e.preventDefault();
-        navigate("/create-so", { state: { attribute: equip_id } })
-    };
     
     return (
-        <div>
+        
+        <Box>
+            
             <Typography sx={{ fontSize: 30, m: "0px 0px 50px 20px"}} color="text.secondary" gutterBottom>
-                    {equip.type} {equip.model}
+                    {equipments.type} {equipments.model}
             </Typography>
             
-            <EquipMetrics mtbf={mtbf} />
-            
-            <CardInfo 
-                data={equip} 
-                keysToDisplay={EquipBasicInfo} 
-                dictionary={EquipmentDictionary}
-            />
-
+            <EquipMenu id_equipment={id}/>
+  
+            <EquipMetrics created_at={equipments.created_at} orders_len={orders.length}/>
+            {valuesFlag && (
+                <CardInfo 
+                    data={equipments} 
+                    keysToDisplay={EquipBasicInfo} 
+                    dictionary={EquipmentDictionary}
+                />
+            )}
             <ServiceOrderEquip 
                 rows={orders} 
                 onDelete={deleteServiceOrder} 
-                onCreate={createOrder}
+                onEdit={onOrderEdit}
+                onViewMore={onOrderViewMore}
             />  
             <CalibrationEquip 
                 rows={calibrations} 
                 onDelete={deleteCalib}
-                onAdd={() => {addCalib();}}
                 onPrint={printCalib}  
             />
-        </div>
+            
+     </Box>
     );
 }
 
-export default DetailedEquipment;
+export default EquipmentDetail;

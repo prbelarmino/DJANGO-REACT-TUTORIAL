@@ -1,4 +1,4 @@
-import { Box, Button, TextField, MenuItem, useTheme } from "@mui/material";
+import { Box, Button, TextField, Autocomplete, MenuItem, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../theme";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //function EquipmentForm(){
 const EquipmentForm = () =>{
@@ -15,12 +15,39 @@ const EquipmentForm = () =>{
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [loading, setLoading] = useState(false);
+  const [locations, setLocations] = useState([]);
 
+  useEffect(() => {
+    getLocations();
+  }, []);
+
+  const getLocations = (event) => {
+    // Define query parameter
+    api
+        .get('/api/basiclocations/')
+        .then((res) => {
+          const sortedData = res.data.sort((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            }
+            if (a.name > b.name) {
+                return 1;
+            }
+            return 0;
+        });
+
+          setLocations(sortedData);
+        })
+        .catch((err) => alert(err));
+
+  };
   const addEquipment = (values) => {
-    console.log(values)
+    
+    const equip = {...values};
+    equip.owner = values.owner.id;
     setLoading(true);
     api
-      .post("/api/equipments/", {...values})
+      .post("/api/equipments/create/", equip)
       .then((res) => {
             
             if (res.status === 201)
@@ -31,7 +58,7 @@ const EquipmentForm = () =>{
             else alert("Failed to add Equipment.");
             
         })
-        .catch((err) => alert(err));
+        .catch((err) => alert(err.response.data.serial_number ? err.response.data.serial_number : err));
     setLoading(false);
   };
 
@@ -50,6 +77,7 @@ const EquipmentForm = () =>{
           handleBlur,
           handleChange,
           handleSubmit,
+          setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
             <Box
@@ -91,18 +119,22 @@ const EquipmentForm = () =>{
                 <MenuItem value="INATIVO">Inativo</MenuItem>
               </TextField>
               
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Proprietario"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.owner}
+              <Autocomplete
+                options={locations}
+                getOptionLabel={(option) => option.name || ""}
                 name="owner"
-                error={!!touched.owner && !!errors.owner}
-                helperText={touched.owner && errors.owner}
+                onChange={(e, value) => setFieldValue("owner", value)}
+                isOptionEqualToValue={(option, value) => option.name === value.name}
+                value={values.owner}
                 sx={{ gridColumn: "span 4"}}
+                renderInput={(params) => (
+                  <TextField {...params} 
+                            fullWidth
+                            variant="filled"
+                            type="text"
+                            label="Proprietário" 
+                  />
+                )}
               />
               <TextField
                 fullWidth
@@ -115,7 +147,7 @@ const EquipmentForm = () =>{
                 name="model"
                 error={!!touched.model && !!errors.model}
                 helperText={touched.model && errors.model}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -128,7 +160,7 @@ const EquipmentForm = () =>{
                 name="manufacturer"
                 error={!!touched.manufacturer && !!errors.manufacturer}
                 helperText={touched.manufacturer && errors.manufacturer}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
             />
             <TextField
                 fullWidth
@@ -141,7 +173,7 @@ const EquipmentForm = () =>{
                 name="identification"
                 error={!!touched.identification && !!errors.identification}
                 helperText={touched.identification && errors.identification}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
             />
             <TextField
                 fullWidth
@@ -154,7 +186,7 @@ const EquipmentForm = () =>{
                 name="serial_number"
                 error={!!touched.serial_number && !!errors.serial_number}
                 helperText={touched.serial_number && errors.serial_number}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
               />
               
             </Box>
@@ -181,7 +213,10 @@ const phoneRegExp =
 const checkoutSchema = yup.object().shape({
     type: yup.string().required("required"),
     state: yup.string().required("required"),
-    owner: yup.string().required("required"),
+    owner: yup.object().shape({
+      id: yup.number().required(),
+      name: yup.string().required(),
+    }).nullable().required('required'),
     model: yup.string().required("required"),
     manufacturer: yup.string().required("required"),
     identification: yup.string().required("required"),

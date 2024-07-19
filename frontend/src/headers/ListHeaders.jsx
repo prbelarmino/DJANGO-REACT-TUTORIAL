@@ -40,6 +40,13 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "200",
+    renderCell: (cellValues) => {
+      return (
+        <>
+        {cellValues.formattedValue.name}
+        </>
+      );
+    },
     
   },
   {

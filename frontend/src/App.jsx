@@ -12,7 +12,7 @@ import ServiceOrderEdition from "./pages/ServiceOrderEdition"
 import ServiceOrderView from "./pages/ServiceOrderView"
 import Calibration from "./pages/Calibration"
 import CalibrationForm from "./pages/CalibrationForm"
-import DetailedEquipment from "./pages/DetailedEquipment"
+import EquipmentDetail from "./pages/EquipmentDetail"
 import Team from "./pages/Team"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
@@ -49,7 +49,7 @@ function App() {
               }
             />
             <Route
-              path="/add-equip"
+              path="/equipments/add"
               element={
                 <ProtectedRoute>
                   <Layout >
@@ -59,7 +59,7 @@ function App() {
               }
             />
             <Route
-              path="/edit-equip"
+              path="/equipments/update/:id"
               element={
                 <ProtectedRoute>
                   <Layout >
@@ -69,17 +69,17 @@ function App() {
               }
             />
             <Route
-              path="/show-equip"
+              path="/equipments/:id"
               element={
                 <ProtectedRoute>
                   <Layout >
-                    <DetailedEquipment />
+                    <EquipmentDetail />
                   </Layout>
                 </ProtectedRoute>
               }
             />
             <Route
-              path="/create-so"
+              path="/equipments/create-order/:id"
               element={
                 <ProtectedRoute>
                   <Layout >
@@ -89,7 +89,7 @@ function App() {
               }
             />
             <Route
-              path="/edit-order"
+              path="/orders/update/:id"
               element={
                 <ProtectedRoute>
                   <Layout >
@@ -99,7 +99,7 @@ function App() {
               }
             />
             <Route
-              path="/view-order"
+              path="/orders/:id"
               element={
                 <ProtectedRoute>
                   <Layout >
@@ -119,7 +119,7 @@ function App() {
               }
             />
             <Route
-              path="/add-calib"
+              path="/equipments/create-calibration/:id"
               element={
                 <ProtectedRoute>
                   <Layout >

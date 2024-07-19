@@ -23,7 +23,7 @@ function ServiceOrder() {
 
                 const sortedData = res.data.sort((b, a) => a.id - b.id);
                 setOrder(sortedData);
-                console.log(sortedData)
+
             })
             .catch((err) => alert(err));
     };
@@ -39,24 +39,11 @@ function ServiceOrder() {
     };
 
     const onViewMore = (event,params) => {
-
-        const selectedOrder = orders.find(item => item.id === params.id);
-        navigate({
-          pathname: "/view-order",
-          search: createSearchParams({
-              order: JSON.stringify(params.id)
-          }).toString()
-        })
+        navigate(`/orders/${params.id}`)
       };
     const onEdit = (event,params) => {
 
-        const selectedOrder = orders.find(item => item.id === params.id);
-        navigate({
-            pathname: "/edit-order",
-            search: createSearchParams({
-                order: JSON.stringify(selectedOrder)
-            }).toString()
-        })
+        navigate(`/orders/update/${params.id}`)
     };
     return (
  

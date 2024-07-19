@@ -24,7 +24,7 @@ class UploadFile(APIView):
     def post(self, request, format=None):
         file = request.FILES['file']
         expected_columns = [
-                'Tipo', 'Estado', 'Proprietario', 'Modelo', 'Fabricante',
+                'Tipo', 'Estado', 'Proprietário', 'Modelo', 'Fabricante',
                 'Indetificação', 'Numero de Serie'
             ]
         try:
@@ -41,25 +41,28 @@ class UploadFile(APIView):
             for index, row in df.iterrows():
                 if Equipment.objects.filter(serial_number=row['Numero de Serie']).exists():
                     return Response({'error': 'Serial number must be unique'}, status=status.HTTP_400_BAD_REQUEST)
-               
+                
                 else:
 
+                    owner = Location.objects.get(name=row['Proprietário'])
+                    user = CustomUser.objects.get(id=self.request.user.id)
                     Equipment.objects.create(
                         type=row['Tipo'],
                         state=row['Estado'],
-                        owner=row['Proprietario'],
+                        owner=owner,
                         model=row['Modelo'],
                         manufacturer=row['Fabricante'],
                         identification=row['Indetificação'],
                         serial_number=row['Numero de Serie'],
-                        added_by=request.user  # Assuming user is authenticated
+                        added_by=user  # Assuming user is authenticated
                     )
 
             return Response({'message': 'File uploaded successfully'}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class EquipmentListCreate(generics.ListCreateAPIView):
+
+class EquipmentList(generics.ListAPIView):  
 
     serializer_class = EquipmentSerializer
     permission_classes = [IsAuthenticated]
@@ -76,11 +79,17 @@ class EquipmentListCreate(generics.ListCreateAPIView):
         
         return queryset
     
+class EquipmentCreate(generics.CreateAPIView):
+
+    serializer_class = UpdateEquipmentSerializer
+    permission_classes = [IsAuthenticated]
+
     def perform_create(self, serializer):
 
         if serializer.is_valid():
-            serializer.save(added_by=self.request.user)
+            
             queryset = CustomUser.objects.get(id=self.request.user.id)
+            serializer.save(added_by=queryset)
             send_mail(
             'New Model Created',
             'A new instance of YourModel was created.',
@@ -90,7 +99,20 @@ class EquipmentListCreate(generics.ListCreateAPIView):
             )
         else:
             print(serializer.errors)
-        
+
+class EquipmentUpdate(generics.UpdateAPIView):
+
+    queryset = Equipment.objects.all()
+    serializer_class = UpdateEquipmentSerializer
+    permission_classes = [IsAuthenticated]
+
+class EquipmentRetrieve(generics.RetrieveAPIView):
+
+    queryset = Equipment.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = EquipmentSerializer
+    lookup_field = 'id'  # This assumes the primary key is 'id'      
+
 class EquipmentDelete(generics.DestroyAPIView):
     serializer_class = EquipmentSerializer
     permission_classes = [IsAuthenticated]
@@ -98,12 +120,7 @@ class EquipmentDelete(generics.DestroyAPIView):
     def get_queryset(self):
 
         return Equipment.objects
-    
-class EquipmentUpdate(generics.UpdateAPIView):
-
-    queryset = Equipment.objects.all()
-    serializer_class = EquipmentSerializer
-    permission_classes = [IsAuthenticated]
+      
 
 class ServiceOrderListCreate(generics.ListCreateAPIView):
 
@@ -146,6 +163,13 @@ class ServiceOrderDelete(generics.DestroyAPIView):
     def get_queryset(self):
 
         return ServiceOrder.objects
+
+class ServiceOrderRetrieve(generics.RetrieveAPIView):
+
+    queryset = ServiceOrder.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = ServiceOrderSerializer
+    lookup_field = 'id'  # This assumes the primary key is 'id'      
 
 class CalibrationListCreate(generics.ListCreateAPIView):
 
@@ -196,6 +220,24 @@ class CreateUserView(generics.ListCreateAPIView):
         if field and value:
             queryset = queryset.filter(**{field: value})
 
+        return queryset
+
+class TeamListView(generics.ListAPIView):
+    #List of all objects that it will be looked at when a new is being 
+    # created to prevent creating an user that already exists
+    
+    serializer_class = BasicUserSerializer #Specify the data type that the view uses
+    permission_classes = [IsAuthenticated] #Set any one can request this view if it is not authenticated
+    def get_queryset(self):
+        
+        queryset = CustomUser.objects.all() 
+        print(self.request.query_params)
+        function = self.request.query_params.get('func')
+        
+        if function:
+
+            queryset = queryset.filter(**{"function": function})
+            
         return queryset
     
 def generate_pdf(request, equipment_id):
@@ -273,7 +315,13 @@ class LocationListCreate(generics.ListCreateAPIView):
             
         else:
             print(serializer.errors)
-        
+
+class BasicLocationList(generics.ListAPIView):
+
+    queryset = Location.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = BasicLocationSerializer
+
 class LocationDelete(generics.DestroyAPIView):
     serializer_class = LocationSerializer
     permission_classes = [IsAuthenticated]

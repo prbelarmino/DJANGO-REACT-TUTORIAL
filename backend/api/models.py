@@ -68,7 +68,7 @@ class ServiceOrder(models.Model):
     issue_description = models.TextField(max_length=100)
     solution = models.TextField(max_length=100,null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
-    equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="order")
+    equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name="orders")
     
     def __str__(self):
         return self.number

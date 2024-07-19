@@ -19,37 +19,35 @@ export function formatDate(dateString) {
     return formattedDate;
   }
 
-export function divideDateByInteger(dateString, divisor) {
-  // Passo 1: Converter a string de data em um objeto Date
-  let daysString = "0 dia(s)"
-  let timeString = "00:00:00"
-
-  if (divisor > 0){
-
-    const date = new Date(dateString);
-
-    // Passo 2: Calcular o timestamp em milissegundos e dividir pelo divisor
-    
-    const timestamp = date.getTime();
-    const dividedTimestamp = timestamp / divisor;
+  export function divideDateByInteger(dateString, divisor) {
+    let daysString = "0 dia(s)";
+    let timeString = "00:00:00";
   
-    // Passo 3: Converter o timestamp dividido de volta para um objeto Date
-    const dividedDate = new Date(dividedTimestamp);
+    if (divisor > 0) {
+      const initialDate = new Date(dateString);
+      const now = new Date();
+      const difference = now - initialDate;
+      
+      // Calculate the timestamp in milliseconds and divide by the divisor
+      const dividedTimestamp = difference / divisor;
+      
+      // Create a new Date object from the divided timestamp
+      const dividedDate = new Date(initialDate.getTime() + dividedTimestamp);
+      
+      // Calculate days, hours, minutes, and seconds
+      const days = Math.floor(dividedTimestamp / (1000 * 60 * 60 * 24));
+      const hours = dividedDate.getUTCHours();
+      const minutes = dividedDate.getUTCMinutes();
+      const seconds = dividedDate.getUTCSeconds();
   
-    // Passo 4: Calcular os dias, horas, minutos e segundos
-    const days = Math.floor(dividedTimestamp / (1000 * 60 * 60 * 24));
-    const hours = dividedDate.getUTCHours();
-    const minutes = dividedDate.getUTCMinutes();
-    const seconds = dividedDate.getUTCSeconds();
-
-
-    // Passo 5: Formatar as variáveis de saída
-    daysString = `${days} dia(s)`;
-    timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      // Format the output strings
+      daysString = `${days} dia(s)`;
+      timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
   
+    return { daysString, timeString };
   }
-  return {daysString, timeString}
-}
+  
 
 
   

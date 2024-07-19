@@ -1,16 +1,16 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import Stack from '@mui/material/Stack';
-import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
-import CircularProgressWithLabel from "./CircularProgressWithLabel";
-import CircularProgress from '@mui/material/CircularProgress';
+import { Gauge } from '@mui/x-charts/Gauge';
+import {divideDateByInteger} from "../components/dateUtils";
 
-function EquipMetrics({ data, mtbf}) {
+function EquipMetrics({ created_at, orders_len}) {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const percentageValue = 100.0;
   const per = `${percentageValue}%`;
+  const mtbf = divideDateByInteger(created_at, orders_len);
 
   return (
     <Stack 

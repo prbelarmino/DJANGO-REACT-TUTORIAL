@@ -4,7 +4,7 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 
 //function ServiceOrderForm(){
@@ -12,14 +12,13 @@ const ServiceOrderForm = () =>{
   
     const theme = useTheme();
     const navigate = useNavigate();
-    const location = useLocation();
-    const equip = location.state.attribute;
+    const { id } = useParams();
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [loading, setLoading] = useState(false);
 
   const handleSubmit = (values) => {
     setLoading(true);
-    console.log( {...values, equip})
+    const equip = id; //adapt to column name
     api
         .post("/api/serviceorders/", {...values, equip})
         .then((res) => {
@@ -27,11 +26,22 @@ const ServiceOrderForm = () =>{
             if (res.status === 201)
             {
                 alert("Service Order Created!");
-                navigate("/orders", { state: { attribute: equip } })
+                navigate(`/equipments/${id}`)
             } 
-            else alert("Failed to create Calibratrion");
+            else alert(res);
         })
-        .catch((err) => alert(err));
+        .catch((err) => {
+          if (err.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            const errorData = err.response.data;
+            let errorMessage = '';
+            for (const [field, messages] of Object.entries(errorData)) {
+              errorMessage += `${field}: ${messages.join(', ')}\n`;
+            }
+            alert(errorMessage);
+          }
+        })
         setLoading(false);
         
     };
@@ -130,7 +140,7 @@ const ServiceOrderForm = () =>{
                     name="service_type"
                     error={!!touched.service_type && !!errors.service_type}
                     helperText={touched.service_type && errors.service_type}
-                    sx={{ gridColumn: "span 4" }}
+                    sx={{ gridColumn: "span 2" }}
                     select
                     >
                     <MenuItem value="CORRETIVA">Corretiva</MenuItem>
@@ -161,8 +171,13 @@ const ServiceOrderForm = () =>{
                     name="priority"
                     error={!!touched.priority && !!errors.priority}
                     helperText={touched.priority && errors.priority}
-                    sx={{ gridColumn: "span 4" }}
-                />
+                    sx={{ gridColumn: "span 2" }}
+                    select
+                    >
+                    <MenuItem value="URGENTE">Urgente</MenuItem>
+                    <MenuItem value="NÃO URGENTE">Não Urgente</MenuItem>
+                  </TextField> 
+
                 <TextField
                     fullWidth
                     variant="filled"

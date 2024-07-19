@@ -4,7 +4,7 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../components/Header";
 import api from "../api";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { tokens } from "../theme";
 import { useEffect, useState } from "react";
 
@@ -14,38 +14,51 @@ const ServiceOrderEdition = () =>{
   
   const theme = useTheme();
   const navigate = useNavigate();
+  const { id } = useParams();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [loading, setLoading] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const data = JSON.parse(searchParams.get('order'));
+  const [valuesFlag, setValuesFlag] = useState(false);
+  const [order, setOrder] = useState({});
   const [team, setTeam] = useState([]);
 
   const initialValues = {
-    number: data.number,
-    state: data.state,
-    requester: data.requester,
-    executor: data.executor,
-    service_type: data.service_type,
-    closed_at: data.closed_at,
-    priority: data.priority,
-    title: data.title,
-    issue_description: data.issue_description,
-    created_at: data.created_at,
-    equip: data.equip,
+    number: order.number,
+    state: order.state,
+    requester: order.requester,
+    executor: order.executor,
+    service_type: order.service_type,
+    closed_at: order.closed_at,
+    priority: order.priority,
+    title: order.title,
+    issue_description: order.issue_description,
+    created_at: order.created_at,
+    equip: order.equip,
   };
   useEffect(() => {
     getTeam();
+    getServiceOrder();
   }, []);
 
+  const getServiceOrder = (event) => {
+
+    api
+        .get(`/api/serviceorders/retrieve/${id}/`)
+        .then((res) => {
+            setOrder(res.data);
+            setValuesFlag(true);
+        })
+        .catch((err) => alert(err));
+
+  };
   const editServiceOrder = async (values) => {
 
     setLoading(true);
     
-    let sentValues = values;
+    const sentValues = values;
     //e.preventDefault();
     try {
 
-        const res = await api.put(`/api/serviceorders/${data.id}/`, { ...sentValues})
+        const res = await api.put(`/api/serviceorders/${id}/`, { ...sentValues})
         alert("ServiceOrder updated!");
         navigate("/orders")
         
@@ -58,24 +71,25 @@ const ServiceOrderEdition = () =>{
 
   const getTeam = (event) => {
     // Define query parameter
+    const func = "Técnico"
     const queryParams = {
-        field: "function",
-        value: "Técnico",
-      // Add more parameters as needed
+      func
     };
     api
-        .get('/api/user/register/',{ params: queryParams })
+        .get('/api/team/',{ params: queryParams })
         .then((res) => {
-          const names = res.data.map(item => item.first_name + " " + item.last_name);
-          names.sort();
+          const names = res.data.map(item => item.fullname);
+          names.sort()
           setTeam(names);
           
         })
         .catch((err) => alert(err));
 
-};
+  };
   return (
     <Box m="20px">
+      {valuesFlag && (
+      <Box>
       <Header title="Editar Ordem de Serviço" subtitle="Formulario para editar Ordem de Serviço" />
       <Formik
         initialValues={initialValues}
@@ -191,18 +205,22 @@ const ServiceOrderEdition = () =>{
                   sx={{ gridColumn: "span 2" }}
               /> */}
               <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Prioridade"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.priority}
-                  name="priority"
-                  error={!!touched.priority && !!errors.priority}
-                  helperText={touched.priority && errors.priority}
-                  sx={{ gridColumn: "span 2" }}
-              />
+                    fullWidth
+                    variant="filled"
+                    type="text"
+                    label="Prioridade"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.priority}
+                    name="priority"
+                    error={!!touched.priority && !!errors.priority}
+                    helperText={touched.priority && errors.priority}
+                    sx={{ gridColumn: "span 2" }}
+                    select
+                    >
+                    <MenuItem value="URGENTE">Urgente</MenuItem>
+                    <MenuItem value="NÃO URGENTE">Não Urgente</MenuItem>
+                  </TextField> 
               <TextField
                   fullWidth
                   variant="filled"
@@ -245,6 +263,8 @@ const ServiceOrderEdition = () =>{
           </Form>
         )}
       </Formik>
+      </Box>
+      ) }
     </Box>
   );
 };

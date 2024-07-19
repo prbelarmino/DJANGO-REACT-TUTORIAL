@@ -102,7 +102,7 @@ def create_equipment(num_equipment, users, locations):
         user = choice(users)
         equip = Equipment.objects.create(
             type= tipo,
-            state=choice(['Ativo', 'Inativo']),
+            state=choice(['ATIVO', 'INATIVO']),
             owner=choice(locations),
             model=provider["MODELO"],
             manufacturer=provider["FABRICANTE"],

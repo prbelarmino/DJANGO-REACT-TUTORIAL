@@ -59,7 +59,7 @@ class ReportContent():
                 "Nº de Controle": "MV.-1/40bar",
                 "Certific. De Calibração nº:": "017309-21",
                 "Orgão:": "PRESERTEC",
-                "Validade:": "ago/2023"
+                "Validade:": data["expiration"].value
             },
             "5 - CONDIÇÕES AMBIENTAIS:": {
                 "TEMPERATURA:": "23 ± 1 ºC",
