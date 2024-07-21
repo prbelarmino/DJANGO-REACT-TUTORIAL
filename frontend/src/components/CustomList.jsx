@@ -1,37 +1,54 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, Paper, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 
-function CustomList({ rows, columns, height}) {
+function CustomList({ title, rows, columns, height, width = '80hw'}) {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // const handleCellClick = (params, event) => {
-  //   event.stopPropagation();
-  //   console.log("Cell clicked:", params);
-  // };
-  // const handleRowClick = (params, event) => {
-  //   event.stopPropagation();
-  //   //console.log("Row clicked:", params);
-  // };
-  return (
 
-    <Box
-        m="0 0 100px 0"
+  return (
+    <Paper elevation={3} 
+          sx={{  
+            width: width,
+            backgroundColor: colors.greenAccent[600] , 
+            mb: '50px',
+            }}
+    >
+      <Typography 
+      sx={{
+          
+          fontSize: 16,
+          fontWeight: 'bold',
+          
+          borderRadius: '4px', // Applying rounded corners
+          //marginLeft: '0px',
+          padding: '5px', // Adding padding for better visual appearance
+          //color: theme.palette.background.default
+      }}
+          gutterBottom
+      > 
+          {title}
+      </Typography>
+      <Box
         height={height}
-        width="80vw"
         sx={{
+          '& .super-app-theme--header': {
+            backgroundColor: theme.palette.primary.shadow,
+          },
           "& .MuiDataGrid-root": {
+            backgroundColor: theme.palette.primary.shadow,
             border: "none",
+            
           },
           "& .MuiDataGrid-cell": {
+            backgroundColor: theme.palette.background.default,
             borderBottom: "none",
           },
           "& .name-column--cell": {
             color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -39,19 +56,24 @@ function CustomList({ rows, columns, height}) {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.primary[400],
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `${colors.grey[100]} !important`,
+            
           },
         }}
       >
         <DataGrid 
             rows={rows} 
             columns={columns}
+            columnHeaderHeight={20}
+            hideFooterSelectedRowCount
+            rowHeight={30}
+            headerHeight={30}
             slots={{
               toolbar: GridToolbar,
             }}
@@ -59,7 +81,10 @@ function CustomList({ rows, columns, height}) {
             //onCellClick={handleCellClick}
             //onRowClick={handleRowClick}
         />
-    </Box>
+      </Box>
+
+    </Paper>
+    
 
   );
 };

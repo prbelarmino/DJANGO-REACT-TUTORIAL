@@ -3,8 +3,7 @@ import api from "../api";
 import {ServiceOrderColumns} from "../headers/ListHeaders"
 import { Box } from "@mui/material";
 import CustomList from "../components/CustomList";
-import Header from "../components/Header";
-import { useNavigate, createSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function ServiceOrder() {
 
@@ -48,11 +47,11 @@ function ServiceOrder() {
     return (
  
         <Box m="30px">
-        <Header title="Ordem de Serviço" subtitle="Lista de todas as Ordem de Serviços" />
             <CustomList 
+            title={"Ordem de Serviços"}
             rows={orders}
             columns={ServiceOrderColumns(onDelete,onEdit,onViewMore)}
-            height={"100vh"}
+            height={"75vh"}
             />
         </Box>
 

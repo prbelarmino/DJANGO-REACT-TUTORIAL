@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import api from "../api";
-import ServiceOrderEquip from "../components/ServiceOrderEquip";
-import CalibrationEquip from "../components/CalibrationEquip";
 import Typography from '@mui/material/Typography';
 import CardInfo from "../components/CardInfo";
 import EquipMetrics from "../components/EquipMetrics";
 import EquipMenu from "../components/EquipMenu";
 import {EquipmentDictionary} from "../headers/ModelDictionaries"
 import { Box } from "@mui/material";
-
+import CustomList from "../components/CustomList";
+import {ServiceOrderColumns, CalibrationColumns} from "../headers/ListHeaders"
 
 function EquipmentDetail() {
 
@@ -112,8 +111,6 @@ function EquipmentDetail() {
                 })
             .catch((err) => alert(err));
     };
-
-    
     return (
         
         <Box>
@@ -132,18 +129,20 @@ function EquipmentDetail() {
                     dictionary={EquipmentDictionary}
                 />
             )}
-            <ServiceOrderEquip 
+            <Box m="20px">
+                <CustomList 
+                title={"Ordem de Serviços"}
                 rows={orders} 
-                onDelete={deleteServiceOrder} 
-                onEdit={onOrderEdit}
-                onViewMore={onOrderViewMore}
-            />  
-            <CalibrationEquip 
+                columns={ServiceOrderColumns(onOrderEdit, deleteServiceOrder, onOrderViewMore)} 
+                height={"40vh"}
+                />
+                <CustomList 
+                title={"Calibrações"}
                 rows={calibrations} 
-                onDelete={deleteCalib}
-                onPrint={printCalib}  
-            />
-            
+                columns={CalibrationColumns(deleteCalib, printCalib)} 
+                height={"40vh"}
+                />
+            </Box>
      </Box>
     );
 }

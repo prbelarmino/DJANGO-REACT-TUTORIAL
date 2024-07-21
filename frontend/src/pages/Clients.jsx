@@ -3,7 +3,6 @@ import api from "../api";
 import {ClientColumns, LocationColumns} from "../headers/ListHeaders"
 import { Box } from "@mui/material";
 import CustomList from "../components/CustomList";
-import Header from "../components/Header";
 
 function Clients() {
 
@@ -59,17 +58,20 @@ function Clients() {
     return (
         <div>
             <Box m="20px">
-            <Header title="Clientes" subtitle="Lista de todos os Clientes" />
                 <CustomList 
+                    title={"Clientes"}
                     rows={clients}
                     columns={ClientColumns(deleteClient)}
-                    height={"50vh"}
+                    height={"50%"}
+                    width = {"650px"}
                 />
-                <Header title="Localidades" subtitle="Lista de todas as Localidades" />
+                
                 <CustomList 
+                    title={"Localidades"}
                     rows={locations}
                     columns={LocationColumns(deleteLocation)}
-                    height={"100vh"}
+                    height={"50%"}
+                    sx={{ m: "30px"}}
                 />
             </Box>
         </div>

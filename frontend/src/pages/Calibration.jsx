@@ -50,11 +50,12 @@ function Calibration() {
     return (
         <div>
             <Box m="20px">
-            <Header title="Calibrações" subtitle="Lista de todas as Calibrações" />
                 <CustomList 
+                    title={"Calibrações"}
                     rows={calibrations}
                     columns={CalibrationColumns(deleteCalib, printCalib)}
                     height={"100vh"}
+                    width = {"950px"}
                 />
             </Box>
         </div>

@@ -7,16 +7,10 @@ import { Visibility as VisibilityIcon, Delete as DeleteIcon } from "@mui/icons-m
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'; 
 import { formatDate } from '../components/dateUtils';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import ExpandCellRenderer from './ExpandCells';
-
-const multiLineWrap = (value) => {
-  return <div className="multiLineWrap">{value}</div>;
-};
 
 export const EquipmentColumnsReduced = [
 
-  { field: "id", headerName: "ID", align: "center", width: "50"},
+  { field: "id", headerName: "ID", align: "center", width: "50", headerClassName: 'super-app-theme--header',},
   {
     field: "type",
     headerName: "Tipo",
@@ -25,6 +19,7 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "200",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "state",
@@ -32,7 +27,7 @@ export const EquipmentColumnsReduced = [
     type: "string",
     headerAlign: "center",
     align: "center",
-    
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "owner",
@@ -40,6 +35,7 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "200",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>
@@ -54,6 +50,7 @@ export const EquipmentColumnsReduced = [
     headerName: "Modelo",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "manufacturer",
@@ -61,25 +58,29 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "identification",
     headerName: "Indetificação",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "serial_number",
     headerName: "Numero de Serie",
     headerAlign: "center",
     align: "center",
-    width: "130"
+    width: "130",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "created_at",
     headerName: "Adicionado em",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>
@@ -94,6 +95,7 @@ export const EquipmentColumnsReduced = [
     headerAlign: "center",
     align: "center",
     width: "130",
+    headerClassName: 'super-app-theme--header',
   },
 ];
 
@@ -105,6 +107,7 @@ export const EquipmentColumns = (onEdit,onDelete,onViewMore) => [
     //flex: "1",
     width: "95",
     //align: "center",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>
@@ -123,7 +126,7 @@ export const EquipmentColumns = (onEdit,onDelete,onViewMore) => [
           </IconButton>
 
           <IconButton           
-            sx={{padding:"0px"}}
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
             onClick={(event) => onDelete(event,cellValues)}
           >
             <DeleteIcon />
@@ -141,6 +144,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     field: "actions",
     headerName: "",
     width: "115",
+    headerClassName: 'super-app-theme--header',
     // align: "center",
     // flex: 1,
     renderCell: (cellValues) => {
@@ -148,6 +152,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
         <>
           <IconButton
             //className={classes.iconButton}
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
             onClick={() => onDelete(cellValues.id)}
           >
             <DeleteIcon/>
@@ -170,13 +175,16 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
       );
     },
   },
-  { field: "id", headerName: "ID", align: "center", width: "50" },
+  { field: "id", headerName: "ID", align: "center", width: "50",
+    headerClassName: 'super-app-theme--header',
+   },
   {
     field: "number",
     headerName: "Numero",
     headerAlign: "center",
     align: "center",
     cellClassName: "name-column--cell",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "state",
@@ -184,6 +192,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     type: "string",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
     
   },
   {
@@ -193,6 +202,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "executor",
@@ -201,6 +211,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     headerAlign: "center",
     align: "center",
     wrap: 'true',
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "service_type",
@@ -208,6 +219,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
     //flex: 1,
   },
   {
@@ -215,6 +227,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     headerName: "Fechada em",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
     //flex: 1,
     renderCell: (cellValues) => {
       return (
@@ -230,6 +243,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
     //flex: 1,
   },
   {
@@ -238,12 +252,14 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "created_at",
     headerName: "Aberta em",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
     //flex: 1,
     renderCell: (cellValues) => {
       return (
@@ -259,6 +275,7 @@ export const ServiceOrderColumns = (onDelete, onEdit, onViewMore) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
     //flex: 1,
     // renderCell: (cellValues) => {
     //   return (
@@ -276,11 +293,14 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
   {
     field: "actions",
     headerName: "",
+    headerClassName: 'super-app-theme--header',
+    width: "75",
     renderCell: (cellValues) => {
       return (
         <>
           <IconButton
             //className={classes.iconButton}
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
             onClick={(event) => onPrint(event,cellValues)}
           >
             <PrintOutlinedIcon />
@@ -288,6 +308,7 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
           </IconButton>
           <IconButton
             //className={classes.iconButton}
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
             onClick={() => onDelete(cellValues.id)}
           >
             <DeleteIcon />
@@ -297,12 +318,15 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
       );
     },
   },
-  { field: "id", headerName: "ID", align: "center", width: "50"},
+  { field: "id", headerName: "ID", align: "center", 
+    width: "50",
+    headerClassName: 'super-app-theme--header',},
   {
     field: "number",
     headerName: "Numero",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
     //cellClassName: "name-column--cell",
   },
   {
@@ -312,6 +336,7 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "executor",
@@ -319,12 +344,15 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "expiration",
     headerName: "Validade",
     headerAlign: "center",
     align: "center",
+    width: "150",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>
@@ -338,6 +366,8 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     headerName: "Adicionado em",
     headerAlign: "center",
     align: "center",
+    width: "150",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>
@@ -352,24 +382,19 @@ export const CalibrationColumns  = (onDelete, onPrint) => [
     headerAlign: "center",
     align: "center",
     width: "130",
-    // renderCell: (cellValues) => {
-    //   return (
-    //     <>
-    //       {cellValues.formattedValue.type} 
-    //     </>
-    //   );
-    // },
+    headerClassName: 'super-app-theme--header',
   },
 ];
 
 export const TeamColumns  = [
-  { field: "id", headerName: "ID", align: "center", width: "50"},
+  { field: "id", headerName: "ID", align: "center", width: "50",headerClassName: 'super-app-theme--header',},
   {
     field: "first_name",
     headerName: "Nome(s)",
     headerAlign: "center",
     align: "center",
     cellClassName: "name-column--cell",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "last_name",
@@ -377,18 +402,22 @@ export const TeamColumns  = [
     type: "string",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "email",
     headerName: "E-mail",
     headerAlign: "center",
     align: "center",
+    width: "200",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "function",
     headerName: "Cargo",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "phone_number",
@@ -397,24 +426,36 @@ export const TeamColumns  = [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "matriculation",
     headerName: "Matricula",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "birth_date",
     headerName: "Data de Nascimento",
     headerAlign: "center",
     align: "center",
+    width: "150",
+    headerClassName: 'super-app-theme--header',
+    renderCell: (cellValues) => {
+      return (
+        <>
+        {formatDate(cellValues.formattedValue)}
+        </>
+      );
+    },
   },
   {
     field: "location",
     headerName: "Locação",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
   },
   
 ];
@@ -424,11 +465,14 @@ export const ClientColumns  = (onDelete) => [
   {
     field: "actions",
     headerName: "",
+    width: "50",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>
           <IconButton
             //className={classes.iconButton}
+            sx={{padding:"0px"}}
             onClick={() => onDelete(cellValues.id)}
           >
             <DeleteIcon />
@@ -438,12 +482,16 @@ export const ClientColumns  = (onDelete) => [
       );
     },
   },
-  { field: "id", headerName: "ID", align: "center", width: "50"},
+  { field: "id", headerName: "ID", align: "center", width: "50",
+    headerClassName: 'super-app-theme--header',
+  },
   {
     field: "name",
     headerName: "Nome",
     headerAlign: "center",
     align: "center",
+    width: "250",
+    headerClassName: 'super-app-theme--header',
     //cellClassName: "name-column--cell",
   },
   {
@@ -453,6 +501,7 @@ export const ClientColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "contract_number",
@@ -460,6 +509,7 @@ export const ClientColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
 ];
 
@@ -468,11 +518,14 @@ export const LocationColumns  = (onDelete) => [
   {
     field: "actions",
     headerName: "",
+    width: "50",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>
           <IconButton
             //className={classes.iconButton}
+            sx={{padding:"0px",m:"0 5px 0 0 "}}
             onClick={() => onDelete(cellValues.id)}
           >
             <DeleteIcon />
@@ -482,12 +535,13 @@ export const LocationColumns  = (onDelete) => [
       );
     },
   },
-  { field: "id", headerName: "ID", align: "center", width: "50"},
+  { field: "id", headerName: "ID", align: "center", width: "50",headerClassName: 'super-app-theme--header',},
   {
     field: "name",
     headerName: "Nome",
     headerAlign: "center",
     align: "center",
+    headerClassName: 'super-app-theme--header',
     //cellClassName: "name-column--cell",
   },
   {
@@ -496,6 +550,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "phone_number",
@@ -503,6 +558,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "street",
@@ -511,6 +567,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "number",
@@ -518,6 +575,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "neighborhood",
@@ -525,6 +583,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "cep",
@@ -532,6 +591,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "city",
@@ -539,6 +599,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "state",
@@ -546,6 +607,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
   },
   {
     field: "client",
@@ -553,6 +615,7 @@ export const LocationColumns  = (onDelete) => [
     headerAlign: "center",
     align: "center",
     width: "150",
+    headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {
       return (
         <>

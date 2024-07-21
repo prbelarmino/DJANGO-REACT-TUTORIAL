@@ -1,10 +1,9 @@
-import { Box, Button, useTheme } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import EquipmentsHeader from "../components/EquipmentsHeader";
-
+import CustomList from "../components/CustomList";
 import {EquipmentColumns} from "../headers/ListHeaders"
-import { useNavigate, createSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import api from "../api";
 
@@ -53,50 +52,12 @@ function Equipment() {
   return (
     <Box m="20px">
       <EquipmentsHeader getEquipments={getEquipments}/>
-      
-      <Box
-        m="0 0 40px 0 "
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.grey[100]} !important`,
-          },
-        }}
-      >
-        <DataGrid 
+      <CustomList 
+            title={"Equipamentos Cadastrados"}
             rows={equipments} 
             columns={EquipmentColumns(onEdit, onDelete, onViewMore)} 
-            slots={{
-              toolbar: GridToolbar,
-            }}
-            hideFooterSelectedRowCount
-            rowHeight={30}
-            //sx={{ padding: "0px" }}
-        />
-      </Box>
+            height={"65vh"}
+            />
     </Box>
   );
 };

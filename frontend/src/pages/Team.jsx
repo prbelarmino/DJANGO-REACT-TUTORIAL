@@ -4,7 +4,6 @@ import {TeamColumns} from "../headers/ListHeaders"
 import { useState, useEffect } from "react";
 import api from "../api";
 import CustomList from "../components/CustomList";
-import Header from "../components/Header";
 import { Box, useTheme } from "@mui/material";
 
 function Team() {
@@ -31,11 +30,12 @@ function Team() {
 
   return (
     <Box m="20px">
-      <Header title="Equipe" subtitle="Lista com todos membros da Equipe" />
       <CustomList 
+        title={"Equipe"}
         rows={team}
         columns={TeamColumns}
         height={"75vh"}
+        width={"1050px"}
       />
     </Box>
   );
