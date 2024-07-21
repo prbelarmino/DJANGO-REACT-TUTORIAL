@@ -105,7 +105,7 @@ export const EquipmentColumns = (onEdit,onDelete,onViewMore) => [
     field: "actions",
     headerName: "",
     //flex: "1",
-    width: "95",
+    width: "105",
     //align: "center",
     headerClassName: 'super-app-theme--header',
     renderCell: (cellValues) => {

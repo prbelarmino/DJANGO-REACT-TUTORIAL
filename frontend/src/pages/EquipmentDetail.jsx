@@ -141,6 +141,7 @@ function EquipmentDetail() {
                 rows={calibrations} 
                 columns={CalibrationColumns(deleteCalib, printCalib)} 
                 height={"40vh"}
+                width={"950px"}
                 />
             </Box>
      </Box>
