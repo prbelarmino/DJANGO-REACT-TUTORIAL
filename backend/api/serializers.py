@@ -102,6 +102,20 @@ class FullServiceOrderSerializer(serializers.ModelSerializer):
                   "closed_at","priority","title", "issue_description", "solution", "created_at", "equip"]
         #extra_kwargs = {"equip_id": {"read_only": True}}
 
+# class LocationStatsSerializer(serializers.Serializer):
+    
+#     owner = serializers.CharField()
+#     total = serializers.IntegerField()
+#     closed = serializers.IntegerField()
+
+#     def to_representation(self, instance):
+#         """
+#         Convert the queryset instance to the desired format.
+#         """
+#         representation = super().to_representation(instance)
+#         owner = representation.pop('owner')
+#         return {representation}
+
 class CalibrationSerializer(serializers.ModelSerializer):
     equip = serializers.StringRelatedField()
     class Meta:

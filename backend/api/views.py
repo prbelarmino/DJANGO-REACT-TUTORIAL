@@ -1,14 +1,9 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User
 from rest_framework import generics
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import *
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from django.http import HttpResponse
-import json
+from django.db.models import Count, Q
 #from .generate_dummy_data import generate_dummy_data
 # views.py
 import pandas as pd
@@ -171,6 +166,31 @@ class ServiceOrderRetrieve(generics.RetrieveAPIView):
     serializer_class = ServiceOrderSerializer
     lookup_field = 'id'  # This assumes the primary key is 'id'      
 
+class ServiceOrderStats(APIView):
+
+    def get(self, request):
+        state_condition = "FECHADA"
+
+        # Query the database
+        results = (
+            ServiceOrder.objects.values('equip__owner__name')
+            .annotate(
+                total=Count('id'),
+                closed=Count('id', filter=Q(state=state_condition))
+            )
+        )
+        response = []
+        for result in results:
+            response.append({"owner": result["equip__owner__name"], 
+                             "total": result["total"],
+                             "OS Fechadas": result["closed"],
+                             "OS Abertas": result["total"] - result["closed"]})
+        
+        # Use the serializer to format the data
+        #serializer = LocationStatsSerializer(results, many=True)
+        # print(serializer)
+        return Response(response)
+    
 class CalibrationListCreate(generics.ListCreateAPIView):
 
     serializer_class = CalibrationSerializer

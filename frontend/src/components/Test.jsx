@@ -1,73 +1,129 @@
-import React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { Box, Paper, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { ResponsiveBar } from '@nivo/bar'
 
-// Sample Data
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null }
-];
+// make sure parent container have a defined height when using
+// responsive component, otherwise height will be 0 and
+// no chart will be rendered.
+// website examples showcase many properties,
+// you'll often use just a few of them.
+const Test = ({ data /* see data tab */ }) => (
+    <ResponsiveBar
+        data={data}
+        keys={[
+            'hot dog',
+            'burger',
+            'sandwich',
+            'kebab',
+            'fries',
+            'donut'
+        ]}
+        indexBy="country"
+        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        padding={0.3}
+        valueScale={{ type: 'linear' }}
+        indexScale={{ type: 'band', round: true }}
+        colors={{ scheme: 'nivo' }}
+        defs={[
+            {
+                id: 'dots',
+                type: 'patternDots',
+                background: 'inherit',
+                color: '#38bcb2',
+                size: 4,
+                padding: 1,
+                stagger: true
+            },
+            {
+                id: 'lines',
+                type: 'patternLines',
+                background: 'inherit',
+                color: '#eed312',
+                rotation: -45,
+                lineWidth: 6,
+                spacing: 10
+            }
+        ]}
+        fill={[
+            {
+                match: {
+                    id: 'fries'
+                },
+                id: 'dots'
+            },
+            {
+                match: {
+                    id: 'sandwich'
+                },
+                id: 'lines'
+            }
+        ]}
+        borderColor={{
+            from: 'color',
+            modifiers: [
+                [
+                    'darker',
+                    1.6
+                ]
+            ]
+        }}
+        axisTop={null}
+        axisRight={null}
+        axisBottom={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'country',
+            legendPosition: 'middle',
+            legendOffset: 32,
+            truncateTickAt: 0
+        }}
+        axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'food',
+            legendPosition: 'middle',
+            legendOffset: -40,
+            truncateTickAt: 0
+        }}
+        labelSkipWidth={12}
+        labelSkipHeight={12}
+        labelTextColor={{
+            from: 'color',
+            modifiers: [
+                [
+                    'darker',
+                    1.6
+                ]
+            ]
+        }}
+        legends={[
+            {
+                dataFrom: 'keys',
+                anchor: 'bottom-right',
+                direction: 'column',
+                justify: false,
+                translateX: 120,
+                translateY: 0,
+                itemsSpacing: 2,
+                itemWidth: 100,
+                itemHeight: 20,
+                itemDirection: 'left-to-right',
+                itemOpacity: 0.85,
+                symbolSize: 20,
+                effects: [
+                    {
+                        on: 'hover',
+                        style: {
+                            itemOpacity: 1
+                        }
+                    }
+                ]
+            }
+        ]}
+        role="application"
+        ariaLabel="Nivo bar chart demo"
+        barAriaLabel={e=>e.id+": "+e.formattedValue+" in country: "+e.indexValue}
+    />
+)
 
-// Define columns
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90,headerClassName: 'super-app-theme--header',
-  },
-  { field: 'firstName', headerName: 'First name', width: 150,headerClassName: 'super-app-theme--header',
-  },
-  { field: 'lastName', headerName: 'Last name', width: 150,headerClassName: 'super-app-theme--header',
-  },
-  { field: 'age', headerName: 'Age', type: 'number', width: 110,headerClassName: 'super-app-theme--header',
-  }
-];
-
-// Custom styled DataGrid
-const CustomDataGrid = styled(DataGrid)(({ theme }) => ({
-  '& .super-app-theme--header': {
-     backgroundColor: 'red',
- },
-  '& .MuiDataGrid-columnHeaders': {
-    backgroundColor: '#f44336', // Background color for the column headers
-  },
-  '& .MuiDataGrid-columnHeaderTitle': {
-    color: '#ffffff', // Text color for the column headers
-    fontWeight: 'bold', // Font weight for the column headers
-  },
-  '& .MuiDataGrid-cell': {
-    borderColor: '#e0e0e0', // Border color for the cells
-  },
-  '& .MuiDataGrid-row': {
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#f9f9f9', // Background color for odd rows
-    },
-  },
-  '& .MuiDataGrid-footerContainer': {
-    backgroundColor: '#e0e0e0', // Background color for the footer
-  },
-  '& .MuiDataGrid-overlay': {
-    backgroundColor: 'transparent', // Background color for overlays
-  },
-}));
-
-const Test = () => {
-  return (
-    <Box sx={{ height: 600, width: '100%' }}>
-      <Typography variant="h6" component="div" gutterBottom>
-        DataGrid with Custom Header and Footer Color
-      </Typography>
-      <Paper elevation={3} sx={{ height: 500, width: '100%' }}>
-        <CustomDataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
-      </Paper>
-    </Box>
-  );
-};
-
-export default Test;
+export default Test
